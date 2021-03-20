@@ -1,0 +1,9 @@
+# Sapper
+node_modules/
+public/build/
+__sapper__/
+dist/
+*/runtime/app.mjs
+*/runtime/server.mjs
+
+.DS_Store
