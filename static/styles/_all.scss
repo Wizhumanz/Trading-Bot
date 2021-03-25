@@ -33,6 +33,7 @@ h3,
 h4 {
   font-family: $title-font;
   font-weight: bold;
+  color: $ivory;
 }
 
 h1.brand {
@@ -61,12 +62,12 @@ form {
 p.breaker {
   text-align: center;
   margin: 1rem;
-  color: #8a0000;
+  color: $blood;
 }
 
 a {
   text-decoration: none;
-  color: black;
+  color: $cream;
   display: inline-block;
 }
 
