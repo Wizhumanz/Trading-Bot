@@ -45,8 +45,7 @@ label,
 input,
 form {
   font-family: $body-font;
-  font-size: large;
-  line-height: 1.25em;
+  font-size: medium;
 }
 
 .btn {
@@ -96,6 +95,18 @@ textarea {
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 3px;
+}
+
+input {
+  background-color: black;
+  color: $cream;
+  border: $blood 2px dashed;
+}
+
+input:focus-within {
+  background-color: $blood;
+  color: $ivory;
+  border: none;
 }
 
 button {

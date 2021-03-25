@@ -63,7 +63,7 @@
     };
     axios
       .put(
-        "https://relm-api.myika.co/listing/" +
+        "https://anastasia-api.myika.co/listing/" +
           listing.name.replaceAll(" ", "+") +
           "?user=agent%40agent.com",
         JSON.stringify(listingSubstitute),
@@ -127,7 +127,7 @@
 
     let data = { owner: listing.owner };
     axios
-      .post("https://relm-api.myika.co/twilio", data, {
+      .post("https://anastasia-api.myika.co/twilio", data, {
         headers: hds,
       })
       .then((res) => {

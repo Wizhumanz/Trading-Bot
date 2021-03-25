@@ -52,10 +52,10 @@
           </li>
         {:else}
           <li class="nav-item">
-            <a class="nav-link active" href="/listings/all">Active</a>
+            <a class="nav-link active" href="/bots/active">Active</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/listings/pending">All</a>
+            <a class="nav-link active" href="/bots/all">All</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="/add">Exchangesk</a>

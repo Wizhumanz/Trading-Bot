@@ -4,7 +4,7 @@
 
   async function loop() {
     if (text.length === 8) text = "";
-    text += " .";
+    text += " $";
     await new Promise((resolve) => setTimeout(resolve, 250));
     loop();
   }
@@ -23,7 +23,7 @@
 
   .LoadingIndicator {
     display: flex;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.75);
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -39,7 +39,8 @@
   }
 
   .loader {
-    color: $cream;
+    font-size: xx-large;
+    color: green;
     background-color: rgba(0, 0, 0, 0);
   }
 </style>

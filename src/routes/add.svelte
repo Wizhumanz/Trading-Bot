@@ -111,7 +111,7 @@
       };
 
       axios
-        .post("https://relm-api.myika.co/listing", data, {
+        .post("https://anastasia-api.myika.co/listing", data, {
           headers: hds,
         })
         .then((res) => {
