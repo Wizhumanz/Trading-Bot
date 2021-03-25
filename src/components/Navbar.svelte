@@ -2,11 +2,11 @@
   import { storeUser } from "../../store.js";
   import { goto } from "@sapper/app";
 
-  var id = storeUser.id;
+  var id = storeUser ? storeUser.id : null;
   // console.log(storeUser)
   storeUser.subscribe((newValue) => {
     if (newValue) {
-      id = JSON.parse(newValue).id;
+      id = JSON.parse(newValue) ? JSON.parse(newValue).id : null;
     }
   });
 
@@ -25,7 +25,7 @@
 
 <nav class="navbar navbar-expand-sm sticky-top navbar-light" id="the-nav">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Anastasia</a>
+    <a class="navbar-brand" href="/">RELM</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -40,6 +40,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
+          <!-- svelte-ignore a11y-missing-attribute -->
           <a class="nav-link disabled" disabled>{id ? id : ""}</a>
         </li>
         {#if !id}
@@ -60,6 +61,7 @@
             <a class="nav-link active" href="/add">Add</a>
           </li>
           <li class="nav-item">
+            <!-- svelte-ignore a11y-missing-attribute -->
             <a class="nav-link active" on:click={logout}>Log Out</a>
           </li>
         {/if}
@@ -119,7 +121,7 @@
   a.navbar-brand {
     font-size: 1.5rem;
     padding: 0;
-    margin: 1rem 1rem;
+    margin: 1rem 2rem;
 
     @media only screen and (max-width: 767px) {
       margin: 0.75rem 1rem;
