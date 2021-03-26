@@ -83,15 +83,24 @@
           </div>
         </div>
         <div class="col-sm-6 col-lg-8 settings-col">
-          <!-- TODO: loop through array of new + original vals	 -->
-          <p>Account risked per trade = {bot.accRiskPerc}%</p>
-          {#if newRiskPerc !== bot.accRiskPerc && newRiskPerc !== null}
-            <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
-          {/if}
-          <p>Leverage = {bot.leverage}%</p>
-          {#if newLeverage !== bot.leverage && newLeverage !== null}
-            <p class="changeVal">=> {newLeverage}% UNSAVED</p>
-          {/if}
+          <div class="row">
+            <div class="col-7">Account risked per trade</div>
+            <div class="col-5 val-col">
+              {bot.accRiskPerc}%
+            </div>
+            {#if newRiskPerc !== bot.accRiskPerc && newRiskPerc !== null}
+              <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
+            {/if}
+          </div>
+          <div class="row">
+            <div class="col-7">Leverage</div>
+            <div class="col-5 val-col">
+              {bot.leverage}%
+            </div>
+            {#if newLeverage !== bot.leverage && newLeverage !== null}
+              <p class="changeVal">=> {newLeverage}% UNSAVED</p>
+            {/if}
+          </div>
           <hr />
           <div class="form">
             <div class="mb-3">
@@ -161,6 +170,10 @@
     hr {
       color: $cream;
     }
+  }
+
+  .val-col {
+    font-family: $title-font;
   }
 
   button {

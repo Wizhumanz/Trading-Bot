@@ -18,7 +18,6 @@
     if (newValue) {
       user = JSON.parse(newValue);
     }
-    console.log("slug.svelte user = " + user)
   });
 
   var checkBoxArr = [];
