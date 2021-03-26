@@ -48,7 +48,7 @@
             <a class="nav-link active" href="/">About</a>
           </li> -->
           <li class="nav-item">
-            <a class="nav-link active" href="/">Pricing</a>
+            <a class="nav-link active" href="/pricing">Pricing</a>
           </li>
         {:else}
           <li class="nav-item">
