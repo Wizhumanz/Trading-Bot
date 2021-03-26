@@ -59,52 +59,61 @@
 
 <div class="container-fluid" class:active>
   <div class="row main">
-    <div class="col-sm-2 col-md-3" />
-    <div class="col-sm-8 col-md-6 main-box" style="padding: 2rem;">
-      <div class="red">
-        {#if bot.isActive === "true" || bot.isActive === true}
-          <p>LIVE</p>
-        {:else}
-          <p>INACTIVE</p>
-        {/if}
+    <div class="col-sm-1 col-md-2" />
+    <div class="col-sm-10 col-md-8 main-box" style="padding: 2rem;">
+      <div class="row">
+        <div class="col-sm-6 col-lg-4">
+          <div class="red">
+            {#if bot.isActive === "true" || bot.isActive === true}
+              <p>ACTIVE</p>
+            {:else}
+              <p>INACTIVE</p>
+            {/if}
 
-        <button on:click={toggleBotStatus} type="button" class="btn blood-btn">
-          {bot.isActive === "true" || bot.isActive === true ? "Shut Down" : "Activate"}
-        </button>
-      </div>
-
-      <!-- TODO: loop through array of new + original vals	 -->
-      <p>Account risked per trade = {bot.accRiskPerc}%</p>
-      {#if newRiskPerc !== bot.accRiskPerc && newRiskPerc !== null}
-        <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
-      {/if}
-
-      <p class="breaker">* * *</p>
-
-      <h4 class="section-head">Settings Config</h4>
-      <div class="form">
-        <div class="mb-3">
-          <label for="riskPerc" class="form-label"> Risk % per trade</label>
-          <input
-            type="number"
-            class="form-control"
-            id="riskPerc"
-            placeholder="20"
-            bind:value={newRiskPerc}
-          />
+            <button
+              on:click={toggleBotStatus}
+              type="button"
+              class="btn blood-btn"
+            >
+              {bot.isActive === "true" || bot.isActive === true
+                ? "Shut Down"
+                : "Activate"}
+            </button>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="leverage" class="form-label"> Leverage</label>
-          <input
-            type="number"
-            class="form-control"
-            id="leverage"
-            placeholder="5"
-          />
+        <div class="col-sm-6 col-lg-8 settings-col">
+          <!-- TODO: loop through array of new + original vals	 -->
+          <p>Account risked per trade = {bot.accRiskPerc}%</p>
+          <p>Leverage = {bot.leverage}%</p>
+          {#if newRiskPerc !== bot.accRiskPerc && newRiskPerc !== null}
+            <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
+          {/if}
+          <hr />
+          <div class="form">
+            <div class="mb-3">
+              <label for="riskPerc" class="form-label">Risk % per trade</label>
+              <input
+                type="number"
+                class="form-control"
+                id="riskPerc"
+                placeholder="20"
+                bind:value={newRiskPerc}
+              />
+            </div>
+            <div class="mb-3">
+              <label for="leverage" class="form-label">Leverage</label>
+              <input
+                type="number"
+                class="form-control"
+                id="leverage"
+                placeholder="5"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-sm-2 col-md-3" />
+    <div class="col-sm-1 col-md-2" />
   </div>
   <hr />
 </div>
@@ -114,13 +123,49 @@
 
   div.container-fluid {
     font-family: $body-font;
-    margin: 1.5rem auto;
+    margin: 1rem auto;
     text-align: left;
     border-radius: 3px;
 
     p {
       margin: 0;
     }
+  }
+
+  div.main-box {
+    border: $blue 3px solid;
+    border-radius: 5px;
+  }
+
+  div.red {
+    border: $blood 3px solid;
+    background-color: $blood;
+    border-radius: 3px;
+    color: $ivory;
+    text-align: center;
+    margin: auto auto 1.5rem auto;
+    padding: 1.5rem;
+
+    p {
+      background-color: $blood;
+      color: $cream;
+    }
+  }
+
+  div.settings-col {
+    hr {
+      color: $cream;
+    }
+  }
+
+  button {
+    background-color: $cream;
+    color: black;
+    border-radius: 5px;
+  }
+
+  p.changeVal {
+    color: red;
   }
 
   #imgDisplay {
@@ -144,7 +189,7 @@
     text-decoration: underline;
   }
 
-  .active {
-    background-color: red;
-  }
+  // .active {
+  //   background-color: red;
+  // }
 </style>

@@ -118,17 +118,4 @@
   div.row.signIn {
     margin-top: 1.5rem;
   }
-
-  div.red {
-    border: $blood 3px solid;
-    border-radius: 3px;
-    color: $ivory;
-    text-align: center;
-    margin: 1.5em auto 1.5em auto;
-    padding: 1.5rem;
-  }
-
-  p.changeVal {
-    color: red;
-  }
 </style>
