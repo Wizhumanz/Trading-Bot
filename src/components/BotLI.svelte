@@ -85,9 +85,12 @@
         <div class="col-sm-6 col-lg-8 settings-col">
           <!-- TODO: loop through array of new + original vals	 -->
           <p>Account risked per trade = {bot.accRiskPerc}%</p>
-          <p>Leverage = {bot.leverage}%</p>
           {#if newRiskPerc !== bot.accRiskPerc && newRiskPerc !== null}
             <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
+          {/if}
+          <p>Leverage = {bot.leverage}%</p>
+          {#if newLeverage !== bot.leverage && newLeverage !== null}
+            <p class="changeVal">=> {newLeverage}% UNSAVED</p>
           {/if}
           <hr />
           <div class="form">
