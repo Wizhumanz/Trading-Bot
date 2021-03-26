@@ -18,6 +18,7 @@
     if (newValue) {
       user = JSON.parse(newValue);
     }
+    console.log("slug.svelte user = " + user)
   });
 
   var checkBoxArr = [];
@@ -85,7 +86,7 @@
   <div class="botList">
     {#if user.bots && user.bots.length > 0}
       {#each user.bots as b}
-        <BotLI />
+        <BotLI bot={b}/>
       {/each}
     {:else}
       <p>Error: No bots to show.</p>

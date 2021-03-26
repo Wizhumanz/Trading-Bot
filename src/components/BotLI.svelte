@@ -1,5 +1,5 @@
 <script>
-  import { currentPage, storeUser } from "../../store.js";
+  import { storeUser } from "../../store.js";
   import axios from "axios";
 
   export let id;
@@ -7,14 +7,8 @@
 
   // component vars
 
-  let newRiskPerc = riskPerc;
-  let active = false;
-
-  currentPage.subscribe((newValue) => {
-    if (newValue) {
-      route = newValue;
-    }
-  });
+  let newRiskPerc = bot.accRiskPerc;
+  let active = bot.isActive;
 
   function toggleBotStatus() {
     bot.isActive = !bot.isActive;
