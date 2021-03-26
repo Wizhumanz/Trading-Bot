@@ -8,6 +8,7 @@
   // component vars
 
   let newRiskPerc = bot.accRiskPerc;
+  let newLeverage = bot.leverage;
   let active = bot.isActive;
 
   function toggleBotStatus() {
@@ -107,6 +108,7 @@
                 class="form-control"
                 id="leverage"
                 placeholder="5"
+                bind:value={newLeverage}
               />
             </div>
           </div>
