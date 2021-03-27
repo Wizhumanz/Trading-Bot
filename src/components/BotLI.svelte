@@ -101,6 +101,12 @@
               <p class="changeVal">=> {newLeverage}% UNSAVED</p>
             {/if}
           </div>
+          <button
+            class="save-btn"
+            on:click={() => {
+              console.log("bitch");
+            }}>Save</button
+          >
           <hr />
           <div class="form">
             <div class="mb-3">
@@ -181,6 +187,14 @@
     background-color: $cream;
     color: black;
     border-radius: 5px;
+  }
+
+  .save-btn {
+    color: $cream;
+    background-color: $blue;
+    border: $cream 2px dashed;
+    font-size: small;
+    padding: 0.25rem 0.75rem;
   }
 
   p.changeVal {
