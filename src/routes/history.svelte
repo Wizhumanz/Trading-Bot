@@ -87,6 +87,42 @@
 
 <div class="container-fluid">
   <h1>Trade History</h1>
+  <div id="filterMenu">
+    <a
+      class="btn"
+      data-bs-toggle="collapse"
+      href="#collapseExample"
+      role="button"
+      aria-expanded="false"
+      aria-controls="collapseExample"
+    >
+      Filter ▼
+    </a>
+    <div class="collapse" id="collapseExample">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckDefault"
+        />
+        <label class="form-check-label" for="flexCheckDefault">
+          FAKE field 1
+        </label>
+
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckDefault"
+        />
+        <label class="form-check-label" for="flexCheckDefault">
+          FAKE field 2
+        </label>
+      </div>
+    </div>
+  </div>
+
   <table class="table">
     <thead>
       <tr>
@@ -121,6 +157,17 @@
   .container-fluid {
     padding: 1rem 2rem;
     text-align: center;
+  }
+
+  #filterMenu {
+    width: 100%;
+    text-align: left;
+  }
+
+  .btn {
+    padding: 0 1rem;
+    margin-top: -1rem;
+    color: $ivory !important;
   }
 
   table {
