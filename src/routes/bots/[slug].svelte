@@ -20,54 +20,7 @@
     }
   });
 
-  var checkBoxArr = [];
   let loading = false;
-
-  function handleUpdateBtnClick() {
-    resetState.set(true);
-
-    loading = true;
-    const hds = {
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-      auth: "agent",
-    };
-
-    let checkBoxSet = new Set(checkBoxArr);
-    checkBoxArr = checkBoxSet;
-
-    checkBoxSet.forEach((n) => {
-      let found = user.listings.find((e) => e.name === n);
-      if (found && found != "" && found != null) {
-        //update listing in DB
-        let listingSubstitute = { ...found };
-        listingSubstitute.name = null;
-        listingSubstitute.isPublic = found.isPublic.toString();
-        listingSubstitute.isPending = found.isPending.toString();
-        listingSubstitute.isCompleted = found.isCompleted.toString();
-
-        //trying hacky way
-        setTimeout(function () {
-          axios
-            .put(
-              "https://anastasia-api.myika.co/listing/" +
-                found.name.replaceAll(" ", "+") +
-                "?user=agent%40agent.com",
-              JSON.stringify(listingSubstitute),
-              {
-                headers: hds,
-              }
-            )
-            .then((res) => {
-              loading = false;
-              console.log(res.status + " -- " + JSON.stringify(res.data));
-            })
-            .catch((error) => console.log(error.response));
-        }, 5000);
-      }
-    });
-  }
 </script>
 
 <!--Loading Sign-->
@@ -91,10 +44,6 @@
       <p>Error: No bots to show.</p>
     {/if}
   </div>
-
-  {#if user.id && user.id !== "" && checkBoxArr.length > 0}
-    <button on:click={handleUpdateBtnClick}>Update Listings</button>
-  {/if}
 </div>
 
 <style type="text/scss">

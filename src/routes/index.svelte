@@ -1,10 +1,18 @@
 <script>
   import { goto } from "@sapper/app";
   import { storeUser } from "../../store.js";
-  // import axios from "axios";
+  import axios from "axios";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   // global vars
+  //only for user login
+  let userLogin = {
+    email: "",
+    password: "",
+  };
+
+  let showAlert = "display: none;"; //to display invalid auth msg
+  let loading = false;
 
   let user = {
     id: "",
@@ -51,18 +59,33 @@
       },
     ],
   };
+  
+  function getListings() {
+    loading = true;
+    return new Promise((resolve, reject) => {
+      //auth header
+      const hds = {
+        // "Content-Type": "application/json",
+        auth: user.password,
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      };
 
-  //only for user login
-  let userLogin = {
-    email: "",
-    password: "",
-  };
-
-  let showAlert = "display: none;"; //to display invalid auth msg
-  let loading = false;
-
-  function toggleBotStatus() {
-    botStatus = !botStatus;
+      //MUST replace all '+' with '%2B'
+      // let GETUrl = basicURL.split("+").join("%2B");
+      axios
+        .get("https://anastasia-api.myika.co/bots", {
+          headers: hds,
+        })
+        .then((res) => {
+          user.bots = res.data;
+          loading = false;
+          storeUser.set(JSON.stringify(user));
+          resolve(user.bots);
+        })
+        .catch((error) => console.log(error));
+    });
   }
 
   function signIn(e) {
@@ -92,7 +115,7 @@
         user.id = userLogin.email;
         user.password = userLogin.password;
         //wait for fetch to complete before needed page reload
-        getListings(false).then((res) => {
+        getListings().then((res) => {
           loading = false;
           goto("/listings/all");
           //document.location.reload();

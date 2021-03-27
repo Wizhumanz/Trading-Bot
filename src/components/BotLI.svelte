@@ -14,13 +14,15 @@
   let active;
   let showAlert = "display: none;";
 
-  $: if (parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) 
-    || parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade)
-    || parseFloat(newLeverage) !== parseFloat(bot.Leverage)) {
+  $: if (
+    parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) ||
+    parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) ||
+    parseFloat(newLeverage) !== parseFloat(bot.Leverage)
+  ) {
     showAlert = "display: block;";
   } else {
     showAlert = "display: none;";
-    console.log("work")
+    console.log("work");
   }
 
   function toggleBotStatus() {
@@ -29,12 +31,9 @@
 
   //TEMP sample only
   const addListing = () => {
-    showEdit = false;
-    let listingSubstitute = { ...listing };
-    listingSubstitute.name = null;
-    listingSubstitute.isPublic = listing.isPublic.toString();
-    listingSubstitute.isPending = listing.isPending.toString();
-    listingSubstitute.isCompleted = listing.isCompleted.toString();
+    bot.AccountRiskPercPerTrade = newRiskPerc;
+    bot.AccountSizePercToTrade = newAccSizePerc;
+    bot.Leverage = newLeverage;
     const hds = {
       "Cache-Control": "no-cache",
       Pragma: "no-cache",
@@ -43,28 +42,15 @@
     };
     axios
       .put(
-        "https://anastasia-api.myika.co/listing/" +
-          listing.name.replaceAll(" ", "+") +
-          id,
-        JSON.stringify(listingSubstitute),
+        "https://anastasia-api.myika.co/bot/" + bot.AggregateID,
+        JSON.stringify(bot),
         {
           headers: hds,
         }
       )
       .then((res) => {
         console.log(res.status + " -- " + JSON.stringify(res.data));
-
-        // console.log("Before" + JSON.stringify(user.listings))
-        let storeListings = [];
-        user.listings.forEach((l) => {
-          if (l.name == listing.name) {
-            storeListings.push(listing);
-          } else {
-            storeListings.push(l);
-          }
-        });
-        user.listings = storeListings;
-        storeUser.set(JSON.stringify(user));
+        storeUser.set(JSON.stringify(bot));
       })
       .catch((error) => console.log(error.response));
   };
@@ -156,7 +142,9 @@
           <!-- inputs -->
           <div class="form">
             <div class="mb-3">
-              <label for="accSizePerc" class="form-label">% of account to trade</label>
+              <label for="accSizePerc" class="form-label"
+                >% of account to trade</label
+              >
               <input
                 type="number"
                 class="form-control"
