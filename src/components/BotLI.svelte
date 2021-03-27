@@ -12,6 +12,16 @@
   let newAccSizePerc;
   let newLeverage;
   let active;
+  let showAlert = "display: none;";
+
+  $: if (newRiskPerc !== bot.AccountRiskPercPerTrade || newLeverage !== bot.Leverage) {
+    showAlert = "display: block;";
+    console.log(newRiskPerc, bot.AccountRiskPercPerTrade, newLeverage, bot.Leverage)
+  } 
+  $: if (newRiskPerc === bot.AccountRiskPercPerTrade && newLeverage === bot.Leverage) {
+    showAlert = "display: none;";
+    console.log("work")
+  }
 
   function toggleBotStatus() {
     bot.IsActive = !bot.IsActive;
@@ -127,6 +137,7 @@
           </div>
           <button
             class="save-btn"
+            style={showAlert}
             on:click={() => {
               console.log("bitch");
             }}>Save</button
