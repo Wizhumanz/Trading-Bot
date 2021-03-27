@@ -74,11 +74,12 @@
       //MUST replace all '+' with '%2B'
       // let GETUrl = basicURL.split("+").join("%2B");
       axios
-        .get("https://ana-api.myika.co/bots", {
+        .get("https://ana-api.myika.co/bots" + "?user=5632499082330112", {
           headers: hds,
         })
         .then((res) => {
           user.bots = res.data;
+          console.log(user.bots)
           loading = false;
           storeUser.set(JSON.stringify(user));
           resolve(user.bots);
@@ -92,8 +93,7 @@
 
     getBots().then((res) => {
       loading = false;
-      goto("/listings/all");
-      loading = false;
+      goto("/bots/active");
       //document.location.reload();
     });
 

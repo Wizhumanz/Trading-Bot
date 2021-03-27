@@ -3,7 +3,6 @@
   import { storeUser } from "../../store.js";
   import axios from "axios";
 
-  export let id;
   export let bot;
 
   // component vars
@@ -30,7 +29,8 @@
   }
 
   //TEMP sample only
-  const addListing = () => {
+  const updateListing = () => {
+    console.log("hello")
     bot.AccountRiskPercPerTrade = newRiskPerc;
     bot.AccountSizePercToTrade = newAccSizePerc;
     bot.Leverage = newLeverage;
@@ -42,7 +42,7 @@
     };
     axios
       .put(
-        "https://anastasia-api.myika.co/bot/" + bot.AggregateID,
+        "https://ana-api.myika.co/bot/" + bot.AggregateID,
         JSON.stringify(bot),
         {
           headers: hds,
@@ -119,9 +119,7 @@
           <button
             class="save-btn"
             style={showAlert}
-            on:click={() => {
-              console.log("bitch");
-            }}>Save</button
+            on:click={updateListing}>Save</button
           >
           <!-- display-only fields -->
           <div class="display-fields">
