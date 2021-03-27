@@ -66,10 +66,10 @@
     newAccSizePerc = bot.AccountSizePercToTrade;
     newLeverage = bot.Leverage;
     active = bot.IsActive;
-    console.log(bot.AccountRiskPercPerTrade)
-    console.log(bot.AccountSizePercToTrade)
-    console.log(bot.Leverage)
-    console.log(bot.IsActive)
+    console.log(bot.AccountRiskPercPerTrade);
+    console.log(bot.AccountSizePercToTrade);
+    console.log(bot.Leverage);
+    console.log(bot.IsActive);
   });
 </script>
 
@@ -99,15 +99,6 @@
         </div>
         <div class="col-sm-6 col-lg-8 settings-col">
           <div class="row">
-            <div class="col-7">Account risked per trade</div>
-            <div class="col-5 val-col">
-              {bot.AccountRiskPercPerTrade}%
-            </div>
-            {#if newRiskPerc !== bot.AccountRiskPercPerTrade && newRiskPerc !== null}
-              <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
-            {/if}
-          </div>
-          <div class="row">
             <div class="col-7">% of account to trade</div>
             <div class="col-5 val-col">
               {bot.AccountSizePercToTrade}%
@@ -117,9 +108,18 @@
             {/if}
           </div>
           <div class="row">
+            <div class="col-7">% of account risked per trade</div>
+            <div class="col-5 val-col">
+              {bot.AccountRiskPercPerTrade}%
+            </div>
+            {#if newRiskPerc !== bot.AccountRiskPercPerTrade && newRiskPerc !== null}
+              <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
+            {/if}
+          </div>
+          <div class="row">
             <div class="col-7">Leverage</div>
             <div class="col-5 val-col">
-              {bot.Leverage}%
+              {bot.Leverage}x
             </div>
             {#if newLeverage !== bot.Leverage && newLeverage !== null}
               <p class="changeVal">=> {newLeverage}% UNSAVED</p>
@@ -131,7 +131,23 @@
               console.log("bitch");
             }}>Save</button
           >
+          <!-- display-only fields -->
+          <div class="display-fields">
+            <div class="row">
+              <div class="col-7">Exchange</div>
+              <div class="col-5 lowkey-val-col">
+                {bot.ExchangeConnection}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-7">Webhook URL</div>
+              <div class="col-5 lowkey-val-col">
+                {bot.WebhookURL}
+              </div>
+            </div>
+          </div>
           <hr />
+          <!-- inputs -->
           <div class="form">
             <div class="mb-3">
               <label for="riskPerc" class="form-label">Risk % per trade</label>
@@ -207,6 +223,11 @@
     font-size: large;
   }
 
+  .lowkey-val-col {
+    font-family: $title-font;
+    font-size: small;
+  }
+
   button {
     background-color: $cream;
     color: black;
@@ -214,11 +235,16 @@
   }
 
   .save-btn {
+    padding: 0.25rem 0.75rem;
+    margin-bottom: 1rem;
     color: $cream;
     background-color: $blue;
     border: $cream 2px dashed;
     font-size: small;
-    padding: 0.25rem 0.75rem;
+  }
+
+  .display-fields {
+    font-size: small;
   }
 
   p.changeVal {
