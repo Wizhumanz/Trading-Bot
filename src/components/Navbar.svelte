@@ -14,16 +14,9 @@
     storeUser.set("");
     goto("/");
   }
-
-  //css
-  // TODO: not working hamburger menu anim
-  // function toggleExpanded() {
-  //     var element = document.getElementById("the-nav");
-  //     element.classList.toggle("expanded");
-  // }
 </script>
 
-<nav class="navbar navbar-expand-sm sticky-top navbar-light" id="the-nav">
+<nav class="navbar navbar-expand-md sticky-top navbar-light" id="the-nav">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">Anastasia</a>
     <button
@@ -58,14 +51,14 @@
             <a class="nav-link active" href="/bots/all">All</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/add">Exchangesk</a>
+            <a class="nav-link active" href="/add">Exchanges</a>
           </li>
           <li class="nav-item">
             <!-- svelte-ignore a11y-missing-attribute -->
             <a class="nav-link active" on:click={logout}>Log Out</a>
           </li>
         {/if}
-        <li class="nav-item d-sm-none">
+        <li class="nav-item d-md-none">
           <span>***</span>
         </li>
       </ul>
@@ -81,7 +74,7 @@
     background-color: $blood;
     color: $ivory;
 
-    margin-bottom: 1rem;
+    // margin-bottom: 1rem;
     padding: 0;
 
     @media only screen and (max-width: 767px) {
@@ -93,11 +86,6 @@
     -webkit-transition: 1.5s ease;
   }
 
-  .expanded {
-    // background-color: #fffdd0;
-    background-color: green;
-  }
-
   a.navbar-brand {
     font-size: 1.5rem;
     padding: 0;
@@ -107,6 +95,11 @@
     @media only screen and (max-width: 767px) {
       margin: 0.75rem 1rem;
     }
+  }
+
+  .navbar-collapse {
+    padding-top: 0;
+    margin-top: 0;
   }
 
   .nav-link.active {
@@ -126,6 +119,7 @@
     margin-right: 0;
     margin-top: 0;
     font-size: 1.2rem;
+    background-color: green;
 
     li {
       font-family: $body-font;

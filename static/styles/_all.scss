@@ -117,14 +117,14 @@ button {
   margin-top: 0.5rem;
 }
 
-button:hover {
-  color: $ivory;
-  background-color: $blood;
+// button:hover {
+//   color: $ivory;
+//   background-color: $blood;
 
-  animation-name: blood-btn-flash;
-  animation-duration: 0.3s;
-  animation-timing-function: ease-out;
-}
+//   animation-name: blood-btn-flash;
+//   animation-duration: 0.3s;
+//   animation-timing-function: ease-out;
+// }
 
 @keyframes blood-btn-flash {
   0% {
