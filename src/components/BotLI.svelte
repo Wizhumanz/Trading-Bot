@@ -8,15 +8,13 @@
 
   // component vars
 
-  console.log(bot);
-
   let newRiskPerc;
   let newAccSizePerc;
   let newLeverage;
   let active;
 
   function toggleBotStatus() {
-    bot.isActive = !bot.IsActive;
+    bot.IsActive = !bot.IsActive;
   }
 
   //TEMP sample only
@@ -70,17 +68,19 @@
     console.log(bot.AccountSizePercToTrade);
     console.log(bot.Leverage);
     console.log(bot.IsActive);
+    console.log(bot.Name);
   });
 </script>
 
 <div class="container-fluid" class:active>
   <div class="row main">
-    <div class="col-sm-1 col-md-2" />
+    <div class="col-sm col-md-2" />
     <div class="col-sm-10 col-md-8 main-box" style="padding: 2rem;">
       <div class="row">
-        <div class="col-sm-6 col-lg-4">
+        <div class="col-sm-12 col-lg-4">
+          <p>{bot.Name}</p>
           <div class="red">
-            {#if bot.isActive === "true" || bot.isActive === true}
+            {#if bot.IsActive === "true" || bot.IsActive === true}
               <p>ACTIVE</p>
             {:else}
               <p>INACTIVE</p>
@@ -91,13 +91,13 @@
               type="button"
               class="btn blood-btn"
             >
-              {bot.isActive === "true" || bot.isActive === true
+              {bot.IsActive === "true" || bot.IsActive === true
                 ? "Shut Down"
                 : "Activate"}
             </button>
           </div>
         </div>
-        <div class="col-sm-6 col-lg-8 settings-col">
+        <div class="col-sm-12 col-lg-8 settings-col">
           <div class="row">
             <div class="col-7">% of account to trade</div>
             <div class="col-5 val-col">

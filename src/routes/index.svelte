@@ -12,6 +12,7 @@
     bots: [
       {
         KEY: "5642368648740864",
+        Name: "Binance EMA Cross",
         AggregateID: "2",
         UserID: "5632499082330112",
         ExchangeConnection: "5634161670881280",
@@ -24,6 +25,7 @@
       },
       {
         KEY: "5644004762845184",
+        Name: "Binance Long Triple Pivot",
         AggregateID: "1",
         UserID: "5632499082330112",
         ExchangeConnection: "5634161670881280",
@@ -36,6 +38,7 @@
       },
       {
         KEY: "5710353417633792",
+        Name: "Binance H&S Play",
         AggregateID: "0",
         UserID: "5632499082330112",
         ExchangeConnection: "5634161670881280",
