@@ -74,18 +74,13 @@
     newAccSizePerc = bot.AccountSizePercToTrade;
     newLeverage = bot.Leverage;
     active = bot.IsActive;
-    console.log(bot.AccountRiskPercPerTrade);
-    console.log(bot.AccountSizePercToTrade);
-    console.log(bot.Leverage);
-    console.log(bot.IsActive);
-    console.log(bot.Name);
   });
 </script>
 
 <div class="container-fluid" class:active>
-  <div class="row main">
+  <div class="row">
     <div class="col-sm col-md-2" />
-    <div class="col-sm-10 col-md-8 main-box" style="padding: 2rem;">
+    <div class="col-sm-10 col-md-8 main-box">
       <div class="row">
         <div class="col-sm-12 col-lg-4">
           <p>{bot.Name}</p>
@@ -113,7 +108,7 @@
             <div class="col-5 val-col">
               {bot.AccountSizePercToTrade}%
             </div>
-            {#if newAccSizePerc !== bot.AccountSizePercToTrade && newAccSizePerc !== null}
+            {#if parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) && newAccSizePerc !== null}
               <p class="changeVal">=> {newAccSizePerc}% UNSAVED</p>
             {/if}
           </div>
@@ -122,7 +117,7 @@
             <div class="col-5 val-col">
               {bot.AccountRiskPercPerTrade}%
             </div>
-            {#if newRiskPerc !== bot.AccountRiskPercPerTrade && newRiskPerc !== null}
+            {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
               <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
             {/if}
           </div>
@@ -131,7 +126,7 @@
             <div class="col-5 val-col">
               {bot.Leverage}x
             </div>
-            {#if newLeverage !== bot.Leverage && newLeverage !== null}
+            {#if parseFloat(newLeverage) !== parseFloat(bot.Leverage) && newLeverage !== null}
               <p class="changeVal">=> {newLeverage}% UNSAVED</p>
             {/if}
           </div>
@@ -160,6 +155,16 @@
           <hr />
           <!-- inputs -->
           <div class="form">
+            <div class="mb-3">
+              <label for="accSizePerc" class="form-label">% of account to trade</label>
+              <input
+                type="number"
+                class="form-control"
+                id="accSizePerc"
+                placeholder="10"
+                bind:value={newAccSizePerc}
+              />
+            </div>
             <div class="mb-3">
               <label for="riskPerc" class="form-label">Risk % per trade</label>
               <input
@@ -206,6 +211,7 @@
   div.main-box {
     border: $blue 3px solid;
     border-radius: 5px;
+    padding: 1.5rem;
   }
 
   div.red {
@@ -259,7 +265,8 @@
   }
 
   p.changeVal {
-    color: red;
+    color: yellow;
+    font-weight: bold;
   }
 
   #imgDisplay {

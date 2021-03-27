@@ -103,6 +103,7 @@
   div.container {
     text-align: center;
     padding-bottom: 4rem;
+    margin-top: 1rem;
   }
 
   div.botList {
