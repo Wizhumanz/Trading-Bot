@@ -64,11 +64,6 @@
     newAccSizePerc = bot.AccountSizePercToTrade;
     newLeverage = bot.Leverage;
     active = bot.IsActive;
-    console.log(bot.AccountRiskPercPerTrade);
-    console.log(bot.AccountSizePercToTrade);
-    console.log(bot.Leverage);
-    console.log(bot.IsActive);
-    console.log(bot.Name);
   });
 </script>
 
@@ -149,6 +144,16 @@
           <hr />
           <!-- inputs -->
           <div class="form">
+            <div class="mb-3">
+              <label for="accSizePerc" class="form-label">% of account to trade</label>
+              <input
+                type="number"
+                class="form-control"
+                id="accSizePerc"
+                placeholder="10"
+                bind:value={newAccSizePerc}
+              />
+            </div>
             <div class="mb-3">
               <label for="riskPerc" class="form-label">Risk % per trade</label>
               <input
