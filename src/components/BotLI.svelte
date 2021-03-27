@@ -14,11 +14,11 @@
   let active;
   let showAlert = "display: none;";
 
-  $: if (newRiskPerc !== bot.AccountRiskPercPerTrade || newLeverage !== bot.Leverage) {
+  $: if (parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) 
+    || parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade)
+    || parseFloat(newLeverage) !== parseFloat(bot.Leverage)) {
     showAlert = "display: block;";
-    console.log(newRiskPerc, bot.AccountRiskPercPerTrade, newLeverage, bot.Leverage)
-  } 
-  $: if (newRiskPerc === bot.AccountRiskPercPerTrade && newLeverage === bot.Leverage) {
+  } else {
     showAlert = "display: none;";
     console.log("work")
   }
