@@ -98,7 +98,7 @@
             <div class="col-5 val-col">
               {bot.AccountSizePercToTrade}%
             </div>
-            {#if newAccSizePerc !== bot.AccountSizePercToTrade && newAccSizePerc !== null}
+            {#if parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) && newAccSizePerc !== null}
               <p class="changeVal">=> {newAccSizePerc}% UNSAVED</p>
             {/if}
           </div>
@@ -107,7 +107,7 @@
             <div class="col-5 val-col">
               {bot.AccountRiskPercPerTrade}%
             </div>
-            {#if newRiskPerc !== bot.AccountRiskPercPerTrade && newRiskPerc !== null}
+            {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
               <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
             {/if}
           </div>
@@ -116,7 +116,7 @@
             <div class="col-5 val-col">
               {bot.Leverage}x
             </div>
-            {#if newLeverage !== bot.Leverage && newLeverage !== null}
+            {#if parseFloat(newLeverage) !== parseFloat(bot.Leverage) && newLeverage !== null}
               <p class="changeVal">=> {newLeverage}% UNSAVED</p>
             {/if}
           </div>
@@ -254,7 +254,8 @@
   }
 
   p.changeVal {
-    color: red;
+    color: yellow;
+    font-weight: bold;
   }
 
   #imgDisplay {
