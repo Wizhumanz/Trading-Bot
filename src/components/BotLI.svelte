@@ -73,9 +73,9 @@
 </script>
 
 <div class="container-fluid" class:active>
-  <div class="row main">
+  <div class="row">
     <div class="col-sm col-md-2" />
-    <div class="col-sm-10 col-md-8 main-box" style="padding: 2rem;">
+    <div class="col-sm-10 col-md-8 main-box">
       <div class="row">
         <div class="col-sm-12 col-lg-4">
           <p>{bot.Name}</p>
@@ -195,6 +195,7 @@
   div.main-box {
     border: $blue 3px solid;
     border-radius: 5px;
+    padding: 1.5rem;
   }
 
   div.red {
