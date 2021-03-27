@@ -59,9 +59,8 @@
       },
     ],
   };
-  
-  function getListings() {
-    loading = true;
+
+  function getBots() {
     return new Promise((resolve, reject) => {
       //auth header
       const hds = {
@@ -75,7 +74,7 @@
       //MUST replace all '+' with '%2B'
       // let GETUrl = basicURL.split("+").join("%2B");
       axios
-        .get("https://anastasia-api.myika.co/bots", {
+        .get("https://ana-api.myika.co/bots", {
           headers: hds,
         })
         .then((res) => {
@@ -90,41 +89,39 @@
 
   function signIn(e) {
     loading = true;
-    // TEMP FAKE LOGIN - delete when making actual API call
-    setTimeout(() => {
-      loading = false;
-      user.id = "dick";
-      storeUser.set(JSON.stringify(user));
-      goto("/bots/active");
-    }, 2000);
-    return;
-    // TEMP FAKE LOGIN
 
-    const hds = {
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-    };
-    axios
-      .post("https://anastasia-api.myika.co/login", {
-        headers: hds,
-        email: userLogin.email,
-        password: userLogin.password,
-      })
-      .then((res) => {
-        user.id = userLogin.email;
-        user.password = userLogin.password;
-        //wait for fetch to complete before needed page reload
-        getListings().then((res) => {
-          loading = false;
-          goto("/listings/all");
-          //document.location.reload();
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        showAlert = "display: block;";
-      });
+    getBots().then((res) => {
+      loading = false;
+      goto("/listings/all");
+      loading = false;
+      //document.location.reload();
+    });
+
+    // const hds = {
+    //   "Cache-Control": "no-cache",
+    //   Pragma: "no-cache",
+    //   Expires: "0",
+    // };
+    // axios
+    //   .post("https://anastasia-api.myika.co/login", {
+    //     headers: hds,
+    //     email: userLogin.email,
+    //     password: userLogin.password,
+    //   })
+    //   .then((res) => {
+    //     user.id = userLogin.email;
+    //     user.password = userLogin.password;
+    //     //wait for fetch to complete before needed page reload
+    //     getBots().then((res) => {
+    //       loading = false;
+    //       goto("/listings/all");
+    //       //document.location.reload();
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     showAlert = "display: block;";
+    //   });
   }
 </script>
 
