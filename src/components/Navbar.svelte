@@ -50,7 +50,7 @@
             <a class="nav-link active" href="/bots/all">All</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/add">History</a>
+            <a class="nav-link active" href="/history">History</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="/add">Exchanges</a>
