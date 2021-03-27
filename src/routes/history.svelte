@@ -1,42 +1,130 @@
 <script>
+  import { storeUser } from "../../store.js";
+
+  // let user = {};
+  // storeUser.subscribe((newValue) => {
+  //   if (newValue) {
+  //     user = JSON.parse(newValue);
+  //   }
+  // });
+
+  //MOCK
+  let user = {
+    id: "",
+    password: "",
+    bots: [
+      {
+        KEY: "5642368648740862",
+        Name: "FAKE EMA Cross",
+        AggregateID: "2",
+        UserID: "5632499082330111",
+        ExchangeConnection: "5634161670881280",
+        AccountRiskPercPerTrade: "1.7",
+        AccountSizePercToTrade: "32.5",
+        IsActive: "true",
+        IsArchived: "false",
+        Leverage: "17",
+        WebhookURL: "https://ana-api/webhook/chy781e3FAKE",
+      },
+      {
+        KEY: "5644004762845180",
+        Name: "FAKE Long Triple Pivot",
+        AggregateID: "1",
+        UserID: "5632499082330111",
+        ExchangeConnection: "5634161670881280",
+        AccountRiskPercPerTrade: "3.2",
+        AccountSizePercToTrade: "55",
+        IsActive: "true",
+        IsArchived: "false",
+        Leverage: "35",
+        WebhookURL: "https://ana-api/webhook/hu989ko3FAKE",
+      },
+      {
+        KEY: "5710353417633793",
+        Name: "FAKE H&S Play",
+        AggregateID: "0",
+        UserID: "5632499082330111",
+        ExchangeConnection: "5634161670881280",
+        AccountRiskPercPerTrade: "20",
+        AccountSizePercToTrade: "60",
+        IsActive: "false",
+        IsArchived: "false",
+        Leverage: "5",
+        WebhookURL: "https://ana-api/webhook/kmow894wFAKE",
+      },
+    ],
+    trades: [
+      {
+        KEY: "1732781787",
+        Action: "FAKEentryOrderSubmitted",
+        AggregateID: "1",
+        BotID: 0,
+        OrderType: 0,
+        Size: 1.69,
+        TimeStamp: "2021-03-23 05:53:18 +0800",
+      },
+      {
+        KEY: "1732333787",
+        Action: "FAKEentryOrderFilled",
+        AggregateID: "1",
+        BotID: 0,
+        OrderType: 0,
+        Size: 3.14,
+        TimeStamp: "2021-03-23 05:55:11 +0800",
+      },
+      {
+        KEY: "1732780917",
+        Action: "FAKEexitOrderSubmitted",
+        AggregateID: "1",
+        BotID: 0,
+        OrderType: 1,
+        Size: 1.11,
+        TimeStamp: "2021-03-23 05:59:14 +0000",
+      },
+    ],
+  };
 </script>
 
 <div class="container-fluid">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-            </tr>
-        </tbody>
-    </table>
+  <h1>Trade History</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Action</th>
+        <th scope="col">OrderType</th>
+        <th scope="col">Size</th>
+        <th scope="col">TimeStamp</th>
+        <th scope="col">BotID</th>
+        <th scope="col">AggregateID</th>
+        <th scope="col">ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each user.trades as t}
+        <tr>
+          <td>{t.Action}</td>
+          <td>{t.OrderType}</td>
+          <td>{t.Size}</td>
+          <td>{t.Timestamp}</td>
+          <td>{t.BotID}</td>
+          <td>{t.AggregateID}</td>
+          <td>{t.KEY}</td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
 </div>
 
 <style type="text/scss">
-    @import "../../static/styles/_all";
+  @import "../../static/styles/_all";
 
-    .container-fluid {
-        padding: 1rem;
-    }
+  .container-fluid {
+    padding: 1rem 2rem;
+    text-align: center;
+  }
+
+  table {
+    margin-top: 0.75rem;
+    text-align: left;
+  }
 </style>

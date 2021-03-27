@@ -58,6 +58,32 @@
         WebhookURL: "https://ana-api/webhook/kmow894wFAKE",
       },
     ],
+    trades: [
+      {
+        Action: "FAKEentryOrderSubmitted",
+        AggregateID: "1",
+        BotID: 0,
+        OrderType: 0,
+        Size: 1.69,
+        TimeStamp: "2021-03-23 05:53:18 +0800",
+      },
+      {
+        Action: "FAKEentryOrderFilled",
+        AggregateID: "1",
+        BotID: 0,
+        OrderType: 0,
+        size: 3.14,
+        timeStamp: "2021-03-23 05:55:11 +0800",
+      },
+      {
+        Action: "FAKEexitOrderSubmitted",
+        AggregateID: "1",
+        BotID: 0,
+        OrderType: 1,
+        size: 1.11,
+        timeStamp: "2021-03-23 05:59:14 +0000",
+      },
+    ],
   };
 
   function getBots() {

@@ -1,8 +1,6 @@
 <script>
   import { stores } from "@sapper/app";
-  import { storeUser, resetState, currentPage } from "../../../store.js";
-
-  import axios from "axios";
+  import { storeUser, currentPage } from "../../../store.js";
 
   import AddBot from "../add.svelte";
   import BotLI from "../../components/BotLI.svelte";
