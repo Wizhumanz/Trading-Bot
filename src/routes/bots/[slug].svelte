@@ -4,6 +4,7 @@
 
   import axios from "axios";
 
+  import AddBot from "../add.svelte";
   import BotLI from "../../components/BotLI.svelte";
   import LoadingIndicator from "../../components/LoadingIndicator.svelte";
 
@@ -30,15 +31,33 @@
 
 <div class="container">
   {#if route == "active"}
-    <h1>Active Bots</h1>
+    <ul id="head">
+      <li><h1>Active Bots</h1></li>
+      <li>
+        <a
+          class="btn"
+          data-bs-toggle="collapse"
+          href="#collapseExample"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+        >
+          Add
+        </a>
+      </li>
+    </ul>
   {:else if route == "all"}
     <h1>All Bots</h1>
   {/if}
 
+  <div class="collapse" id="collapseExample">
+    <AddBot />
+  </div>
+
   <div class="botList">
     {#if user.bots && user.bots.length > 0}
       {#each user.bots as b}
-        <BotLI bot={b} id={user.id}/>
+        <BotLI bot={b} id={user.id} />
       {/each}
     {:else}
       <p>Error: No bots to show.</p>
@@ -48,6 +67,24 @@
 
 <style type="text/scss">
   @import "../../../static/styles/_all";
+
+  #head {
+    li {
+      display: inline;
+
+      .btn {
+        padding: 0 1rem;
+        margin-top: -1rem;
+        color: $cream;
+      }
+
+      h1,
+      a {
+        width: fit-content;
+        display: inline;
+      }
+    }
+  }
 
   div.container {
     text-align: center;

@@ -5,86 +5,29 @@
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   let loading = false;
-
   let showAlert = "display: none;";
-  let fileSizeAlert = "display: none;";
-  let user = {};
-  storeUser.subscribe((newValue) => {
-    if (newValue) {
-      user = JSON.parse(newValue);
-    }
-  });
 
   let now = new Date(),
     month,
     day,
     year;
-  let files;
-  let filesStr = [];
-  let owner = "";
-  let name = "";
-  let address = "";
-  let postcode = "";
-  let area = "";
-  let price = 1000;
-  let propertyType;
-  let listingType;
-  let dateString;
-  let isPublic = false;
-  let isCompleted = false;
-  let isPending = false;
+  let botName;
+  let accSizePerc;
+  let accRiskPerc;
+  let leverage;
+  let exchange;
 
-  onMount(() => {
-    (month = "" + (now.getMonth() + 1)),
-      (day = "" + now.getDate()),
-      (year = now.getFullYear());
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    dateString = [year, month, day].join("-");
-  });
-
-  function uploadImgs() {
-    files = document.querySelector("[type=file]").files;
-    for (let i = 0; i < files.length; i++) {
-      let file = files[i];
-
-      console.log(Math.round(file.size / 1024));
-
-      if (Math.round(file.size / 1024) > 300) {
-        fileSizeAlert = "display: block;";
-        setTimeout(() => {
-          fileSizeAlert = "display: none;";
-        }, 7000);
-        loading = false;
-      }
-
-      //convert to base64 encoded string (pushed to filesStr)
-      encodeImageFileAsURL(file);
-    }
-  }
-
-  function encodeImageFileAsURL(fi) {
-    var newImage;
-    var fileReader = new FileReader();
-    fileReader.onload = function (fileLoadedEvent) {
-      var srcData = fileLoadedEvent.target.result; // <--- data: base64
-
-      newImage = document.createElement("img");
-      newImage.src = srcData;
-
-      // document.getElementById("imgDisplay").innerHTML = newImage.outerHTML;
-      // console.log("Base64 img = " + newImage.src);
-      filesStr.push(newImage.src);
-    };
-    fileReader.readAsDataURL(fi);
-  }
+  onMount(() => {});
 
   function addListing() {
     loading = true;
+    // TEMP FAKE CALL - delete when making actual API call
+    setTimeout(() => {
+      loading = false;
+    }, 1500);
+    return;
+    // TEMP FAKE CALL
 
-    uploadImgs(); //converts images to base64 strings
     if (loading) {
       const hds = {
         "Cache-Control": "no-cache",
@@ -149,151 +92,84 @@
   <LoadingIndicator />
 {/if}
 
-<div class="container">
-  <h1 id="head">Add Listing</h1>
-
+<div class="container-fluid">
   <div class="row">
-    <div class="col-sm col-md-3">
-      <button id="excel-upload">Upload Excel</button>
-    </div>
-    <div class="col-sm col-md-9">
-      <div id="manual-add-box">
-        <!-- file upload -->
-        <!-- <div id="imgDisplay"></div> -->
-        <form method="post" enctype="multipart/form-data">
-          <label for="fileUpload" class="form-label">Upload Images</label>
-          <input id="fileUpload" type="file" name="files[]" multiple />
-        </form>
+    <div class="col-sm-12 col-md-1" />
+    <div class="col-sm-12 col-md-10">
+      <div id="fields-box">
         <form class="form" on:submit|preventDefault={addListing}>
           <div class="mb-3">
-            <label for="owner" class="form-label">Owner</label>
+            <label for="botName" class="form-label">Name</label>
             <input
               type="text"
               class="form-control"
-              id="owner"
-              placeholder="owner@owner.com"
-              bind:value={owner}
+              id="botName"
+              placeholder="Long Bot"
+              bind:value={botName}
             />
           </div>
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              placeholder="Premium Condo"
-              bind:value={name}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="address" class="form-label">Address</label>
-            <input
-              type="text"
-              class="form-control"
-              id="address"
-              placeholder="38-A Skyhome, Jalan Tanjung Tokong"
-              bind:value={address}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="area" class="form-label">Area</label>
-            <input
-              type="text"
-              class="form-control"
-              id="area"
-              placeholder="Teluk Bahang"
-              bind:value={area}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="postcode" class="form-label">Postcode</label>
-            <input
-              type="text"
-              class="form-control"
-              id="postcode"
-              placeholder="10130"
-              bind:value={postcode}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="availableDate" class="form-label">Available Date</label>
-            <input id="availableDate" type="date" bind:value={dateString} />
-          </div>
-          <div class="mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input
-              type="number"
-              class="form-control"
-              id="price"
-              bind:value={price}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="listingType" class="form-label">Listing Type</label>
-            <select
-              id="listingType"
-              class="form-select"
-              bind:value={listingType}
-            >
-              <option value="0">For Rent</option>
-              <option value="1">For Sale</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="propertyType" class="form-label">Property Type</label>
-            <select
-              id="propertyType"
-              class="form-select"
-              bind:value={propertyType}
-            >
-              <option value="0">Landed</option>
-              <option value="1">Apartment</option>
-            </select>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input addCheckbox"
-              id="publicCheck"
-              type="checkbox"
-              value=""
-              bind:checked={isPublic}
-            />
-            <label class="form-check-label" for="publicCheck"> Public </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input addCheckbox"
-              id="completedCheck"
-              type="checkbox"
-              value=""
-              bind:checked={isCompleted}
-            />
-            <label class="form-check-label" for="completedCheck">
-              Completed
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input addCheckbox"
-              id="pendingCheck"
-              type="checkbox"
-              value=""
-              bind:checked={isPending}
-            />
-            <label class="form-check-label" for="pendingCheck"> Pending </label>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="accSize" class="form-label"
+                  >Account Size to Trade (%)</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="accSize"
+                  placeholder="20"
+                  bind:value={accSizePerc}
+                />
+              </div>
+              <div class="mb-3">
+                <label for="accRisk" class="form-label"
+                  >% of Account Risked per Trade</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="accRisk"
+                  placeholder="1.5"
+                  bind:value={accRiskPerc}
+                />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="leverage" class="form-label">Leverage (x)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="leverage"
+                  placeholder="10"
+                  bind:value={leverage}
+                />
+              </div>
+              <div class="mb-3">
+                <label for="area" class="form-label">Exchange</label>
+                <!-- input below supposed to be a dropdown -->
+                <input
+                  type="number"
+                  class="form-control"
+                  id="area"
+                  placeholder="000000000"
+                  bind:value={exchange}
+                />
+              </div>
+            </div>
           </div>
           <div>
-            <button type="submit">Add</button>
+            <button type="submit">Add Bot</button>
           </div>
           <div style={showAlert}>
-            <p>Listing Added</p>
-          </div>
-          <div style={fileSizeAlert}>
-            <p>Image size too large. Each image size should be under 300KB.</p>
+            <p>Bot Added</p>
           </div>
         </form>
       </div>
     </div>
+    <div class="col-sm-12 col-md-1" />
+    <hr />
   </div>
 </div>
 
@@ -309,21 +185,15 @@
     margin-bottom: 2rem;
   }
 
-  #manual-add-box {
+  #fields-box {
     padding: 0 4rem;
     text-align: left;
-    border-left: 1px solid $blue;
   }
 
-  input,
   select {
     font-family: $body-font;
     background-color: $ivory;
     border: $blood 1px dashed;
-  }
-  input:focus-within {
-    background-color: $blood;
-    color: $ivory;
   }
 
   .form-check {
@@ -335,7 +205,7 @@
   }
 
   button {
-    font-size: x-large;
+    margin-bottom: 1rem;
   }
 
   #excel-upload {
