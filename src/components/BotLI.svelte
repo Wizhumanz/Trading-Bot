@@ -101,9 +101,9 @@
           <div class="row">
             <div class="col-7">Account risked per trade</div>
             <div class="col-5 val-col">
-              {bot.accRiskPerc}%
+              {bot.AccountRiskPercPerTrade}%
             </div>
-            {#if newRiskPerc !== bot.accRiskPerc && newRiskPerc !== null}
+            {#if newRiskPerc !== bot.AccountRiskPercPerTrade && newRiskPerc !== null}
               <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
             {/if}
           </div>
@@ -119,9 +119,9 @@
           <div class="row">
             <div class="col-7">Leverage</div>
             <div class="col-5 val-col">
-              {bot.leverage}%
+              {bot.Leverage}%
             </div>
-            {#if newLeverage !== bot.leverage && newLeverage !== null}
+            {#if newLeverage !== bot.Leverage && newLeverage !== null}
               <p class="changeVal">=> {newLeverage}% UNSAVED</p>
             {/if}
           </div>
