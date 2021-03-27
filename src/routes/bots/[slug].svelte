@@ -85,7 +85,7 @@
   <div class="botList">
     {#if user.bots && user.bots.length > 0}
       {#each user.bots as b}
-        <BotLI bot={b}/>
+        <BotLI bot={b} id={user.id}/>
       {/each}
     {:else}
       <p>Error: No bots to show.</p>

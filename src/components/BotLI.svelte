@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from "svelte";
   import { storeUser } from "../../store.js";
   import axios from "axios";
 
@@ -7,12 +8,15 @@
 
   // component vars
 
-  let newRiskPerc = bot.accRiskPerc;
-  let newLeverage = bot.leverage;
-  let active = bot.isActive;
+  console.log(bot);
+
+  let newRiskPerc;
+  let newAccSizePerc;
+  let newLeverage;
+  let active;
 
   function toggleBotStatus() {
-    bot.isActive = !bot.isActive;
+    bot.isActive = !bot.IsActive;
   }
 
   //TEMP sample only
@@ -56,6 +60,17 @@
       })
       .catch((error) => console.log(error.response));
   };
+
+  onMount(() => {
+    newRiskPerc = bot.AccountRiskPercPerTrade;
+    newAccSizePerc = bot.AccountSizePercToTrade;
+    newLeverage = bot.Leverage;
+    active = bot.IsActive;
+    console.log(bot.AccountRiskPercPerTrade)
+    console.log(bot.AccountSizePercToTrade)
+    console.log(bot.Leverage)
+    console.log(bot.IsActive)
+  });
 </script>
 
 <div class="container-fluid" class:active>
@@ -90,6 +105,15 @@
             </div>
             {#if newRiskPerc !== bot.accRiskPerc && newRiskPerc !== null}
               <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
+            {/if}
+          </div>
+          <div class="row">
+            <div class="col-7">% of account to trade</div>
+            <div class="col-5 val-col">
+              {bot.AccountSizePercToTrade}%
+            </div>
+            {#if newAccSizePerc !== bot.AccountSizePercToTrade && newAccSizePerc !== null}
+              <p class="changeVal">=> {newAccSizePerc}% UNSAVED</p>
             {/if}
           </div>
           <div class="row">
