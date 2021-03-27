@@ -174,6 +174,7 @@
 
   .val-col {
     font-family: $title-font;
+    font-size: large;
   }
 
   button {

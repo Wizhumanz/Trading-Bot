@@ -3,7 +3,6 @@
   import { goto } from "@sapper/app";
 
   var id = storeUser ? storeUser.id : null;
-  // console.log(storeUser)
   storeUser.subscribe((newValue) => {
     if (newValue) {
       id = JSON.parse(newValue) ? JSON.parse(newValue).id : null;
@@ -58,7 +57,10 @@
             <a class="nav-link active" href="/bots/all">All</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/add">Exchangesk</a>
+            <a class="nav-link active" href="/add">History</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/add">Exchanges</a>
           </li>
           <li class="nav-item">
             <!-- svelte-ignore a11y-missing-attribute -->

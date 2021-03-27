@@ -2,7 +2,7 @@
   import { goto } from "@sapper/app";
   import { storeUser } from "../../store.js";
   // import axios from "axios";
-  import LoadingIndicator from '../components/LoadingIndicator.svelte'
+  import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   // global vars
 
@@ -10,9 +10,42 @@
     id: "",
     password: "",
     bots: [
-      {isActive: "true", leverage: 45, accRiskPerc: 34.5},
-      {isActive: "true", leverage: 24, accRiskPerc: 12.5},
-      {isActive: "false", leverage: 80, accRiskPerc: 3}
+      {
+        name: "Binance 1",
+        isActive: "true",
+        isArchived: "false",
+        leverage: 45,
+        accRiskPerc: 34.5,
+        accSizePerc: 20,
+        exchange: 1728783718,
+      },
+      {
+        name: "Binance 2",
+        isActive: "true",
+        isArchived: "false",
+        leverage: 24,
+        accRiskPerc: 12.5,
+        accSizePerc: 12,
+        exchange: 1728783718,
+      },
+      {
+        name: "Inactive Bot",
+        isActive: "false",
+        isArchived: "false",
+        leverage: 80,
+        accRiskPerc: 3,
+        accSizePerc: 15,
+        exchange: 1728783718,
+      },
+      {
+        name: "Archived Bot",
+        isActive: "false",
+        isArchived: "true",
+        leverage: 80,
+        accRiskPerc: 3,
+        accSizePerc: 15,
+        exchange: 1728783718,
+      },
     ],
   };
 
@@ -30,11 +63,11 @@
   }
 
   function signIn(e) {
-    // TEMP FAKE LOGIN
     loading = true;
+    // TEMP FAKE LOGIN - delete when making actual API call
     setTimeout(() => {
       loading = false;
-      user.id = userLogin.email;
+      user.id = "dick";
       storeUser.set(JSON.stringify(user));
       goto("/bots/active");
     }, 2000);
@@ -78,7 +111,10 @@
     <div class="row signIn">
       <div class="col-2" />
       <div class="col-8">
-        <p>DEBUG NOTE: Just click Sign In button with empty inputs to mock sign in.</p>
+        <p>
+          DEBUG NOTE: Just click Sign In button with empty inputs to mock sign
+          in.
+        </p>
         <!-- Sign In tab -->
         <div style={showAlert}>
           <p>Incorrect Login Details</p>
