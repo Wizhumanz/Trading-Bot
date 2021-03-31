@@ -174,4 +174,9 @@
     margin-top: 0.75rem;
     text-align: left;
   }
+
+  tr:hover {
+    background-color: $blood;
+    color: $cream;
+  }
 </style>
