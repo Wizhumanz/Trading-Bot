@@ -58,7 +58,7 @@
             <a class="nav-link active" href="/history">History</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/add">Exchanges</a>
+            <a class="nav-link active" href="/">Exchanges</a>
           </li>
           <li class="nav-item">
             <!-- svelte-ignore a11y-missing-attribute -->
