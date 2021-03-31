@@ -1,6 +1,6 @@
 <script>
   import { stores } from "@sapper/app";
-  import { storeUser, resetState, currentPage } from "../../../store.js";
+  import { storeUser, currentPage } from "../../../store.js";
 
   import axios from "axios";
 
@@ -38,7 +38,7 @@
   <div class="botList">
     {#if user.bots && user.bots.length > 0}
       {#each user.bots as b}
-        <BotLI bot={b} id={user.id}/>
+        <BotLI bot={b} id={user.id} />
       {/each}
     {:else}
       <p>Error: No bots to show.</p>

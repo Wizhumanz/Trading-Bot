@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from "svelte";
   import { goto } from "@sapper/app";
   import { storeUser } from "../../store.js";
   import axios from "axios";
@@ -59,6 +60,21 @@
       },
     ],
   };
+  // storeUser.subscribe((newValue) => {
+  //   if (newValue) {
+  //     user = JSON.parse(newValue) ? JSON.parse(newValue) : null;
+  //   }
+  // });
+
+  onMount(() => {
+    //if user already logged in, go straight to all listings
+    user = storeUser;
+    if (user.bots && user.bots.length > 0) {
+      if (typeof window !== "undefined") {
+        goto("/bots/all");
+      }
+    }
+  });
 
   function getBots() {
     return new Promise((resolve, reject) => {
@@ -78,11 +94,7 @@
           headers: hds,
         })
         .then((res) => {
-          user.bots = res.data;
-          console.log(user.bots)
-          loading = false;
-          storeUser.set(JSON.stringify(user));
-          resolve(user.bots);
+          resolve(res.data);
         })
         .catch((error) => console.log(error));
     });
@@ -90,12 +102,9 @@
 
   function signIn(e) {
     loading = true;
-
-    getBots().then((res) => {
-      loading = false;
-      goto("/bots/active");
-      //document.location.reload();
-    });
+    //FAKE sign in for nav bar change
+    user.id = "bread@blender.com";
+    //FAKE sign in for nav bar change
 
     // const hds = {
     //   "Cache-Control": "no-cache",
@@ -122,6 +131,16 @@
     //     console.log(error);
     //     showAlert = "display: block;";
     //   });
+
+    //TODO: should be moved inside the .then() block of real signIn func
+    getBots().then((res) => {
+      user.bots = res;
+      user.bots.reverse(); //to display most recent bots at top of list
+      storeUser.set(JSON.stringify(user));
+      loading = false;
+      goto("/bots/all");
+      //document.location.reload();
+    });
   }
 </script>
 

@@ -11,7 +11,12 @@
 
   function logout() {
     storeUser.set("");
-    goto("/");
+    setTimeout(() => {
+      goto("/");
+      if (document) {
+        document.location.reload();
+      }
+    }, 300);
   }
 </script>
 
@@ -33,7 +38,7 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <!-- svelte-ignore a11y-missing-attribute -->
-          <a class="nav-link disabled" disabled>{id ? id : ""}</a>
+          <a class="nav-link disabled loggedInID" disabled>{id ? id : ""}</a>
         </li>
         {#if !id}
           <!-- <li class="nav-item">
@@ -134,10 +139,11 @@
     }
   }
 
-  a.disabled {
-    color: $blue;
-  }
   a.disabled:hover {
     text-decoration: none;
+  }
+
+  .loggedInID {
+    color: gray !important;
   }
 </style>
