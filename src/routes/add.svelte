@@ -44,7 +44,7 @@
       AccountSizePercToTrade: accSizePerc.toString(),
       IsActive: "false",
       IsArchived: "false",
-      Leverage: leverage,
+      Leverage: leverage.toString(),
       WebhookURL: "https://ana-api/webhook/kmow894wFAKE",
     };
 
