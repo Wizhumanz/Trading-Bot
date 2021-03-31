@@ -1,5 +1,6 @@
 <script>
   import { storeUser } from "../../store.js";
+  import axios from "axios";
 
   // let user = {};
   // storeUser.subscribe((newValue) => {
@@ -83,6 +84,24 @@
       },
     ],
   };
+
+  const hds = {
+    "Cache-Control": "no-cache",
+    Pragma: "no-cache",
+    Expires: "0",
+    auth: "agent",
+  };
+  axios
+    .get("http://localhost:8000/trades" + "?user=5632499082330112", {
+      headers: hds,
+    })
+    .then((res) => {
+      user.trades = res;
+      console.log(res.status + " -- " + JSON.stringify(res.data));
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
 </script>
 
 <div class="container-fluid">

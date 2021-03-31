@@ -2,35 +2,62 @@
   import { onMount } from "svelte";
   import { storeUser } from "../../store.js";
   import axios from "axios";
+  import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   export let bot;
 
-  // component vars
+  let user = {};
+  storeUser.subscribe((newValue) => {
+    if (newValue) {
+      user = JSON.parse(newValue);
+    }
+  });
 
+  // component vars
+  let loading = false;
   let newRiskPerc;
   let newAccSizePerc;
   let newLeverage;
   let active;
-  let showAlert = "display: none;";
+  let showSaveBtnAlert = "display: none;";
 
   $: if (
     parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) ||
     parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) ||
     parseFloat(newLeverage) !== parseFloat(bot.Leverage)
   ) {
-    showAlert = "display: block;";
+    showSaveBtnAlert = "display: block;";
   } else {
-    showAlert = "display: none;";
+    showSaveBtnAlert = "display: none;";
     console.log("work");
   }
 
   function toggleBotStatus() {
+    loading = true;
     bot.IsActive = !bot.IsActive;
+    const hds = {
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+      auth: "agent",
+    };
+    axios
+      .put("http://localhost:8000/bot" + bot.AggregateID, bot, {
+        headers: hds,
+      })
+      .then((res) => {
+        loading = false;
+        console.log(res.status + " -- " + JSON.stringify(res.data));
+      })
+      .catch((error) => {
+        loading = false;
+        console.log(error.response);
+      });
   }
 
   //TEMP sample only
   const updateListing = () => {
-    console.log("hello")
+    console.log("hello");
     bot.AccountRiskPercPerTrade = newRiskPerc;
     bot.AccountSizePercToTrade = newAccSizePerc;
     bot.Leverage = newLeverage;
@@ -41,16 +68,12 @@
       auth: "agent",
     };
     axios
-      .put(
-        "https://ana-api.myika.co/bot/" + bot.AggregateID,
-        JSON.stringify(bot),
-        {
-          headers: hds,
-        }
-      )
+      .put("https://ana-api.myika.co/bot" + bot.AggregateID, bot, {
+        headers: hds,
+      })
       .then((res) => {
         console.log(res.status + " -- " + JSON.stringify(res.data));
-        storeUser.set(JSON.stringify(bot));
+        storeUser.set(JSON.stringify(user.bots));
       })
       .catch((error) => console.log(error.response));
   };
@@ -62,6 +85,10 @@
     active = bot.IsActive;
   });
 </script>
+
+{#if loading}
+  <LoadingIndicator />
+{/if}
 
 <div class="container-fluid" class:active>
   <div class="row">
@@ -118,7 +145,7 @@
           </div>
           <button
             class="save-btn"
-            style={showAlert}
+            style={showSaveBtnAlert}
             on:click={updateListing}>Save</button
           >
           <!-- display-only fields -->

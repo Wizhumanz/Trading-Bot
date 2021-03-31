@@ -1,89 +1,73 @@
 <script>
   import axios from "axios";
-  import { onMount } from "svelte";
   import { storeUser } from "../../store.js";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   let loading = false;
-  let showAlert = "display: none;";
+  let addedAlert = "display: none;";
 
-  let now = new Date(),
-    month,
-    day,
-    year;
+  let user = {};
+  storeUser.subscribe((newValue) => {
+    if (newValue) {
+      user = JSON.parse(newValue);
+    }
+  });
   let botName;
   let accSizePerc;
   let accRiskPerc;
   let leverage;
   let exchange;
 
-  onMount(() => {});
-
-  function addListing() {
+  function addBotHandler() {
     loading = true;
     // TEMP FAKE CALL - delete when making actual API call
-    setTimeout(() => {
-      loading = false;
-    }, 1500);
-    return;
+    // setTimeout(() => {
+    //   loading = false;
+    // }, 1500);
+    // return;
+
     // TEMP FAKE CALL
+    const hds = {
+      // "Content-Type": "application/json",
+      auth: user.password,
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
 
-    if (loading) {
-      const hds = {
-        "Cache-Control": "no-cache",
-        Pragma: "no-cache",
-        Expires: "0",
-        auth: "agent",
-      };
-      //Don't change any of these properties
-      let data = {
-        user: user.id, //get user.id from store.js
-        owner: owner,
-        name: name, //name of listings are immutable
-        address: address,
-        postcode: postcode,
-        area: area,
-        price: price.toString(),
-        propertyType: propertyType.toString(),
-        listingType: listingType.toString(),
-        availableDate: dateString.toString(),
-        isPublic: isPublic.toString(),
-        isCompleted: isCompleted.toString(),
-        isPending: isPending.toString(),
-        imgs: filesStr,
-      };
+    //Don't change any of these properties
+    let data = {
+      name: botName,
+      UserID: user.id,
+      ExchangeConnection: exchange.toString(),
+      AccountRiskPercPerTrade: accRiskPerc.toString(),
+      AccountSizePercToTrade: accSizePerc.toString(),
+      IsActive: "false",
+      IsArchived: "false",
+      Leverage: leverage,
+      WebhookURL: "https://ana-api/webhook/kmow894wFAKE",
+    };
 
-      axios
-        .post("https://anastasia-api.myika.co/listing", data, {
-          headers: hds,
-        })
-        .then((res) => {
-          loading = false;
-          showAlert = "display: block;";
-          console.log(res.status + " -- " + JSON.stringify(res.data));
+    axios
+      .post("http://localhost:8000/bot", data, {
+        headers: hds,
+      })
+      .then((res) => {
+        loading = false;
+        addedAlert = "display: block;";
+        console.log(res.status + " -- " + JSON.stringify(res.data));
 
-          (now = new Date()), month, day, year;
-          files;
-          filesStr = [];
-          owner = "";
-          name = "";
-          address = "";
-          postcode = "";
-          area = "";
-          price = 1000;
-          propertyType;
-          listingType;
-          dateString;
-          isPublic = false;
-          isCompleted = false;
-          isPending = false;
+        botName = "";
+        accSizePerc = 0;
+        accRiskPerc = 0;
+        leverage = 0;
+        exchange = "";
 
-          setTimeout(() => {
-            showAlert = "display: none;";
-          }, 7000);
-        })
-        .catch((error) => console.log(error.response));
-    }
+        setTimeout(() => {
+          addedAlert = "display: none;";
+        }, 7000);
+      })
+      .catch((error) => console.log(error.response));
   }
 </script>
 
@@ -97,7 +81,7 @@
     <div class="col-sm-12 col-md-1" />
     <div class="col-sm-12 col-md-10">
       <div id="fields-box">
-        <form class="form" on:submit|preventDefault={addListing}>
+        <form class="form" on:submit|preventDefault={addBotHandler}>
           <div class="mb-3">
             <label for="botName" class="form-label">Name</label>
             <input
@@ -116,6 +100,7 @@
                 >
                 <input
                   type="number"
+                  step=".01"
                   class="form-control"
                   id="accSize"
                   placeholder="20"
@@ -128,6 +113,7 @@
                 >
                 <input
                   type="number"
+                  step=".01"
                   class="form-control"
                   id="accRisk"
                   placeholder="1.5"
@@ -162,7 +148,7 @@
           <div>
             <button type="submit">Add Bot</button>
           </div>
-          <div style={showAlert}>
+          <div style={addedAlert}>
             <p>Bot Added</p>
           </div>
         </form>
