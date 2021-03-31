@@ -2,6 +2,8 @@
   import { stores } from "@sapper/app";
   import { storeUser, currentPage } from "../../../store.js";
 
+  import axios from "axios";
+
   import AddBot from "../add.svelte";
   import BotLI from "../../components/BotLI.svelte";
   import LoadingIndicator from "../../components/LoadingIndicator.svelte";
