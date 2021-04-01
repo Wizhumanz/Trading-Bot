@@ -56,8 +56,21 @@
   }
 
   //TEMP sample only
-  const updateListing = () => {
-    console.log("hello");
+  const updateBot = () => {
+    if (newRiskPerc < 0) {
+      alert("Risk % per trade must be GREATER THAN 0!\nBot update cancelled.");
+      return;
+    }
+    if (newAccSizePerc < 0) {
+      alert(
+        "Account size % to trade must be GREATER THAN 0!\nBot update cancelled."
+      );
+      return;
+    }
+    if (!Number.isInteger(newLeverage)) {
+      alert("Leverage must be a whole number!\nBot update cancelled.");
+      return;
+    }
     bot.AccountRiskPercPerTrade = newRiskPerc;
     bot.AccountSizePercToTrade = newAccSizePerc;
     bot.Leverage = newLeverage;
@@ -143,10 +156,8 @@
               <p class="changeVal">=> {newLeverage}% UNSAVED</p>
             {/if}
           </div>
-          <button
-            class="save-btn"
-            style={showSaveBtnAlert}
-            on:click={updateListing}>Save</button
+          <button class="save-btn" style={showSaveBtnAlert} on:click={updateBot}
+            >Save</button
           >
           <!-- display-only fields -->
           <div class="display-fields">
@@ -172,9 +183,10 @@
               >
               <input
                 type="number"
+                step=".01"
+                min="0"
                 class="form-control"
                 id="accSizePerc"
-                placeholder="10"
                 bind:value={newAccSizePerc}
               />
             </div>
@@ -182,9 +194,10 @@
               <label for="riskPerc" class="form-label">Risk % per trade</label>
               <input
                 type="number"
+                step=".01"
+                min="0"
                 class="form-control"
                 id="riskPerc"
-                placeholder="20"
                 bind:value={newRiskPerc}
               />
             </div>
@@ -192,9 +205,10 @@
               <label for="leverage" class="form-label">Leverage</label>
               <input
                 type="number"
+                step="1"
+                min="0"
                 class="form-control"
                 id="leverage"
-                placeholder="5"
                 bind:value={newLeverage}
               />
             </div>
