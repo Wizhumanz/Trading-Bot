@@ -104,6 +104,7 @@
 
   function getBots() {
     return new Promise((resolve, reject) => {
+      console.log(userLogin.password);
       //auth header
       const hds = {
         // "Content-Type": "application/json",
@@ -128,9 +129,6 @@
 
   function signIn(e) {
     loading = true;
-    //FAKE sign in for nav bar change
-    user.id = "5632499082330112";
-    //FAKE sign in for nav bar change
 
     const hds = {
       "Cache-Control": "no-cache",
@@ -140,7 +138,7 @@
     axios
       .post("http://localhost:8000/login", {
         headers: hds,
-        id: "5632499082330112",
+        email: userLogin.email,
         password: userLogin.password,
       })
       .then((res) => {
