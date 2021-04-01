@@ -107,7 +107,7 @@
       //auth header
       const hds = {
         // "Content-Type": "application/json",
-        auth: user.password,
+        Authorization: userLogin.password,
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
         Expires: "0",
@@ -116,7 +116,7 @@
       //MUST replace all '+' with '%2B'
       // let GETUrl = basicURL.split("+").join("%2B");
       axios
-        .get("https://ana-api.myika.co/bots" + "?user=5632499082330112", {
+        .get("http://localhost:8000/bots" + "?user=5632499082330112", {
           headers: hds,
         })
         .then((res) => {
@@ -132,41 +132,36 @@
     user.id = "5632499082330112";
     //FAKE sign in for nav bar change
 
-    // const hds = {
-    //   "Cache-Control": "no-cache",
-    //   Pragma: "no-cache",
-    //   Expires: "0",
-    // };
-    // axios
-    //   .post("https://anastasia-api.myika.co/login", {
-    //     headers: hds,
-    //     email: userLogin.email,
-    //     password: userLogin.password,
-    //   })
-    //   .then((res) => {
-    //     user.id = userLogin.email;
-    //     user.password = userLogin.password;
-    //     //wait for fetch to complete before needed page reload
-    //     getBots().then((res) => {
-    //       loading = false;
-    //       goto("/listings/all");
-    //       //document.location.reload();
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     showAlert = "display: block;";
-    //   });
-
-    //TODO: should be moved inside the .then() block of real signIn func
-    getBots().then((res) => {
-      user.bots = res;
-      user.bots.reverse(); //to display most recent bots at top of list
-      storeUser.set(JSON.stringify(user));
-      loading = false;
-      goto("/bots/all");
-      //document.location.reload();
-    });
+    const hds = {
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
+    axios
+      .post("http://localhost:8000/login", {
+        headers: hds,
+        id: "5632499082330112",
+        password: userLogin.password,
+      })
+      .then((res) => {
+        user.id = userLogin.email;
+        user.password = userLogin.password;
+        //wait for fetch to complete before needed page reload
+        getBots().then((res) => {
+          loading = false;
+          user.bots = res;
+          user.bots.reverse(); //to display most recent bots at top of list
+          storeUser.set(JSON.stringify(user));
+          loading = false;
+          goto("/bots/all");
+          //document.location.reload();
+        });
+      })
+      .catch((error) => {
+        console.log(error.response);
+        loading = false;
+        showAlert = "display: block;";
+      });
   }
 </script>
 
