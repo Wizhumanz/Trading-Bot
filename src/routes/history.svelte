@@ -89,15 +89,16 @@
     "Cache-Control": "no-cache",
     Pragma: "no-cache",
     Expires: "0",
-    auth: "agent",
+    Authorization: "trader",
   };
   axios
     .get("http://localhost:8000/trades" + "?user=5632499082330112", {
       headers: hds,
     })
     .then((res) => {
-      user.trades = res;
+      user.trades = res.data;
       console.log(res.status + " -- " + JSON.stringify(res.data));
+      console.log(res.data);
     })
     .catch((error) => {
       console.log(error.response);
@@ -160,7 +161,7 @@
           <td>{t.Action}</td>
           <td>{t.OrderType}</td>
           <td>{t.Size}</td>
-          <td>{t.Timestamp}</td>
+          <td>{t.TimeStamp}</td>
           <td>{t.BotID}</td>
           <td>{t.AggregateID}</td>
           <td>{t.KEY}</td>

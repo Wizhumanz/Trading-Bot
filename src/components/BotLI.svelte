@@ -35,6 +35,12 @@
   function toggleBotStatus() {
     loading = true;
     bot.IsActive = !bot.IsActive;
+
+    let data = { ...bot };
+    data.IsActive = data.IsActive.toString();
+    data.AggregateID = null;
+    console.log(data);
+
     const hds = {
       "Cache-Control": "no-cache",
       Pragma: "no-cache",
@@ -42,9 +48,15 @@
       auth: "agent",
     };
     axios
-      .put("http://localhost:8000/bot" + bot.AggregateID, bot, {
-        headers: hds,
-      })
+      .put(
+        "http://localhost:8000/bot/" +
+          bot.AggregateID +
+          "?user=5632499082330112",
+        data,
+        {
+          headers: hds,
+        }
+      )
       .then((res) => {
         loading = false;
         console.log(res.status + " -- " + JSON.stringify(res.data));
@@ -57,23 +69,33 @@
 
   //TEMP sample only
   const updateBot = () => {
+    loading = true;
+
     if (newRiskPerc < 0) {
       alert("Risk % per trade must be GREATER THAN 0!\nBot update cancelled.");
+      loading = false;
       return;
     }
     if (newAccSizePerc < 0) {
       alert(
         "Account size % to trade must be GREATER THAN 0!\nBot update cancelled."
       );
+      loading = false;
       return;
     }
     if (!Number.isInteger(newLeverage)) {
       alert("Leverage must be a whole number!\nBot update cancelled.");
+      loading = false;
       return;
     }
-    bot.AccountRiskPercPerTrade = newRiskPerc;
-    bot.AccountSizePercToTrade = newAccSizePerc;
-    bot.Leverage = newLeverage;
+
+    let data = { ...bot };
+    data.IsActive = data.IsActive.toString();
+    data.AggregateID = null;
+    data.AccountRiskPercPerTrade = newRiskPerc.toString();
+    data.AccountSizePercToTrade = newAccSizePerc.toString();
+    data.Leverage = newLeverage.toString();
+    console.log(data);
     const hds = {
       "Cache-Control": "no-cache",
       Pragma: "no-cache",
@@ -81,14 +103,24 @@
       auth: "agent",
     };
     axios
-      .put("https://ana-api.myika.co/bot" + bot.AggregateID, bot, {
-        headers: hds,
-      })
+      .put(
+        "http://localhost:8000/bot/" +
+          bot.AggregateID +
+          "?user=5632499082330112",
+        data,
+        {
+          headers: hds,
+        }
+      )
       .then((res) => {
         console.log(res.status + " -- " + JSON.stringify(res.data));
         storeUser.set(JSON.stringify(user.bots));
+        loading = false;
       })
-      .catch((error) => console.log(error.response));
+      .catch((error) => {
+        console.log(error.response);
+        loading = false;
+      });
   };
 
   onMount(() => {
@@ -152,7 +184,7 @@
             <div class="col-5 val-col">
               {bot.Leverage}x
             </div>
-            {#if parseFloat(newLeverage) !== parseFloat(bot.Leverage) && newLeverage !== null}
+            {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
               <p class="changeVal">=> {newLeverage}% UNSAVED</p>
             {/if}
           </div>
@@ -183,7 +215,7 @@
               >
               <input
                 type="number"
-                step=".01"
+                step=".1"
                 min="0"
                 class="form-control"
                 id="accSizePerc"
@@ -194,7 +226,7 @@
               <label for="riskPerc" class="form-label">Risk % per trade</label>
               <input
                 type="number"
-                step=".01"
+                step=".1"
                 min="0"
                 class="form-control"
                 id="riskPerc"
