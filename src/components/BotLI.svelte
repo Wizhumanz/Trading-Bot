@@ -38,14 +38,14 @@
 
     let data = { ...bot };
     data.IsActive = data.IsActive.toString();
-    data.AggregateID = null;
+    delete data.AggregateID;
     console.log(data);
 
     const hds = {
       "Cache-Control": "no-cache",
       Pragma: "no-cache",
       Expires: "0",
-      auth: "agent",
+      Authorization: "trader",
     };
     axios
       .put(
