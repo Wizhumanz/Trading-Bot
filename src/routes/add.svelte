@@ -85,6 +85,7 @@
           <div class="mb-3">
             <label for="botName" class="form-label">Name</label>
             <input
+              required="required"
               type="text"
               class="form-control"
               id="botName"
@@ -99,6 +100,7 @@
                   >Account Size to Trade (%)</label
                 >
                 <input
+                  required="required"
                   type="number"
                   step=".01"
                   class="form-control"
@@ -109,9 +111,10 @@
               </div>
               <div class="mb-3">
                 <label for="accRisk" class="form-label"
-                  >% of Account Risked per Trade</label
+                  >Account Risked per Trade (%)</label
                 >
                 <input
+                  required="required"
                   type="number"
                   step=".01"
                   class="form-control"
@@ -125,6 +128,7 @@
               <div class="mb-3">
                 <label for="leverage" class="form-label">Leverage (x)</label>
                 <input
+                  required="required"
                   type="number"
                   class="form-control"
                   id="leverage"
@@ -136,6 +140,7 @@
                 <label for="area" class="form-label">Exchange</label>
                 <!-- input below supposed to be a dropdown -->
                 <input
+                  required="required"
                   type="number"
                   class="form-control"
                   id="area"
