@@ -85,6 +85,7 @@
         timeStamp: "2021-03-23 05:59:14 +0000",
       },
     ],
+    exchanges: [],
   };
   // storeUser.subscribe((newValue) => {
   //   if (newValue) {
