@@ -154,6 +154,7 @@
         <th scope="col">BotID</th>
         <th scope="col">AggregateID</th>
         <th scope="col">ID</th>
+        <th scope="col">Exchange</th>
       </tr>
     </thead>
     <tbody>
@@ -167,6 +168,7 @@
           <td>{t.BotID}</td>
           <td>{t.AggregateID}</td>
           <td>{t.KEY}</td>
+          <td>{t.Exchange}</td>
         </tr>
       {/each}
     </tbody>
