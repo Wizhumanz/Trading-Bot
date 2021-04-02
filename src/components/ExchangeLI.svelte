@@ -80,7 +80,7 @@
     };
     axios
       .put(
-        "http://localhost:8000/bot/" +
+        "https://ana-api.myika.co/bot/" +
           bot.AggregateID +
           "?user=5632499082330112",
         data,

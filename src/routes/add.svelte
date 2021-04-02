@@ -49,7 +49,7 @@
     };
 
     axios
-      .post("http://localhost:8000/bot", data, {
+      .post("https://ana-api.myika.co/bot", data, {
         headers: hds,
       })
       .then((res) => {

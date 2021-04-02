@@ -92,7 +92,7 @@
     Authorization: "trader",
   };
   axios
-    .get("http://localhost:8000/trades" + "?user=5632499082330112", {
+    .get("https://ana-api.myika.co/trades" + "?user=5632499082330112", {
       headers: hds,
     })
     .then((res) => {
