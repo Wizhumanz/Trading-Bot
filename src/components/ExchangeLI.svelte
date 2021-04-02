@@ -133,119 +133,43 @@
     <div class="col-sm col-md-1" />
     <div class="col-sm col-md-10 main-box">
       <div class="row">
-        <div class="col-sm-12 col-lg-4">
-          <p>{bot.Name}</p>
-          <div class="red">
-            {#if bot.IsActive === "true" || bot.IsActive === true}
-              <p>ACTIVE</p>
-            {:else}
-              <p>INACTIVE</p>
-            {/if}
-
-            <button
-              on:click={toggleBotStatus}
-              type="button"
-              class="btn blood-btn"
-            >
-              {bot.IsActive === "true" || bot.IsActive === true
-                ? "Shut Down"
-                : "Activate"}
-            </button>
-          </div>
-          <div style={updateErrorAlert}>
-            <p>
-              Something went wrong with the update. Please contact customer
-              service
-            </p>
-          </div>
+        <div class="col-7"><h4>Name</h4></div>
+        <div class="col-5 val-col">
+          {bot.AccountRiskPercPerTrade}
         </div>
-        <div class="col-sm-12 col-lg-8 settings-col">
-          <div class="row">
-            <div class="col-7">% of account to trade</div>
-            <div class="col-5 val-col">
-              {bot.AccountSizePercToTrade}%
-            </div>
-            {#if parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) && newAccSizePerc !== null}
-              <p class="changeVal">=> {bot.AccountSizePercToTrade}% UNSAVED</p>
-            {/if}
-          </div>
-          <div class="row">
-            <div class="col-7">% of account risked per trade</div>
-            <div class="col-5 val-col">
-              {bot.AccountRiskPercPerTrade}%
-            </div>
-            {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
-              <p class="changeVal">=> {bot.AccountRiskPercPerTrade}% UNSAVED</p>
-            {/if}
-          </div>
-          <div class="row">
-            <div class="col-7">Leverage</div>
-            <div class="col-5 val-col">
-              {bot.Leverage}x
-            </div>
-            {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
-              <p class="changeVal">=> {bot.Leverage}% UNSAVED</p>
-            {/if}
-          </div>
-          <button class="save-btn" style={showSaveBtnAlert} on:click={updateBot}
-            >Save</button
-          >
-          <!-- display-only fields -->
-          <div class="display-fields">
-            <div class="row">
-              <div class="col-7">Exchange</div>
-              <div class="col-5 lowkey-val-col">
-                {bot.ExchangeConnection}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-7">Webhook URL</div>
-              <div class="col-5 lowkey-val-col">
-                {bot.WebhookURL}
-              </div>
-            </div>
-          </div>
-          <hr />
-          <!-- inputs -->
-          <div class="form">
-            <div class="mb-3">
-              <label for="accSizePerc" class="form-label"
-                >% of account to trade</label
-              >
-              <input
-                type="number"
-                step=".01"
-                min="0"
-                class="form-control"
-                id="accSizePerc"
-                bind:value={bot.AccountSizePercToTrade}
-              />
-            </div>
-            <div class="mb-3">
-              <label for="riskPerc" class="form-label">Risk % per trade</label>
-              <input
-                type="number"
-                step=".01"
-                min="0"
-                class="form-control"
-                id="riskPerc"
-                bind:value={bot.AccountRiskPercPerTrade}
-              />
-            </div>
-            <div class="mb-3">
-              <label for="leverage" class="form-label">Leverage</label>
-              <input
-                type="number"
-                step="1"
-                min="0"
-                class="form-control"
-                id="leverage"
-                bind:value={bot.Leverage}
-              />
-            </div>
-          </div>
-        </div>
+        {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
+          <p class="changeVal">=> {bot.AccountRiskPercPerTrade} UNSAVED</p>
+        {/if}
       </div>
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="exchangeName"
+          bind:value={bot.AccountRiskPercPerTrade}
+        />
+      </div>
+      <div class="row">
+        <div class="col-7"><h4>API Key</h4></div>
+        <div class="col-5 val-col">
+          {bot.Leverage}
+        </div>
+        {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
+          <p class="changeVal">=> {bot.Leverage} UNSAVED</p>
+        {/if}
+      </div>
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="apiKey"
+          bind:value={bot.Leverage}
+        />
+      </div>
+
+      <button class="save-btn" style={showSaveBtnAlert} on:click={updateBot}
+        >Save</button
+      >
     </div>
     <div class="col-sm col-md-1" />
   </div>
@@ -267,7 +191,7 @@
   }
 
   div.main-box {
-    border: $blue 3px solid;
+    border: $blood 3px dotted;
     border-radius: 5px;
     padding: 1.5rem;
   }
@@ -285,6 +209,10 @@
       background-color: $blood;
       color: $cream;
     }
+  }
+
+  .mb-3 {
+    margin-top: 0.5rem;
   }
 
   div.settings-col {
