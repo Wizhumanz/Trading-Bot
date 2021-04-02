@@ -12,10 +12,10 @@
       user = JSON.parse(newValue);
     }
   });
-  let botName;
+  let exchangeName;
   let apiKey;
 
-  function addBotHandler() {
+  function addExchangeHandler() {
     loading = true;
     // TEMP FAKE CALL - delete when making actual API call
     // setTimeout(() => {
@@ -26,7 +26,7 @@
     // TEMP FAKE CALL
     const hds = {
       // "Content-Type": "application/json",
-      auth: user.password,
+      Authorization: user.password,
       "Cache-Control": "no-cache",
       Pragma: "no-cache",
       Expires: "0",
@@ -34,37 +34,33 @@
 
     //Don't change any of these properties
     let data = {
-      name: botName,
+      Name: exchangeName,
+      APIKey: apiKey,
       UserID: user.id,
-      ExchangeConnection: exchange.toString(),
-      AccountRiskPercPerTrade: accRiskPerc.toString(),
-      AccountSizePercToTrade: accSizePerc.toString(),
-      IsActive: "false",
-      IsArchived: "false",
-      Leverage: leverage.toString(),
-      WebhookURL: "https://ana-api/webhook/kmow894wFAKE",
+      IsDeleted: "false",
     };
 
     axios
-      .post("https://ana-api.myika.co/bot", data, {
+      .post("https://ana-api.myika.co/exchange", data, {
         headers: hds,
       })
       .then((res) => {
         loading = false;
         addedAlert = "display: block;";
         console.log(res.status + " -- " + JSON.stringify(res.data));
+        document.location.reload();
 
-        botName = "";
-        accSizePerc = 0;
-        accRiskPerc = 0;
-        leverage = 0;
-        exchange = "";
+        exchangeName = "";
+        apiKey = "";
 
         setTimeout(() => {
           addedAlert = "display: none;";
         }, 7000);
       })
-      .catch((error) => console.log(error.response));
+      .catch((error) => {
+        loading = false;
+        console.log(error.response);
+      });
   }
 </script>
 
@@ -77,16 +73,16 @@
   <h3>Add Exchange</h3>
 
   <div id="fields-box">
-    <form class="form" on:submit|preventDefault={addBotHandler}>
+    <form class="form" on:submit|preventDefault={addExchangeHandler}>
       <div class="mb-3">
-        <label for="botName" class="form-label">Name</label>
+        <label for="exchangeName" class="form-label">Name</label>
         <input
           required="required"
           type="text"
           class="form-control"
-          id="botName"
-          placeholder="Long Bot"
-          bind:value={botName}
+          id="exchangeName"
+          placeholder="Uniswap"
+          bind:value={exchangeName}
         />
       </div>
       <div class="mb-3">
@@ -100,12 +96,11 @@
           bind:value={apiKey}
         />
       </div>
-
       <div>
         <button type="submit">Add Exchange</button>
       </div>
       <div style={addedAlert}>
-        <p>Bot Added</p>
+        <p>Exchange Added</p>
       </div>
     </form>
   </div>
