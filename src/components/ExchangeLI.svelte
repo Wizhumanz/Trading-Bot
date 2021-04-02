@@ -130,8 +130,8 @@
 
 <div class="container-fluid" class:active>
   <div class="row">
-    <div class="col-sm col-md-2" />
-    <div class="col-sm-10 col-md-8 main-box">
+    <div class="col-sm col-md-1" />
+    <div class="col-sm col-md-10 main-box">
       <div class="row">
         <div class="col-sm-12 col-lg-4">
           <p>{bot.Name}</p>
@@ -247,7 +247,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-1 col-md-2" />
+    <div class="col-sm col-md-1" />
   </div>
   <hr />
 </div>

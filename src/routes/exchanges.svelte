@@ -2,8 +2,8 @@
   import { stores } from "@sapper/app";
   import { storeUser, currentPage } from "../../store.js";
 
-  import AddBot from "./add.svelte";
-  import BotLI from "../components/ExchangeLI.svelte";
+  import AddExchange from "../components/AddExchange.svelte";
+  import ExchangeLI from "../components/ExchangeLI.svelte";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   const { page } = stores();
@@ -31,25 +31,27 @@
   <h1>Exchanges</h1>
 
   <div class="row">
-    <div class="col-sm-12 col-md-7">
-      <AddBot />
-    </div>
     <div class="col-sm-12 col-md-5">
-      <div class="botList">
-        {#if user.bots && user.bots.length > 0}
-          {#each user.bots as b}
-            <BotLI bot={b} id={user.id} />
-          {/each}
-        {:else}
-          <p>Error: No bots to show.</p>
-        {/if}
-      </div>
+      <AddExchange />
+    </div>
+    <div class="col-sm-12 col-md-7">
+      {#if user.bots && user.bots.length > 0}
+        {#each user.bots as b}
+          <ExchangeLI bot={b} id={user.id} />
+        {/each}
+      {:else}
+        <p>Error: No bots to show.</p>
+      {/if}
     </div>
   </div>
 </div>
 
 <style type="text/scss">
   @import "../../static/styles/_all";
+
+  .row {
+    margin-top: 1rem;
+  }
 
   #head {
     li {
