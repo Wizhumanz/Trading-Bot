@@ -26,7 +26,8 @@
   $: if (
     parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) ||
     parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) ||
-    parseFloat(newLeverage) !== parseFloat(bot.Leverage)
+    parseFloat(newLeverage) !== parseFloat(bot.Leverage) ||
+    newTicker !== bot.Ticker
   ) {
     showSaveBtnAlert = "display: block;";
   } else {
