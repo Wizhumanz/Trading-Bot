@@ -147,6 +147,7 @@
     <thead>
       <tr>
         <th scope="col">Action</th>
+        <th scope="col">Ticker</th>
         <th scope="col">OrderType</th>
         <th scope="col">Size</th>
         <th scope="col">TimeStamp</th>
@@ -159,6 +160,7 @@
       {#each user.trades as t}
         <tr>
           <td>{t.Action}</td>
+          <td>{t.Ticker}</td>
           <td>{t.OrderType}</td>
           <td>{t.Size}</td>
           <td>{t.TimeStamp}</td>
