@@ -1,6 +1,7 @@
 <script>
   import { stores } from "@sapper/app";
   import { storeUser, currentPage } from "../../store.js";
+  import axios from "axios";
 
   import AddExchange from "../components/AddExchange.svelte";
   import ExchangeLI from "../components/ExchangeLI.svelte";
@@ -20,6 +21,27 @@
   });
 
   let loading = false;
+  let exchanges = [];
+  const hds = {
+    "Cache-Control": "no-cache",
+    Pragma: "no-cache",
+    Expires: "0",
+    Authorization: user.password,
+  };
+  axios
+    .get("https://ana-api.myika.co/exchanges" + "?user=5632499082330112", {
+      headers: hds,
+    })
+    .then((res) => {
+      exchanges = res.data;
+      user.exchanges = exchanges;
+      storeUser.set(JSON.stringify(user));
+
+      console.log(res.status + " -- " + JSON.stringify(res.data));
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
 </script>
 
 <!--Loading Sign-->
@@ -35,12 +57,12 @@
       <AddExchange />
     </div>
     <div class="col-sm-12 col-md-7">
-      {#if user.bots && user.bots.length > 0}
-        {#each user.bots as b}
-          <ExchangeLI bot={b} id={user.id} />
+      {#if exchanges && exchanges.length > 0}
+        {#each exchanges as e}
+          <ExchangeLI exchange={e} />
         {/each}
       {:else}
-        <p>Error: No bots to show.</p>
+        <p>Error: No exchanges to show.</p>
       {/if}
     </div>
   </div>
