@@ -28,38 +28,23 @@
 {/if}
 
 <div class="container">
-  {#if route == "active"}
-    <ul id="head">
-      <li><h1>Exchanges</h1></li>
-      <li>
-        <a
-          class="btn"
-          data-bs-toggle="collapse"
-          href="#collapseExample"
-          role="button"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-        >
-          Add
-        </a>
-      </li>
-    </ul>
-  {:else if route == "all"}
-    <h1>All Bots</h1>
-  {/if}
+  <h1>Exchanges</h1>
 
-  <div class="collapse" id="collapseExample">
-    <AddBot />
-  </div>
-
-  <div class="botList">
-    {#if user.bots && user.bots.length > 0}
-      {#each user.bots as b}
-        <BotLI bot={b} id={user.id} />
-      {/each}
-    {:else}
-      <p>Error: No bots to show.</p>
-    {/if}
+  <div class="row">
+    <div class="col-sm-12 col-md-7">
+      <AddBot />
+    </div>
+    <div class="col-sm-12 col-md-5">
+      <div class="botList">
+        {#if user.bots && user.bots.length > 0}
+          {#each user.bots as b}
+            <BotLI bot={b} id={user.id} />
+          {/each}
+        {:else}
+          <p>Error: No bots to show.</p>
+        {/if}
+      </div>
+    </div>
   </div>
 </div>
 
