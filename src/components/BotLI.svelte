@@ -33,6 +33,21 @@
     showSaveBtnAlert = "display: none;";
   }
 
+  function copyText(e) {
+    e.preventDefault();
+    var copyText = bot.WebhookURL;
+    document.addEventListener(
+      "copy",
+      function (e) {
+        e.clipboardData.setData("text/plain", copyText);
+        e.preventDefault();
+      },
+      true
+    );
+
+    document.execCommand("copy");
+  }
+
   function toggleBotStatus() {
     loading = true;
     bot.IsActive = !bot.IsActive;
@@ -211,8 +226,13 @@
             </div>
             <div class="row">
               <div class="col-7">Webhook URL</div>
-              <div class="col-5 lowkey-val-col">
-                {bot.WebhookURL}
+              <div class="col-5 lowkey-val-col urlDisplay">
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <a
+                  on:click={copyText}
+                  data-toggle="tooltip"
+                  title="Copy to Clipboard">{bot.WebhookURL}</a
+                >
               </div>
             </div>
           </div>
@@ -371,4 +391,8 @@
   // .active {
   //   background-color: red;
   // }
+
+  .urlDisplay {
+    overflow: hidden;
+  }
 </style>
