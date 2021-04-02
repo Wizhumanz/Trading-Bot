@@ -240,11 +240,13 @@
           <!-- inputs -->
           <div class="form">
             <div class="mb-3">
-              <label for="ticker" class="form-label">Ticker</label>
+              <label for={"ticker" + bot.WebhookURL} class="form-label"
+                >Ticker</label
+              >
               <input
                 type="text"
                 class="form-control"
-                id="ticker"
+                id={"ticker" + bot.WebhookURL}
                 bind:value={bot.Ticker}
               />
             </div>
