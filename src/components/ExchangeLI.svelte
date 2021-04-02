@@ -4,7 +4,7 @@
   import axios from "axios";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
-  export let bot;
+  export let exchange;
 
   let user = {};
   storeUser.subscribe((newValue) => {
@@ -15,161 +15,66 @@
 
   // component vars
   let loading = false;
-  let newRiskPerc;
-  let newAccSizePerc;
-  let newLeverage;
-  let active;
-  let showSaveBtnAlert = "display: none;";
-  let updateErrorAlert = "display: none;";
-
-  $: if (
-    parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) ||
-    parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) ||
-    parseFloat(newLeverage) !== parseFloat(bot.Leverage)
-  ) {
-    showSaveBtnAlert = "display: block;";
-  } else {
-    showSaveBtnAlert = "display: none;";
-  }
-
-  function toggleBotStatus() {
-    loading = true;
-    bot.IsActive = !bot.IsActive;
-
-    updateBot();
-  }
-
-  //TEMP sample only
-  const updateBot = () => {
-    loading = true;
-
-    // if (newRiskPerc < 0) {
-    //   alert("Risk % per trade must be GREATER THAN 0!\nBot update cancelled.");
-    //   loading = false;
-    //   return;
-    // }
-    // if (newAccSizePerc < 0) {
-    //   alert(
-    //     "Account size % to trade must be GREATER THAN 0!\nBot update cancelled."
-    //   );
-    //   loading = false;
-    //   return;
-    // }
-    // if (!Number.isInteger(newLeverage)) {
-    //   alert("Leverage must be a whole number!\nBot update cancelled.");
-    //   loading = false;
-    //   return;
-    // }
-
-    let data = { ...bot };
-    delete data.AggregateID;
-    delete data.WebhookURL;
-    data.IsActive = data.IsActive.toString();
-    data.AccountRiskPercPerTrade = data.AccountRiskPercPerTrade.toString();
-    data.AccountSizePercToTrade = data.AccountSizePercToTrade.toString();
-    data.Leverage = data.Leverage.toString();
-    console.log(bot);
-    console.log(data);
-    console.log(user.bots);
-
+  let exchangeBool = exchange.IsDeleted === "true" ? true : false;
+  let hideExchange = exchangeBool ? "display: none;" : "display: block;";
+  function deleteExchange() {
+    console.log("delete");
+    hideExchange = "display: none;";
+    exchange.IsDeleted = "true";
     const hds = {
       "Cache-Control": "no-cache",
       Pragma: "no-cache",
       Expires: "0",
-      Authorization: "trader",
+      Authorization: user.password,
     };
     axios
-      .put(
-        "https://ana-api.myika.co/bot/" +
-          bot.AggregateID +
+      .delete(
+        "https://ana-api.myika.co/exchange/" +
+          exchange.KEY +
           "?user=5632499082330112",
-        data,
         {
           headers: hds,
         }
       )
       .then((res) => {
-        //updating the local state
-        let storeBots = [];
-        user.bots.forEach((b) => {
-          if (b.AggregateID === bot.AggregateID) {
-            storeBots.push(bot);
+        let exchangesList = [];
+        user.exchanges.forEach((e) => {
+          if (e.KEY === exchange.KEY) {
+            exchangesList.push(exchange);
           } else {
-            storeBots.push(b);
+            exchangesList.push(e);
           }
         });
-        user.bots = storeBots;
-        console.log(res.status + " -- " + JSON.stringify(res.data));
+        user.exchanges = exchangesList;
         storeUser.set(JSON.stringify(user));
-        loading = false;
-
-        //resetting the current state
-        newRiskPerc = bot.AccountRiskPercPerTrade;
-        newAccSizePerc = bot.AccountSizePercToTrade;
-        newLeverage = bot.Leverage;
-        active = bot.IsActive;
       })
       .catch((error) => {
         console.log(error.response);
-        updateErrorAlert = "display: block;";
-        loading = false;
       });
-  };
-
-  onMount(() => {
-    newRiskPerc = bot.AccountRiskPercPerTrade;
-    newAccSizePerc = bot.AccountSizePercToTrade;
-    newLeverage = bot.Leverage;
-    active = bot.IsActive;
-  });
+  }
 </script>
 
 {#if loading}
   <LoadingIndicator />
 {/if}
 
-<div class="container-fluid" class:active>
+<div class="container-fluid" style={hideExchange}>
   <div class="row">
     <div class="col-sm col-md-1" />
     <div class="col-sm col-md-10 main-box">
       <div class="row">
         <div class="col-7"><h4>Name</h4></div>
         <div class="col-5 val-col">
-          {bot.AccountRiskPercPerTrade}
+          {exchange.Name}
         </div>
-        {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
-          <p class="changeVal">=> {bot.AccountRiskPercPerTrade} UNSAVED</p>
-        {/if}
-      </div>
-      <div class="mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="exchangeName"
-          bind:value={bot.AccountRiskPercPerTrade}
-        />
       </div>
       <div class="row">
         <div class="col-7"><h4>API Key</h4></div>
         <div class="col-5 val-col">
-          {bot.Leverage}
+          {exchange.APIKey}
         </div>
-        {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
-          <p class="changeVal">=> {bot.Leverage} UNSAVED</p>
-        {/if}
       </div>
-      <div class="mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="apiKey"
-          bind:value={bot.Leverage}
-        />
-      </div>
-
-      <button class="save-btn" style={showSaveBtnAlert} on:click={updateBot}
-        >Save</button
-      >
+      <button class="delete-btn" on:click={deleteExchange}>Delete</button>
     </div>
     <div class="col-sm col-md-1" />
   </div>
