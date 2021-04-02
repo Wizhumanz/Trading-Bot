@@ -37,6 +37,7 @@
     bot.IsActive = !bot.IsActive;
 
     let data = { ...bot };
+    delete data.WebhookURL;
     data.IsActive = data.IsActive.toString();
     delete data.AggregateID;
     console.log(data);
@@ -71,36 +72,40 @@
   const updateBot = () => {
     loading = true;
 
-    if (newRiskPerc < 0) {
-      alert("Risk % per trade must be GREATER THAN 0!\nBot update cancelled.");
-      loading = false;
-      return;
-    }
-    if (newAccSizePerc < 0) {
-      alert(
-        "Account size % to trade must be GREATER THAN 0!\nBot update cancelled."
-      );
-      loading = false;
-      return;
-    }
-    if (!Number.isInteger(newLeverage)) {
-      alert("Leverage must be a whole number!\nBot update cancelled.");
-      loading = false;
-      return;
-    }
+    // if (newRiskPerc < 0) {
+    //   alert("Risk % per trade must be GREATER THAN 0!\nBot update cancelled.");
+    //   loading = false;
+    //   return;
+    // }
+    // if (newAccSizePerc < 0) {
+    //   alert(
+    //     "Account size % to trade must be GREATER THAN 0!\nBot update cancelled."
+    //   );
+    //   loading = false;
+    //   return;
+    // }
+    // if (!Number.isInteger(newLeverage)) {
+    //   alert("Leverage must be a whole number!\nBot update cancelled.");
+    //   loading = false;
+    //   return;
+    // }
 
     let data = { ...bot };
+    delete data.AggregateID;
+    delete data.WebhookURL;
     data.IsActive = data.IsActive.toString();
-    data.AggregateID = null;
-    data.AccountRiskPercPerTrade = newRiskPerc.toString();
-    data.AccountSizePercToTrade = newAccSizePerc.toString();
-    data.Leverage = newLeverage.toString();
+    data.AccountRiskPercPerTrade = data.AccountRiskPercPerTrade.toString();
+    data.AccountSizePercToTrade = data.AccountSizePercToTrade.toString();
+    data.Leverage = data.Leverage.toString();
+    console.log(bot);
     console.log(data);
+    console.log(user.bots);
+
     const hds = {
       "Cache-Control": "no-cache",
       Pragma: "no-cache",
       Expires: "0",
-      auth: "agent",
+      Authorization: "trader",
     };
     axios
       .put(
@@ -113,8 +118,17 @@
         }
       )
       .then((res) => {
+        let storeBots = [];
+        user.bots.forEach((b) => {
+          if (b.AggregateID === bot.AggregateID) {
+            storeBots.push(bot);
+          } else {
+            storeBots.push(b);
+          }
+        });
+        user.bots = storeBots;
         console.log(res.status + " -- " + JSON.stringify(res.data));
-        storeUser.set(JSON.stringify(user.bots));
+        storeUser.set(JSON.stringify(user));
         loading = false;
       })
       .catch((error) => {
@@ -219,7 +233,7 @@
                 min="0"
                 class="form-control"
                 id="accSizePerc"
-                bind:value={newAccSizePerc}
+                bind:value={bot.AccountSizePercToTrade}
               />
             </div>
             <div class="mb-3">
@@ -230,7 +244,7 @@
                 min="0"
                 class="form-control"
                 id="riskPerc"
-                bind:value={newRiskPerc}
+                bind:value={bot.AccountRiskPercPerTrade}
               />
             </div>
             <div class="mb-3">
@@ -241,7 +255,7 @@
                 min="0"
                 class="form-control"
                 id="leverage"
-                bind:value={newLeverage}
+                bind:value={bot.Leverage}
               />
             </div>
           </div>
