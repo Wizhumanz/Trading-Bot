@@ -26,11 +26,10 @@
     //   loading = false;
     // }, 1500);
     // return;
-
     // TEMP FAKE CALL
     const hds = {
       // "Content-Type": "application/json",
-      auth: user.password,
+      Authorization: user.password,
       "Cache-Control": "no-cache",
       Pragma: "no-cache",
       Expires: "0",
@@ -38,7 +37,7 @@
 
     //Don't change any of these properties
     let data = {
-      name: botName,
+      Name: botName,
       UserID: user.id,
       ExchangeConnection: exchange.toString(),
       AccountRiskPercPerTrade: accRiskPerc.toString(),
@@ -46,7 +45,7 @@
       IsActive: "false",
       IsArchived: "false",
       Leverage: leverage.toString(),
-      WebhookURL: "https://ana-api/webhook/kmow894wFAKE",
+      Ticker: newTicker,
     };
 
     axios
@@ -57,6 +56,8 @@
         loading = false;
         addedAlert = "display: block;";
         console.log(res.status + " -- " + JSON.stringify(res.data));
+        user.bots.push(data);
+        storeUser.set(JSON.stringify(user));
 
         newTicker = "";
         botName = "";
@@ -69,7 +70,10 @@
           addedAlert = "display: none;";
         }, 7000);
       })
-      .catch((error) => console.log(error.response));
+      .catch((error) => {
+        loading = false;
+        console.log(error.response);
+      });
   }
 </script>
 
@@ -93,6 +97,17 @@
               id="botName"
               placeholder="Long Bot"
               bind:value={botName}
+            />
+          </div>
+          <div class="mb-3">
+            <label for="ticker" class="form-label">Ticker</label>
+            <input
+              required="required"
+              type="text"
+              class="form-control"
+              id="ticker"
+              placeholder="BTC/USDT"
+              bind:value={newTicker}
             />
           </div>
           <div class="row">
