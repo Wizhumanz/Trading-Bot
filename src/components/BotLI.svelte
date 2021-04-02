@@ -132,11 +132,11 @@
 
 <div class="container-fluid" class:active>
   <div class="row">
-    <div class="col-sm col-md-2" />
-    <div class="col-sm-10 col-md-8 main-box">
+    <div class="col-sm-12 col-md-2" />
+    <div class="col-sm-12 col-md-8 main-box">
       <div class="row">
         <div class="col-sm-12 col-lg-4">
-          <p>{bot.Name}</p>
+          <h4>{bot.Name}</h4>
           <div class="red">
             {#if bot.IsActive === "true" || bot.IsActive === true}
               <p>ACTIVE</p>
@@ -161,16 +161,16 @@
             </p>
           </div>
         </div>
-        <div class="row">
-          <div class="col-7">Ticker</div>
-          <div class="col-5 val-col">
-            {newTicker}
-          </div>
-          {#if newTicker !== bot.Ticker && newTicker !== null}
-            <p class="changeVal">=> {bot.Ticker} UNSAVED</p>
-          {/if}
-        </div>
         <div class="col-sm-12 col-lg-8 settings-col">
+          <div class="row">
+            <div class="col-7">Ticker</div>
+            <div class="col-5 val-col">
+              {newTicker}
+            </div>
+            {#if newTicker !== bot.Ticker && newTicker !== null}
+              <p class="changeVal">=> {bot.Ticker} UNSAVED</p>
+            {/if}
+          </div>
           <div class="row">
             <div class="col-7">% of account to trade</div>
             <div class="col-5 val-col">
@@ -267,7 +267,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-1 col-md-2" />
+    <div class="col-sm-12 col-md-2" />
   </div>
   <hr />
 </div>
