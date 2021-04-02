@@ -142,7 +142,7 @@
         password: userLogin.password,
       })
       .then((res) => {
-        user.id = userLogin.email;
+        user.id = res.data.body;
         user.password = userLogin.password;
         //wait for fetch to complete before needed page reload
         getBots().then((res) => {
