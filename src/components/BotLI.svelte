@@ -15,6 +15,7 @@
 
   // component vars
   let loading = false;
+  let newTicker;
   let newRiskPerc;
   let newAccSizePerc;
   let newLeverage;
@@ -118,6 +119,7 @@
   };
 
   onMount(() => {
+    newTicker = bot.Ticker;
     newRiskPerc = bot.AccountRiskPercPerTrade;
     newAccSizePerc = bot.AccountSizePercToTrade;
     newLeverage = bot.Leverage;
@@ -160,11 +162,20 @@
             </p>
           </div>
         </div>
+        <div class="row">
+          <div class="col-7">Ticker</div>
+          <div class="col-5 val-col">
+            {newTicker}
+          </div>
+          {#if newTicker !== bot.Ticker && newTicker !== null}
+            <p class="changeVal">=> {bot.Ticker} UNSAVED</p>
+          {/if}
+        </div>
         <div class="col-sm-12 col-lg-8 settings-col">
           <div class="row">
             <div class="col-7">% of account to trade</div>
             <div class="col-5 val-col">
-              {bot.AccountSizePercToTrade}%
+              {newAccSizePerc}%
             </div>
             {#if parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) && newAccSizePerc !== null}
               <p class="changeVal">=> {bot.AccountSizePercToTrade}% UNSAVED</p>
@@ -173,7 +184,7 @@
           <div class="row">
             <div class="col-7">% of account risked per trade</div>
             <div class="col-5 val-col">
-              {bot.AccountRiskPercPerTrade}%
+              {newRiskPerc}%
             </div>
             {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
               <p class="changeVal">=> {bot.AccountRiskPercPerTrade}% UNSAVED</p>
@@ -182,7 +193,7 @@
           <div class="row">
             <div class="col-7">Leverage</div>
             <div class="col-5 val-col">
-              {bot.Leverage}x
+              {newLeverage}x
             </div>
             {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
               <p class="changeVal">=> {bot.Leverage}% UNSAVED</p>
@@ -209,6 +220,15 @@
           <hr />
           <!-- inputs -->
           <div class="form">
+            <div class="mb-3">
+              <label for="ticker" class="form-label">Ticker</label>
+              <input
+                type="text"
+                class="form-control"
+                id="ticker"
+                bind:value={bot.Ticker}
+              />
+            </div>
             <div class="mb-3">
               <label for="accSizePerc" class="form-label"
                 >% of account to trade</label
