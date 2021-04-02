@@ -36,36 +36,7 @@
     loading = true;
     bot.IsActive = !bot.IsActive;
 
-    let data = { ...bot };
-    delete data.WebhookURL;
-    data.IsActive = data.IsActive.toString();
-    delete data.AggregateID;
-    console.log(data);
-
-    const hds = {
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-      Authorization: "trader",
-    };
-    axios
-      .put(
-        "http://localhost:8000/bot/" +
-          bot.AggregateID +
-          "?user=5632499082330112",
-        data,
-        {
-          headers: hds,
-        }
-      )
-      .then((res) => {
-        loading = false;
-        console.log(res.status + " -- " + JSON.stringify(res.data));
-      })
-      .catch((error) => {
-        loading = false;
-        console.log(error.response);
-      });
+    updateBot();
   }
 
   //TEMP sample only
