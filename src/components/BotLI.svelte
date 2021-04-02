@@ -20,6 +20,7 @@
   let newLeverage;
   let active;
   let showSaveBtnAlert = "display: none;";
+  let updateErrorAlert = "display: none;";
 
   $: if (
     parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) ||
@@ -89,6 +90,7 @@
         }
       )
       .then((res) => {
+        //updating the local state
         let storeBots = [];
         user.bots.forEach((b) => {
           if (b.AggregateID === bot.AggregateID) {
@@ -101,9 +103,16 @@
         console.log(res.status + " -- " + JSON.stringify(res.data));
         storeUser.set(JSON.stringify(user));
         loading = false;
+
+        //resetting the current state
+        newRiskPerc = bot.AccountRiskPercPerTrade;
+        newAccSizePerc = bot.AccountSizePercToTrade;
+        newLeverage = bot.Leverage;
+        active = bot.IsActive;
       })
       .catch((error) => {
         console.log(error.response);
+        updateErrorAlert = "display: block;";
         loading = false;
       });
   };
@@ -144,6 +153,12 @@
                 : "Activate"}
             </button>
           </div>
+          <div style={updateErrorAlert}>
+            <p>
+              Something went wrong with the update. Please contact customer
+              service
+            </p>
+          </div>
         </div>
         <div class="col-sm-12 col-lg-8 settings-col">
           <div class="row">
@@ -152,7 +167,7 @@
               {bot.AccountSizePercToTrade}%
             </div>
             {#if parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) && newAccSizePerc !== null}
-              <p class="changeVal">=> {newAccSizePerc}% UNSAVED</p>
+              <p class="changeVal">=> {bot.AccountSizePercToTrade}% UNSAVED</p>
             {/if}
           </div>
           <div class="row">
@@ -161,7 +176,7 @@
               {bot.AccountRiskPercPerTrade}%
             </div>
             {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
-              <p class="changeVal">=> {newRiskPerc}% UNSAVED</p>
+              <p class="changeVal">=> {bot.AccountRiskPercPerTrade}% UNSAVED</p>
             {/if}
           </div>
           <div class="row">
@@ -170,7 +185,7 @@
               {bot.Leverage}x
             </div>
             {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
-              <p class="changeVal">=> {newLeverage}% UNSAVED</p>
+              <p class="changeVal">=> {bot.Leverage}% UNSAVED</p>
             {/if}
           </div>
           <button class="save-btn" style={showSaveBtnAlert} on:click={updateBot}
@@ -200,7 +215,7 @@
               >
               <input
                 type="number"
-                step=".1"
+                step=".01"
                 min="0"
                 class="form-control"
                 id="accSizePerc"
@@ -211,7 +226,7 @@
               <label for="riskPerc" class="form-label">Risk % per trade</label>
               <input
                 type="number"
-                step=".1"
+                step=".01"
                 min="0"
                 class="form-control"
                 id="riskPerc"
