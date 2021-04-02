@@ -239,51 +239,66 @@
           <hr />
           <!-- inputs -->
           <div class="form">
-            <div class="mb-3">
-              <label for={"ticker" + bot.WebhookURL} class="form-label"
-                >Ticker</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id={"ticker" + bot.WebhookURL}
-                bind:value={bot.Ticker}
-              />
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="mb-3">
+                  <label for={"ticker" + bot.WebhookURL} class="form-label"
+                    >Ticker</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id={"ticker" + bot.WebhookURL}
+                    bind:value={bot.Ticker}
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="mb-3">
+                  <label for="accSizePerc" class="form-label"
+                    >% of account to trade</label
+                  >
+                  <input
+                    type="number"
+                    step=".01"
+                    min="0"
+                    class="form-control"
+                    id="accSizePerc"
+                    bind:value={bot.AccountSizePercToTrade}
+                  />
+                </div>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="accSizePerc" class="form-label"
-                >% of account to trade</label
-              >
-              <input
-                type="number"
-                step=".01"
-                min="0"
-                class="form-control"
-                id="accSizePerc"
-                bind:value={bot.AccountSizePercToTrade}
-              />
-            </div>
-            <div class="mb-3">
-              <label for="riskPerc" class="form-label">Risk % per trade</label>
-              <input
-                type="number"
-                step=".01"
-                min="0"
-                class="form-control"
-                id="riskPerc"
-                bind:value={bot.AccountRiskPercPerTrade}
-              />
-            </div>
-            <div class="mb-3">
-              <label for="leverage" class="form-label">Leverage</label>
-              <input
-                type="number"
-                step="1"
-                min="0"
-                class="form-control"
-                id="leverage"
-                bind:value={bot.Leverage}
-              />
+
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="mb-3">
+                  <label for="riskPerc" class="form-label"
+                    >Risk % per trade</label
+                  >
+                  <input
+                    type="number"
+                    step=".01"
+                    min="0"
+                    class="form-control"
+                    id="riskPerc"
+                    bind:value={bot.AccountRiskPercPerTrade}
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="mb-3">
+                  <label for="leverage" class="form-label">Leverage</label>
+                  <input
+                    type="number"
+                    step="1"
+                    min="0"
+                    class="form-control"
+                    id="leverage"
+                    bind:value={bot.Leverage}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -308,10 +323,10 @@
     }
   }
 
-  div.main-box {
+  .main-box {
     border: $blue 3px solid;
     border-radius: 5px;
-    padding: 1.5rem;
+    padding: 2rem;
   }
 
   div.red {
