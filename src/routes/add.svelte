@@ -12,6 +12,7 @@
       user = JSON.parse(newValue);
     }
   });
+  let newTicker;
   let botName;
   let accSizePerc;
   let accRiskPerc;
@@ -57,6 +58,7 @@
         addedAlert = "display: block;";
         console.log(res.status + " -- " + JSON.stringify(res.data));
 
+        newTicker = "";
         botName = "";
         accSizePerc = 0;
         accRiskPerc = 0;
@@ -141,7 +143,7 @@
                 <!-- input below supposed to be a dropdown -->
                 <input
                   required="required"
-                  type="number"
+                  type="text"
                   class="form-control"
                   id="area"
                   placeholder="000000000"
