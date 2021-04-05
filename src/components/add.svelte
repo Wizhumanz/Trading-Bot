@@ -1,7 +1,7 @@
 <script>
   import axios from "axios";
   import { storeUser } from "../../store.js";
-  import LoadingIndicator from "../components/LoadingIndicator.svelte";
+  import LoadingIndicator from "./LoadingIndicator.svelte";
 
   let loading = false;
   let addedAlert = "display: none;";
