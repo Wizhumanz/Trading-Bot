@@ -3,30 +3,35 @@
   import { storeUser } from "../../store.js";
   import LoadingIndicator from "./LoadingIndicator.svelte";
 
+  //global variables
   let loading = false;
   let addedAlert = "display: none;";
-
-  let user = {};
-  storeUser.subscribe((newValue) => {
-    if (newValue) {
-      user = JSON.parse(newValue);
-    }
-  });
   let newTicker;
   let botName;
   let accSizePerc;
   let accRiskPerc;
   let leverage;
   let exchange;
+  let user = {};
 
+  storeUser.subscribe((newValue) => {
+    if (newValue) {
+      user = JSON.parse(newValue);
+    }
+  });
+  //helper functions
+  function reassignProperties() {
+    newTicker = "";
+    botName = "";
+    accSizePerc = 0;
+    accRiskPerc = 0;
+    leverage = 0;
+    exchange = "";
+  }
+
+  //handler functions
   function addBotHandler() {
     loading = true;
-    // TEMP FAKE CALL - delete when making actual API call
-    // setTimeout(() => {
-    //   loading = false;
-    // }, 1500);
-    // return;
-    // TEMP FAKE CALL
     const hds = {
       // "Content-Type": "application/json",
       Authorization: user.password,
@@ -59,12 +64,7 @@
         user.bots.push(data);
         storeUser.set(JSON.stringify(user));
 
-        newTicker = "";
-        botName = "";
-        accSizePerc = 0;
-        accRiskPerc = 0;
-        leverage = 0;
-        exchange = "";
+        reassignProperties();
 
         setTimeout(() => {
           addedAlert = "display: none;";
