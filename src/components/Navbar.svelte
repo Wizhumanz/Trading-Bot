@@ -2,10 +2,10 @@
   import { storeUser } from "../../store.js";
   import { goto } from "@sapper/app";
 
-  var id = storeUser ? storeUser.id : null;
+  var email = storeUser ? storeUser.email : null;
   storeUser.subscribe((newValue) => {
     if (newValue) {
-      id = JSON.parse(newValue) ? JSON.parse(newValue).id : null;
+      email = JSON.parse(newValue) ? JSON.parse(newValue).email : null;
     }
   });
 
@@ -38,9 +38,11 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <!-- svelte-ignore a11y-missing-attribute -->
-          <a class="nav-link disabled loggedInID" disabled>{id ? id : ""}</a>
+          <a class="nav-link disabled loggedInID" disabled
+            >{email ? email : ""}</a
+          >
         </li>
-        {#if !id}
+        {#if !email}
           <!-- <li class="nav-item">
             <a class="nav-link active" href="/">About</a>
           </li> -->
