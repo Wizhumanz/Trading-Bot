@@ -1,7 +1,7 @@
 <script>
   import { stores } from "@sapper/app";
   import { storeUser, currentPage } from "../../../store.js";
-  import AddBot from "../../components/add.svelte";
+  import AddBot from "../../components/AddBot.svelte";
   import BotLI from "../../components/BotLI.svelte";
   import LoadingIndicator from "../../components/LoadingIndicator.svelte";
 
