@@ -1,27 +1,30 @@
 <script>
   import { stores } from "@sapper/app";
-  import { storeUser, currentPage } from "../../store.js";
   import axios from "axios";
+  import { storeUser, currentPage } from "../../store.js";
 
   import AddExchange from "../components/AddExchange.svelte";
   import ExchangeLI from "../components/ExchangeLI.svelte";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
+  //global variables
   const { page } = stores();
+  var route;
+  let user = {};
+  let loading = false;
+
   page.subscribe(({ path, params, query }) => {
     route = params.slug;
     currentPage.set(route);
   });
-  var route;
-  let user = {};
+
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
     }
   });
 
-  let loading = false;
-  let exchanges = [];
+  //get request for ExchangeConnection
   const hds = {
     "Cache-Control": "no-cache",
     Pragma: "no-cache",
@@ -29,12 +32,11 @@
     Authorization: user.password,
   };
   axios
-    .get("https://ana-api.myika.co/exchanges" + "?user=5632499082330112", {
+    .get("https://ana-api.myika.co/exchanges" + "?user=" + user.id, {
       headers: hds,
     })
     .then((res) => {
-      exchanges = res.data;
-      user.exchanges = exchanges;
+      user.exchanges = res.data;
       storeUser.set(JSON.stringify(user));
 
       console.log(res.status + " -- " + JSON.stringify(res.data));
@@ -57,8 +59,8 @@
       <AddExchange />
     </div>
     <div class="col-sm-12 col-md-7">
-      {#if exchanges && exchanges.length > 0}
-        {#each exchanges as e}
+      {#if user.exchanges && user.exchanges.length > 0}
+        {#each user.exchanges as e}
           <ExchangeLI exchange={e} />
         {/each}
       {:else}

@@ -3,27 +3,22 @@
   import { storeUser } from "../../store.js";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
+  //global variables
   let loading = false;
   let addedAlert = "display: none;";
-
   let user = {};
+  let exchangeName;
+  let apiKey;
+
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
     }
   });
-  let exchangeName;
-  let apiKey;
 
   function addExchangeHandler() {
     loading = true;
-    // TEMP FAKE CALL - delete when making actual API call
-    // setTimeout(() => {
-    //   loading = false;
-    // }, 1500);
-    // return;
 
-    // TEMP FAKE CALL
     const hds = {
       // "Content-Type": "application/json",
       Authorization: user.password,

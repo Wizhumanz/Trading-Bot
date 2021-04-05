@@ -2,103 +2,30 @@
   import { storeUser } from "../../store.js";
   import axios from "axios";
 
-  // let user = {};
-  // storeUser.subscribe((newValue) => {
-  //   if (newValue) {
-  //     user = JSON.parse(newValue);
-  //   }
-  // });
+  let user = {};
+  storeUser.subscribe((newValue) => {
+    if (newValue) {
+      user = JSON.parse(newValue);
+    }
+  });
 
-  //MOCK
-  let user = {
-    id: "",
-    password: "",
-    bots: [
-      {
-        KEY: "5642368648740862",
-        Name: "FAKE EMA Cross",
-        AggregateID: "2",
-        UserID: "5632499082330111",
-        ExchangeConnection: "5634161670881280",
-        AccountRiskPercPerTrade: "1.7",
-        AccountSizePercToTrade: "32.5",
-        IsActive: "true",
-        IsArchived: "false",
-        Leverage: "17",
-        WebhookURL: "https://ana-api/webhook/chy781e3FAKE",
-      },
-      {
-        KEY: "5644004762845180",
-        Name: "FAKE Long Triple Pivot",
-        AggregateID: "1",
-        UserID: "5632499082330111",
-        ExchangeConnection: "5634161670881280",
-        AccountRiskPercPerTrade: "3.2",
-        AccountSizePercToTrade: "55",
-        IsActive: "true",
-        IsArchived: "false",
-        Leverage: "35",
-        WebhookURL: "https://ana-api/webhook/hu989ko3FAKE",
-      },
-      {
-        KEY: "5710353417633793",
-        Name: "FAKE H&S Play",
-        AggregateID: "0",
-        UserID: "5632499082330111",
-        ExchangeConnection: "5634161670881280",
-        AccountRiskPercPerTrade: "20",
-        AccountSizePercToTrade: "60",
-        IsActive: "false",
-        IsArchived: "false",
-        Leverage: "5",
-        WebhookURL: "https://ana-api/webhook/kmow894wFAKE",
-      },
-    ],
-    trades: [
-      {
-        KEY: "1732781787",
-        Action: "FAKEentryOrderSubmitted",
-        AggregateID: "1",
-        BotID: 0,
-        OrderType: 0,
-        Size: 1.69,
-        TimeStamp: "2021-03-23 05:53:18 +0800",
-      },
-      {
-        KEY: "1732333787",
-        Action: "FAKEentryOrderFilled",
-        AggregateID: "1",
-        BotID: 0,
-        OrderType: 0,
-        Size: 3.14,
-        TimeStamp: "2021-03-23 05:55:11 +0800",
-      },
-      {
-        KEY: "1732780917",
-        Action: "FAKEexitOrderSubmitted",
-        AggregateID: "1",
-        BotID: 0,
-        OrderType: 1,
-        Size: 1.11,
-        TimeStamp: "2021-03-23 05:59:14 +0000",
-      },
-    ],
-  };
+  //need this for some reason. Otherwise it gives an error
+  user.trades = [];
 
+  //get request for TradeAction/trade history
   const hds = {
     "Cache-Control": "no-cache",
     Pragma: "no-cache",
     Expires: "0",
-    Authorization: "trader",
+    Authorization: user.password,
   };
   axios
-    .get("https://ana-api.myika.co/trades" + "?user=5632499082330112", {
+    .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
       headers: hds,
     })
     .then((res) => {
       user.trades = res.data;
       console.log(res.status + " -- " + JSON.stringify(res.data));
-      console.log(res.data);
     })
     .catch((error) => {
       console.log(error.response);

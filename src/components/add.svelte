@@ -19,6 +19,7 @@
       user = JSON.parse(newValue);
     }
   });
+
   //helper functions
   function reassignProperties() {
     newTicker = "";
@@ -29,7 +30,7 @@
     exchange = "";
   }
 
-  //handler functions
+  //post request for Bot
   function addBotHandler() {
     loading = true;
     const hds = {

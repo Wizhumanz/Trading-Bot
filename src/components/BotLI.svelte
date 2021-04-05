@@ -1,19 +1,13 @@
 <script>
   import { onMount } from "svelte";
-  import { storeUser } from "../../store.js";
   import axios from "axios";
+  import { storeUser } from "../../store.js";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   export let bot;
 
+  // global variables
   let user = {};
-  storeUser.subscribe((newValue) => {
-    if (newValue) {
-      user = JSON.parse(newValue);
-    }
-  });
-
-  // component vars
   let loading = false;
   let newTicker;
   let newRiskPerc;
@@ -23,15 +17,31 @@
   let showSaveBtnAlert = "display: none;";
   let updateErrorAlert = "display: none;";
 
+  storeUser.subscribe((newValue) => {
+    if (newValue) {
+      user = JSON.parse(newValue);
+    }
+  });
+
+  //notification when values have been modified
   $: if (
     parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) ||
     parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) ||
-    parseFloat(newLeverage) !== parseFloat(bot.Leverage) ||
+    parseInt(newLeverage) !== parseInt(bot.Leverage) ||
     newTicker !== bot.Ticker
   ) {
     showSaveBtnAlert = "display: block;";
   } else {
     showSaveBtnAlert = "display: none;";
+  }
+
+  //helper function
+  function reassignProperties() {
+    newRiskPerc = bot.AccountRiskPercPerTrade;
+    newAccSizePerc = bot.AccountSizePercToTrade;
+    newLeverage = bot.Leverage;
+    newTicker = bot.Ticker;
+    active = bot.IsActive;
   }
 
   function copyText(e) {
@@ -45,18 +55,24 @@
       },
       true
     );
-
     document.execCommand("copy");
   }
 
+  onMount(() => {
+    newTicker = bot.Ticker;
+    newRiskPerc = bot.AccountRiskPercPerTrade;
+    newAccSizePerc = bot.AccountSizePercToTrade;
+    newLeverage = bot.Leverage;
+    active = bot.IsActive;
+  });
+
+  //post request for Bot
   function toggleBotStatus() {
     loading = true;
     bot.IsActive = !bot.IsActive;
-
     updateBot();
   }
 
-  //TEMP sample only
   const updateBot = () => {
     loading = true;
 
@@ -85,21 +101,16 @@
     data.AccountRiskPercPerTrade = data.AccountRiskPercPerTrade.toString();
     data.AccountSizePercToTrade = data.AccountSizePercToTrade.toString();
     data.Leverage = data.Leverage.toString();
-    console.log(bot);
-    console.log(data);
-    console.log(user.bots);
 
     const hds = {
       "Cache-Control": "no-cache",
       Pragma: "no-cache",
       Expires: "0",
-      Authorization: "trader",
+      Authorization: user.password,
     };
     axios
       .put(
-        "https://ana-api.myika.co/bot/" +
-          bot.AggregateID +
-          "?user=5632499082330112",
+        "https://ana-api.myika.co/bot/" + bot.AggregateID + "?user=" + user.id,
         data,
         {
           headers: hds,
@@ -120,11 +131,7 @@
         storeUser.set(JSON.stringify(user));
         loading = false;
 
-        //resetting the current state
-        newRiskPerc = bot.AccountRiskPercPerTrade;
-        newAccSizePerc = bot.AccountSizePercToTrade;
-        newLeverage = bot.Leverage;
-        active = bot.IsActive;
+        reassignProperties();
       })
       .catch((error) => {
         console.log(error.response);
@@ -132,14 +139,6 @@
         loading = false;
       });
   };
-
-  onMount(() => {
-    newTicker = bot.Ticker;
-    newRiskPerc = bot.AccountRiskPercPerTrade;
-    newAccSizePerc = bot.AccountSizePercToTrade;
-    newLeverage = bot.Leverage;
-    active = bot.IsActive;
-  });
 </script>
 
 {#if loading}

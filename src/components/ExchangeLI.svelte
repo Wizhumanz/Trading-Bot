@@ -1,26 +1,27 @@
 <script>
-  import { onMount } from "svelte";
-  import { storeUser } from "../../store.js";
   import axios from "axios";
+  import { storeUser } from "../../store.js";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   export let exchange;
 
+  //global variables
   let user = {};
+  let loading = false;
+  let exchangeBool = exchange.IsDeleted === "true" ? true : false;
+  let hideExchange = exchangeBool ? "display: none;" : "display: block;";
+
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
     }
   });
 
-  // component vars
-  let loading = false;
-  let exchangeBool = exchange.IsDeleted === "true" ? true : false;
-  let hideExchange = exchangeBool ? "display: none;" : "display: block;";
+  //handler functions
   function deleteExchange() {
-    console.log("delete");
     hideExchange = "display: none;";
     exchange.IsDeleted = "true";
+
     const hds = {
       "Cache-Control": "no-cache",
       Pragma: "no-cache",
@@ -31,12 +32,13 @@
       .delete(
         "https://ana-api.myika.co/exchange/" +
           exchange.KEY +
-          "?user=5632499082330112",
+          "?user=" +
+          user.id,
         {
           headers: hds,
         }
       )
-      .then((res) => {
+      .then(() => {
         let exchangesList = [];
         user.exchanges.forEach((e) => {
           if (e.KEY === exchange.KEY) {
@@ -180,8 +182,4 @@
   a {
     text-decoration: underline;
   }
-
-  // .active {
-  //   background-color: red;
-  // }
 </style>

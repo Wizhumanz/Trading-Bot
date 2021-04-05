@@ -3,6 +3,7 @@
   import { goto } from "@sapper/app";
 
   var email = storeUser ? storeUser.email : null;
+
   storeUser.subscribe((newValue) => {
     if (newValue) {
       email = JSON.parse(newValue) ? JSON.parse(newValue).email : null;

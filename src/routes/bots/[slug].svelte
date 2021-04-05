@@ -1,27 +1,26 @@
 <script>
   import { stores } from "@sapper/app";
   import { storeUser, currentPage } from "../../../store.js";
-
-  import axios from "axios";
-
-  import AddBot from "../add.svelte";
+  import AddBot from "../../components/add.svelte";
   import BotLI from "../../components/BotLI.svelte";
   import LoadingIndicator from "../../components/LoadingIndicator.svelte";
 
+  //global variables
   const { page } = stores();
+  var route;
+  let user = {};
+  let loading = false;
+
   page.subscribe(({ path, params, query }) => {
     route = params.slug;
     currentPage.set(route);
   });
-  var route;
-  let user = {};
+
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
     }
   });
-
-  let loading = false;
 </script>
 
 <!--Loading Sign-->

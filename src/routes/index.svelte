@@ -38,7 +38,6 @@
   //helper functions
   function getBots() {
     return new Promise((resolve, reject) => {
-      console.log(userLogin.password);
       //auth header
       const hds = {
         // "Content-Type": "application/json",
@@ -51,7 +50,7 @@
       //MUST replace all '+' with '%2B'
       // let GETUrl = basicURL.split("+").join("%2B");
       axios
-        .get("https://ana-api.myika.co/bots" + "?user=5632499082330112", {
+        .get("https://ana-api.myika.co/bots" + "?user=" + user.id, {
           headers: hds,
         })
         .then((res) => {
@@ -108,10 +107,6 @@
     <div class="row signIn">
       <div class="col-2" />
       <div class="col-8">
-        <p>
-          DEBUG NOTE: Just click Sign In button with empty inputs to mock sign
-          in.
-        </p>
         <!-- Sign In tab -->
         <div style={showAlert}>
           <p>Incorrect Login Details</p>
