@@ -5,93 +5,25 @@
   import axios from "axios";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
-  // global vars
+  //global variables
+  let showAlert = "display: none;"; //to display invalid auth msg
+  let loading = false;
+
   //only for user login
   let userLogin = {
     email: "",
     password: "",
   };
 
-  let showAlert = "display: none;"; //to display invalid auth msg
-  let loading = false;
-
+  //user properties
   let user = {
     id: "",
+    email: "",
     password: "",
-    bots: [
-      {
-        KEY: "5642368648740862",
-        Name: "FAKE EMA Cross",
-        AggregateID: "2",
-        UserID: "5632499082330111",
-        ExchangeConnection: "5634161670881280",
-        AccountRiskPercPerTrade: "1.7",
-        AccountSizePercToTrade: "32.5",
-        IsActive: "true",
-        IsArchived: "false",
-        Leverage: "17",
-        WebhookURL: "https://ana-api/webhook/chy781e3FAKE",
-      },
-      {
-        KEY: "5644004762845180",
-        Name: "FAKE Long Triple Pivot",
-        AggregateID: "1",
-        UserID: "5632499082330111",
-        ExchangeConnection: "5634161670881280",
-        AccountRiskPercPerTrade: "3.2",
-        AccountSizePercToTrade: "55",
-        IsActive: "true",
-        IsArchived: "false",
-        Leverage: "35",
-        WebhookURL: "https://ana-api/webhook/hu989ko3FAKE",
-      },
-      {
-        KEY: "5710353417633793",
-        Name: "FAKE H&S Play",
-        AggregateID: "0",
-        UserID: "5632499082330111",
-        ExchangeConnection: "5634161670881280",
-        AccountRiskPercPerTrade: "20",
-        AccountSizePercToTrade: "60",
-        IsActive: "false",
-        IsArchived: "false",
-        Leverage: "5",
-        WebhookURL: "https://ana-api/webhook/kmow894wFAKE",
-      },
-    ],
-    trades: [
-      {
-        Action: "FAKEentryOrderSubmitted",
-        AggregateID: "1",
-        BotID: 0,
-        OrderType: 0,
-        Size: 1.69,
-        TimeStamp: "2021-03-23 05:53:18 +0800",
-      },
-      {
-        Action: "FAKEentryOrderFilled",
-        AggregateID: "1",
-        BotID: 0,
-        OrderType: 0,
-        size: 3.14,
-        timeStamp: "2021-03-23 05:55:11 +0800",
-      },
-      {
-        Action: "FAKEexitOrderSubmitted",
-        AggregateID: "1",
-        BotID: 0,
-        OrderType: 1,
-        size: 1.11,
-        timeStamp: "2021-03-23 05:59:14 +0000",
-      },
-    ],
+    bots: [],
+    trades: [],
     exchanges: [],
   };
-  // storeUser.subscribe((newValue) => {
-  //   if (newValue) {
-  //     user = JSON.parse(newValue) ? JSON.parse(newValue) : null;
-  //   }
-  // });
 
   onMount(() => {
     //if user already logged in, go straight to all listings
@@ -103,6 +35,7 @@
     }
   });
 
+  //helper functions
   function getBots() {
     return new Promise((resolve, reject) => {
       console.log(userLogin.password);
@@ -128,6 +61,7 @@
     });
   }
 
+  //handler functions
   function signIn(e) {
     loading = true;
 
@@ -144,16 +78,17 @@
       })
       .then((res) => {
         user.id = res.data.body;
+        user.email = userLogin.email;
         user.password = userLogin.password;
         //wait for fetch to complete before needed page reload
         getBots().then((res) => {
           loading = false;
+          //assign properties to user
           user.bots = res;
           user.bots.reverse(); //to display most recent bots at top of list
           storeUser.set(JSON.stringify(user));
           loading = false;
           goto("/bots/all");
-          //document.location.reload();
         });
       })
       .catch((error) => {
