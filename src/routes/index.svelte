@@ -133,6 +133,7 @@
             />
           </div>
           <button type="submit">Sign In</button>
+          <a class="register" href="/register">Register</a>
         </form>
       </div>
       <div class="col-2" />
@@ -145,5 +146,12 @@
 
   div.row.signIn {
     margin-top: 1.5rem;
+  }
+
+  a.register {
+    color: $cream;
+    font-family: $title-font;
+    text-decoration: underline;
+    margin-left: 0.75rem;
   }
 </style>
