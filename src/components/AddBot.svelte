@@ -59,16 +59,9 @@
         headers: hds,
       })
       .then((res) => {
-        console.log("please");
         loading = false;
         addedAlert = "display: block;";
-        if (
-          typeof window !== "undefined" &&
-          user &&
-          user.bots &&
-          user.bots.length == 0
-        ) {
-          console.log("please work");
+        if (user.bots === null || user.bots === undefined) {
           user.bots = [data];
         } else {
           user.bots.push(data);

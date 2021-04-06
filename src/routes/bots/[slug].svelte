@@ -19,7 +19,6 @@
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
-      console.log("Subscribe" + user);
     }
   });
 </script>
