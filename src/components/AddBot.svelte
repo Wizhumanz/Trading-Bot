@@ -59,10 +59,20 @@
         headers: hds,
       })
       .then((res) => {
+        console.log("please");
         loading = false;
         addedAlert = "display: block;";
-        console.log(res.status + " -- " + JSON.stringify(res.data));
-        user.bots.push(data);
+        if (
+          typeof window !== "undefined" &&
+          user &&
+          user.bots &&
+          user.bots.length == 0
+        ) {
+          console.log("please work");
+          user.bots = [data];
+        } else {
+          user.bots.push(data);
+        }
         storeUser.set(JSON.stringify(user));
 
         reassignProperties();

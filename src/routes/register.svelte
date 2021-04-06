@@ -42,7 +42,7 @@
       //auth header
       const hds = {
         // "Content-Type": "application/json",
-        Authorization: userLogin.password,
+        Authorization: user.password,
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
         Expires: "0",
@@ -62,8 +62,14 @@
   }
 
   //handler functions
-  function signIn(e) {
+  function registerUser(e) {
     loading = true;
+
+    let newUser = {
+      name: userRegister.name,
+      email: userRegister.email,
+      password: userRegister.password,
+    };
 
     const hds = {
       "Cache-Control": "no-cache",
@@ -71,25 +77,17 @@
       Expires: "0",
     };
     axios
-      .post("https://ana-api.myika.co/login", {
+      .post("https://ana-api.myika.co/user", newUser, {
         headers: hds,
-        email: userLogin.email,
-        password: userLogin.password,
       })
       .then((res) => {
         user.id = res.data.body;
-        user.email = userLogin.email;
-        user.password = userLogin.password;
+        user.email = userRegister.email;
+        user.password = userRegister.password;
         //wait for fetch to complete before needed page reload
-        getBots().then((res) => {
-          loading = false;
-          //assign properties to user
-          user.bots = res;
-          user.bots.reverse(); //to display most recent bots at top of list
-          storeUser.set(JSON.stringify(user));
-          loading = false;
-          goto("/bots/all");
-        });
+        storeUser.set(JSON.stringify(user));
+        loading = false;
+        goto("/bots/all");
       })
       .catch((error) => {
         console.log(error.response);
@@ -113,7 +111,7 @@
         <div style={showAlert}>
           <p>Incorrect Login Details</p>
         </div>
-        <form class="form" on:submit|preventDefault={signIn}>
+        <form class="form" on:submit|preventDefault={registerUser}>
           <div class="mb-3">
             <label for="nameInput" class="form-label">Name</label>
             <input

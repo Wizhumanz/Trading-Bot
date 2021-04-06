@@ -84,7 +84,9 @@
           loading = false;
           //assign properties to user
           user.bots = res;
-          user.bots.reverse(); //to display most recent bots at top of list
+          if (user.bots !== null) {
+            user.bots.reverse(); //to display most recent bots at top of list
+          }
           storeUser.set(JSON.stringify(user));
           loading = false;
           goto("/bots/all");
