@@ -27,11 +27,11 @@
   };
 
   onMount(() => {
-    //if user already logged in, go straight to all listings
+    //if user already logged in, go straight to active bots
     user = storeUser;
     if (user.bots && user.bots.length > 0) {
       if (typeof window !== "undefined") {
-        goto("/bots/all");
+        goto("/bots/active");
       }
     }
   });
@@ -87,7 +87,7 @@
         //wait for fetch to complete before needed page reload
         storeUser.set(JSON.stringify(user));
         loading = false;
-        goto("/bots/all");
+        goto("/bots/active");
       })
       .catch((error) => {
         console.log(error.response);
