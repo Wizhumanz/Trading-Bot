@@ -8,6 +8,7 @@
   let addedAlert = "display: none;";
   let newTicker;
   let botName;
+  let strategySelect;
   let accSizePerc;
   let accRiskPerc;
   let leverage;
@@ -114,6 +115,20 @@
               bind:value={newTicker}
             />
           </div>
+          <div class="mb-3">
+            <label for="webhookConn" class="form-label">Strategy</label>
+            <select
+              id="webhookConn"
+              class="form-select dark"
+              bind:value={strategySelect}
+            >
+              <!-- TODO: use #each to fill these options based on GET req -->
+              <option value="17873882380">Public Strategy A</option>
+              <option value="17873856112">Public Strategy B</option>
+              <!-- keep this option outside #each to allow custom strategy definition -->
+              <option value="custom">Create my own webhook URL</option>
+            </select>
+          </div>
           <div class="row">
             <div class="col-6">
               <div class="mb-3">
@@ -206,6 +221,12 @@
     font-family: $body-font;
     background-color: $ivory;
     border: $blood 1px dashed;
+  }
+
+  select.dark {
+    background-color: black;
+    color: $cream;
+    border: $blood 2px dashed;
   }
 
   .form-check {
