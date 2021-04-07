@@ -13,6 +13,7 @@
   let accRiskPerc;
   let leverage;
   let exchange;
+  let customWebhookID;
   let user = {};
 
   storeUser.subscribe((newValue) => {
@@ -20,8 +21,6 @@
       user = JSON.parse(newValue);
     }
   });
-
-  user.webhooks = [];
 
   //helper functions
   function reassignProperties() {
@@ -31,6 +30,31 @@
     accRiskPerc = 0;
     leverage = 0;
     exchange = "";
+  }
+
+  function createNewWebhookConnection() {
+    return new Promise((resolve, reject) => {
+      const hds = {
+        // "Content-Type": "application/json",
+        Authorization: user.password,
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      };
+      axios
+        .post("http://localhost:8000/addwebhook" + "?user=" + user.id, {
+          headers: hds,
+        })
+        .then((res) => {
+          console.log(res.data.body);
+          customWebhookID = res.data.body;
+          storeUser.set(JSON.stringify(user));
+          resolve(res.data.body);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    });
   }
 
   //post request for Bot
@@ -58,33 +82,63 @@
       WebhookConnectionID: strategySelect,
     };
 
-    axios
-      .post("http://localhost:8000/bot", data, {
-        headers: hds,
-      })
-      .then((res) => {
-        loading = false;
-        addedAlert = "display: block;";
-        if (user.bots === null || user.bots === undefined) {
-          user.bots = [data];
-        } else {
-          user.bots.push(data);
-        }
-        storeUser.set(JSON.stringify(user));
+    if (strategySelect !== "custom") {
+      axios
+        .post("http://localhost:8000/bot", data, {
+          headers: hds,
+        })
+        .then(() => {
+          loading = false;
+          addedAlert = "display: block;";
+          if (user.bots === null || user.bots === undefined) {
+            user.bots = [data];
+          } else {
+            user.bots.push(data);
+          }
 
-        reassignProperties();
+          storeUser.set(JSON.stringify(user));
 
-        setTimeout(() => {
-          addedAlert = "display: none;";
-        }, 7000);
-      })
-      .catch((error) => {
-        loading = false;
-        console.log(error.response);
+          reassignProperties();
+
+          setTimeout(() => {
+            addedAlert = "display: none;";
+          }, 7000);
+        })
+        .catch((error) => {
+          loading = false;
+          console.log(error.response);
+        });
+    } else {
+      createNewWebhookConnection().then((res) => {
+        data.WebhookConnectionID = customWebhookID;
+        axios
+          .post("http://localhost:8000/bot", data, {
+            headers: hds,
+          })
+          .then(() => {
+            loading = false;
+            addedAlert = "display: block;";
+            if (user.bots === null || user.bots === undefined) {
+              user.bots = [data];
+            } else {
+              user.bots.push(data);
+            }
+
+            storeUser.set(JSON.stringify(user));
+
+            reassignProperties();
+
+            setTimeout(() => {
+              addedAlert = "display: none;";
+            }, 7000);
+          })
+          .catch((error) => {
+            loading = false;
+            console.log(error.response);
+          });
       });
+    }
   }
-
-  //function createNewWebhookConnection() {}
 </script>
 
 <!--Loading Sign-->
