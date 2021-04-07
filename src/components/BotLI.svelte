@@ -17,6 +17,14 @@
   let webhookURL;
   let showSaveBtnAlert = "display: none;";
   let updateErrorAlert = "display: none;";
+  let showConfirm = false;
+  let showConfirmBtn;
+
+  $: if (showConfirm) {
+    showConfirmBtn = "display: block;";
+  } else {
+    showConfirmBtn = "display: none;";
+  }
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -24,11 +32,13 @@
     }
   });
 
+  //if (user !== undefined && user.webhooks !== undefined) {
   user.webhooks.forEach((w) => {
     if (w.KEY === bot.WebhookConnectionID) {
       webhookURL = w.URL;
     }
   });
+  //}
 
   //notification when values have been modified
   $: if (
@@ -146,6 +156,38 @@
         loading = false;
       });
   };
+
+  function deleteBot() {
+    loading = true;
+    const hds = {
+      //"Content-Type": "application/json",
+      Authorization: user.password,
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
+    axios
+      .delete("http://localhost:8000/bot/" + bot.KEY + "?user=" + user.id, {
+        headers: hds,
+      })
+      .then(() => {
+        loading = false;
+
+        let storeBots = [];
+        user.bots.forEach((b) => {
+          if (b.KEY !== bot.KEY) {
+            storeBots.push(b);
+          }
+        });
+
+        user.bots = storeBots;
+        storeUser.set(JSON.stringify(user));
+        document.location.reload();
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
 </script>
 
 {#if loading}
@@ -309,12 +351,23 @@
             </div>
           </div>
         </div>
-        <button class="del-btn">
+        <button
+          class="del-btn"
+          on:click={() => {
+            showConfirm = !showConfirm;
+          }}
+        >
           <i class="bi bi-exclamation-triangle" />
           DELETE
           <i class="bi bi-exclamation-triangle" /></button
         >
-        <button class="del-btn-confirm"> CONFIRM </button>
+        <button
+          style={showConfirmBtn}
+          class="del-btn-confirm"
+          on:click={deleteBot}
+        >
+          CONFIRM
+        </button>
       </div>
     </div>
     <div class="col-sm-12 col-md-2" />
