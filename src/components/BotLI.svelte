@@ -302,6 +302,12 @@
             </div>
           </div>
         </div>
+        <button class="del-btn">
+          <i class="bi bi-exclamation-triangle" />
+          DELETE
+          <i class="bi bi-exclamation-triangle" /></button
+        >
+        <button class="del-btn-confirm"> CONFIRM </button>
       </div>
     </div>
     <div class="col-sm-12 col-md-2" />
@@ -411,5 +417,21 @@
 
   .urlDisplay {
     overflow: hidden;
+  }
+
+  button.del-btn {
+    color: $blood;
+
+    i {
+      background-color: $cream;
+      color: black;
+    }
+  }
+
+  button.del-btn-confirm {
+    margin-bottom: -0.5rem;
+    color: $cream;
+    background-color: $blood;
+    border-color: $blood;
   }
 </style>
