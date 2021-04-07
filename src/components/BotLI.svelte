@@ -14,12 +14,19 @@
   let newAccSizePerc;
   let newLeverage;
   let active;
+  let webhookURL;
   let showSaveBtnAlert = "display: none;";
   let updateErrorAlert = "display: none;";
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
+    }
+  });
+
+  user.webhooks.forEach((w) => {
+    if (w.KEY === bot.WebhookConnectionID) {
+      webhookURL = w.URL;
     }
   });
 
@@ -231,7 +238,7 @@
                 <a
                   on:click={copyText}
                   data-toggle="tooltip"
-                  title="Copy to Clipboard">{bot.WebhookURL}</a
+                  title="Copy to Clipboard">{webhookURL}</a
                 >
               </div>
             </div>

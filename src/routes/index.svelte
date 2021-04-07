@@ -23,6 +23,7 @@
     bots: [],
     trades: [],
     exchanges: [],
+    webhooks: [],
   };
 
   onMount(() => {

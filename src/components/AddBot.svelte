@@ -21,6 +21,8 @@
     }
   });
 
+  user.webhooks = [];
+
   //helper functions
   function reassignProperties() {
     newTicker = "";
@@ -53,10 +55,11 @@
       IsArchived: "false",
       Leverage: leverage.toString(),
       Ticker: newTicker,
+      WebhookConnectionID: strategySelect,
     };
 
     axios
-      .post("https://ana-api.myika.co/bot", data, {
+      .post("http://localhost:8000/bot", data, {
         headers: hds,
       })
       .then((res) => {
@@ -80,6 +83,32 @@
         console.log(error.response);
       });
   }
+
+  //function createNewWebhookConnection() {}
+
+  //function deleteBot() {}
+
+  function getAllWebhookConnections() {
+    // get all webhook connections
+    const hds = {
+      //"Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
+    axios
+      .get("http://localhost:8000/webhook", {
+        headers: hds,
+      })
+      .then((res) => {
+        user.webhooks = res.data;
+        storeUser.set(JSON.stringify(user));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+  getAllWebhookConnections();
 </script>
 
 <!--Loading Sign-->
@@ -123,8 +152,9 @@
               bind:value={strategySelect}
             >
               <!-- TODO: use #each to fill these options based on GET req -->
-              <option value="17873882380">Public Strategy A</option>
-              <option value="17873856112">Public Strategy B</option>
+              {#each user.webhooks as w}
+                <option value={w.KEY}>{w.Name}</option>
+              {/each}
               <!-- keep this option outside #each to allow custom strategy definition -->
               <option value="custom">Create my own webhook URL</option>
             </select>
