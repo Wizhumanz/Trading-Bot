@@ -202,7 +202,7 @@
               bind:value={userLogin.password}
             />
           </div>
-          <button type="submit">Sign In</button>
+          <button type="submit" id="signInBtn">Sign In</button>
           <a class="register" href="/register">Register</a>
         </form>
       </div>
