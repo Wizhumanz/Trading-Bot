@@ -5,7 +5,6 @@ module.exports = {
     launchTimeout: 20000,
   },
   launch: {
-    headless: false,
-    slowMo: 250,
+    headless: true,
   },
 }
