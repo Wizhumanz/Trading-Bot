@@ -182,7 +182,7 @@
       Expires: "0",
     };
     axios
-      .delete("http://localhost:8000/bot/" + bot.KEY + "?user=" + user.id, {
+      .delete("https://ana-api.myika.co/bot/" + bot.KEY + "?user=" + user.id, {
         headers: hds,
         mode: "cors",
       })
@@ -234,7 +234,7 @@
         }
       });
 
-      let reqURL = "http://localhost:8000/webhook?ids=" + webhookURL;
+      let reqURL = "https://ana-api.myika.co/webhook?ids=" + webhookURL;
       axios
         .get(reqURL, {
           headers: hds,

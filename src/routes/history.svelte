@@ -33,7 +33,7 @@
       console.log(error.response);
     });
 
-  // const testURL = "http://localhost:8000/trades" + "?user=" + user.id;
+  // const testURL = "https://ana-api.myika.co/trades" + "?user=" + user.id;
   // const myInit = {
   //   method: "GET",
   //   mode: "cors",

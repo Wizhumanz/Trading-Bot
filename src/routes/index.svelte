@@ -72,7 +72,7 @@
       Expires: "0",
     };
     axios
-      .get("http://localhost:8000/webhooks", {
+      .get("https://ana-api.myika.co/webhooks", {
         headers: hds,
         mode: "cors",
       })
