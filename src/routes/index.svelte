@@ -24,6 +24,7 @@
     trades: [],
     exchanges: [],
     webhooks: [],
+    webhookPrivate: [],
   };
 
   onMount(() => {
@@ -108,7 +109,7 @@
       Expires: "0",
     };
     axios
-      .get("http://localhost:8000/webhook", {
+      .get("http://localhost:8000/webhooks", {
         headers: hds,
       })
       .then((res) => {
@@ -120,6 +121,51 @@
       });
   }
   getAllWebhookConnections();
+
+  function getWebhookConnection() {
+    const hds = {
+      //"Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
+
+    let webhookArrPublic = [];
+    user.webhooks.forEach((w) => {
+      webhookArrPublic.push(w.KEY);
+    });
+    console.log(user.webhooks);
+
+    let webhookArr = [];
+    user.bots.forEach((w) => {
+      console.log(w.WebhookConnectionID);
+      if (!webhookArrPublic.includes(w.WebhookConnectionID)) {
+        webhookArr.push(w.WebhookConnectionID);
+      }
+    });
+
+    let webhookURL = "";
+    webhookArr.forEach((w) => {
+      webhookURL = webhookURL + "+" + w;
+    });
+    webhookURL = webhookURL.substring(1);
+
+    console.log(webhookURL);
+
+    axios
+      .get("http://localhost:8000/webhook?ids=" + webhookURL, {
+        headers: hds,
+      })
+      .then((res) => {
+        console.log(res.data);
+        user.webhookPrivate = res.data;
+        storeUser.set(JSON.stringify(user));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+  getWebhookConnection();
 </script>
 
 <main>

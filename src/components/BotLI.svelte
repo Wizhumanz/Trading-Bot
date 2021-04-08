@@ -33,8 +33,11 @@
   });
 
   //if (user !== undefined && user.webhooks !== undefined) {
+  console.log(user.webhookPrivate);
   user.webhooks.forEach((w) => {
     if (w.KEY === bot.WebhookConnectionID) {
+      webhookURL = w.Name;
+    } else if (user.webhookURL && w.KEY === user.webhookPrivate.KEY) {
       webhookURL = w.URL;
     }
   });
@@ -188,28 +191,6 @@
         console.log(error.response);
       });
   }
-
-  function getAllWebhookConnections() {
-    // get all webhook connections
-    const hds = {
-      //"Content-Type": "application/json",
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-    };
-    axios
-      .get("http://localhost:8000/webhook", {
-        headers: hds,
-      })
-      .then((res) => {
-        user.webhooks = res.data;
-        storeUser.set(JSON.stringify(user));
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  }
-  getAllWebhookConnections();
 </script>
 
 {#if loading}
@@ -296,7 +277,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-7">Webhook URL</div>
+              <div class="col-7">Webhook</div>
               <div class="col-5 lowkey-val-col urlDisplay">
                 <!-- svelte-ignore a11y-missing-attribute -->
                 <a
