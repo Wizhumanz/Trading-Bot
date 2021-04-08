@@ -22,6 +22,7 @@ test:
     - master
   image: $IMAGE
   script:
+    - npm install
     - npm run test
 
 deploy:
