@@ -16,13 +16,13 @@ variables:
 #     - npm install
 #     - npm run-script build
 
-# frontend-test:
-#   stage: test
-#   only:
-#     - master
-#   image: $IMAGE
-#   script:
-#     - npm run test
+test:
+  stage: test
+  only:
+    - master
+  image: $IMAGE
+  script:
+    - npm run test
 
 deploy:
   stage: deploy

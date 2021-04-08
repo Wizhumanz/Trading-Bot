@@ -14,11 +14,11 @@ page.on('request', request => {
 
   if (request.url() === 'https://ana-api.myika.co/login') {
     console.log("Intercepting")
-    request.respond({
-      content: 'application/json',
-      body: JSON.stringify(mockLoginResp),
-      status: 200,
-    })
+    // request.respond({
+    //   content: 'application/json',
+    //   body: JSON.stringify(mockLoginResp),
+    //   status: 200,
+    // })
   } else request.continue()
 })
 
@@ -53,8 +53,8 @@ describe("Login page", () => {
       expect(page).toMatch("Active Bots")
       expect(page).toMatch("Leverage")
       done()
-    }, 7000)
-  }, 13000)
+    }, 9000)
+  }, 35000)
 });
 
 // it("checking All Listings page", async () => {
