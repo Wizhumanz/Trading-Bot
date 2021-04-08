@@ -13,7 +13,9 @@
   let accRiskPerc;
   let leverage;
   let exchange;
+  let customWebhookID;
   let user = {};
+  user.publicWebhookConns = [];
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -29,6 +31,29 @@
     accRiskPerc = 0;
     leverage = 0;
     exchange = "";
+  }
+
+  function createNewWebhookConnection() {
+    return new Promise((resolve, reject) => {
+      const hds = {
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+        Authorization: user.password,
+      };
+      axios
+        .post("http://localhost:8000/addwebhook" + "?user=" + user.id, null, {
+          headers: hds,
+        })
+        .then((res) => {
+          customWebhookID = res.data.body;
+          storeUser.set(JSON.stringify(user));
+          resolve(res.data.body);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    });
   }
 
   //post request for Bot
@@ -53,32 +78,65 @@
       IsArchived: "false",
       Leverage: leverage.toString(),
       Ticker: newTicker,
+      WebhookConnectionID: strategySelect,
     };
 
-    axios
-      .post("https://ana-api.myika.co/bot", data, {
-        headers: hds,
-      })
-      .then((res) => {
-        loading = false;
-        addedAlert = "display: block;";
-        if (user.bots === null || user.bots === undefined) {
-          user.bots = [data];
-        } else {
-          user.bots.push(data);
-        }
-        storeUser.set(JSON.stringify(user));
+    if (strategySelect !== "custom") {
+      axios
+        .post("http://localhost:8000/bot", data, {
+          headers: hds,
+        })
+        .then(() => {
+          loading = false;
+          addedAlert = "display: block;";
+          if (user.bots === null || user.bots === undefined) {
+            user.bots = [data];
+          } else {
+            user.bots.push(data);
+          }
 
-        reassignProperties();
+          storeUser.set(JSON.stringify(user));
 
-        setTimeout(() => {
-          addedAlert = "display: none;";
-        }, 7000);
-      })
-      .catch((error) => {
-        loading = false;
-        console.log(error.response);
+          reassignProperties();
+
+          setTimeout(() => {
+            addedAlert = "display: none;";
+          }, 7000);
+        })
+        .catch((error) => {
+          loading = false;
+          console.log(error.response);
+        });
+    } else {
+      createNewWebhookConnection().then((res) => {
+        data.WebhookConnectionID = customWebhookID;
+        axios
+          .post("http://localhost:8000/bot", data, {
+            headers: hds,
+          })
+          .then(() => {
+            loading = false;
+            addedAlert = "display: block;";
+            if (user.bots === null || user.bots === undefined) {
+              user.bots = [data];
+            } else {
+              user.bots.push(data);
+            }
+
+            storeUser.set(JSON.stringify(user));
+
+            reassignProperties();
+
+            setTimeout(() => {
+              addedAlert = "display: none;";
+            }, 7000);
+          })
+          .catch((error) => {
+            loading = false;
+            console.log(error.response);
+          });
       });
+    }
   }
 </script>
 
@@ -122,9 +180,11 @@
               class="form-select dark"
               bind:value={strategySelect}
             >
-              <!-- TODO: use #each to fill these options based on GET req -->
-              <option value="17873882380">Public Strategy A</option>
-              <option value="17873856112">Public Strategy B</option>
+              {#if user.publicWebhookConns}
+                {#each user.publicWebhookConns as w}
+                  <option value={w.KEY}>{w.Name}</option>
+                {/each}
+              {/if}
               <!-- keep this option outside #each to allow custom strategy definition -->
               <option value="custom">Create my own webhook URL</option>
             </select>
