@@ -99,7 +99,6 @@
         showAlert = "display: block;";
       });
   }
-
   function getAllWebhookConnections() {
     // get all webhook connections
     const hds = {

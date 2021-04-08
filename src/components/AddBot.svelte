@@ -35,18 +35,16 @@
   function createNewWebhookConnection() {
     return new Promise((resolve, reject) => {
       const hds = {
-        // "Content-Type": "application/json",
-        Authorization: user.password,
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
         Expires: "0",
+        Authorization: user.password,
       };
       axios
-        .post("http://localhost:8000/addwebhook" + "?user=" + user.id, {
+        .post("http://localhost:8000/addwebhook" + "?user=" + user.id, null, {
           headers: hds,
         })
         .then((res) => {
-          console.log(res.data.body);
           customWebhookID = res.data.body;
           storeUser.set(JSON.stringify(user));
           resolve(res.data.body);

@@ -188,6 +188,28 @@
         console.log(error.response);
       });
   }
+
+  function getAllWebhookConnections() {
+    // get all webhook connections
+    const hds = {
+      //"Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
+    axios
+      .get("http://localhost:8000/webhook", {
+        headers: hds,
+      })
+      .then((res) => {
+        user.webhooks = res.data;
+        storeUser.set(JSON.stringify(user));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+  getAllWebhookConnections();
 </script>
 
 {#if loading}
