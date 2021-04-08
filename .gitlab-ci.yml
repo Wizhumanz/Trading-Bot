@@ -11,14 +11,12 @@ cache:
   paths:
     - node_modules/
 
-# frontend-build:
-#   stage: build
-#   only:
-#     - master
-#   image: $IMAGE
-#   script:
-#     - npm install
-#     - npm run-script build
+frontend-build:
+  stage: build
+  image: $IMAGE
+  script:
+    - npm install
+    - npm run-script build
 
 # test:
 #   stage: test
