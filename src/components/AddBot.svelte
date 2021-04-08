@@ -14,7 +14,7 @@
   let leverage;
   let exchange;
   let customWebhookID;
-  let user = {};
+  let user = { publicWebhookConns: [] };
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -179,8 +179,7 @@
               class="form-select dark"
               bind:value={strategySelect}
             >
-              <!-- TODO: use #each to fill these options based on GET req -->
-              {#each user.webhooks as w}
+              {#each user.publicWebhookConns as w}
                 <option value={w.KEY}>{w.Name}</option>
               {/each}
               <!-- keep this option outside #each to allow custom strategy definition -->
