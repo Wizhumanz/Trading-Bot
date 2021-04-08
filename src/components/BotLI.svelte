@@ -44,8 +44,6 @@
               let priv = user.privateWebhookConns.find(
                 (element) => element.KEY === bot.WebhookConnectionID
               );
-              console.log(user.privateWebhookConns);
-              console.log(priv);
               webhookDisplayData = priv.URL;
             }
           });
@@ -126,8 +124,8 @@
     // }
 
     let data = { ...bot };
+    console.log(data);
     delete data.AggregateID;
-    delete data.WebhookURL;
     data.IsActive = data.IsActive.toString();
     data.AccountRiskPercPerTrade = data.AccountRiskPercPerTrade.toString();
     data.AccountSizePercToTrade = data.AccountSizePercToTrade.toString();
@@ -360,7 +358,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    id={"ticker" + bot.WebhookURL}
+                    id={"ticker" + bot.WebhookConnectionID}
                     bind:value={bot.Ticker}
                   />
                 </div>

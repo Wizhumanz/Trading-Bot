@@ -78,7 +78,6 @@
       })
       .then((res) => {
         user.publicWebhookConns = res.data;
-        console.log(user.publicWebhookConns);
         storeUser.set(JSON.stringify(user));
       })
       .catch((error) => {
@@ -114,6 +113,7 @@
           if (user.bots !== null) {
             user.bots.reverse(); //to display most recent bots at top of list
           }
+
           storeUser.set(JSON.stringify(user));
           loading = false;
           goto("/bots/active");
