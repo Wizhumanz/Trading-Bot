@@ -5,26 +5,24 @@ stages:
 
 variables:
   IMAGE: node:lts-alpine3.13
-  GCLOUD_PROJECT_ID: # TODO set ID, add gcloud key to env var gitlab
+  GCLOUD_PROJECT_ID: "myika-anastasia"
 
-# FRONTEND
+# frontend-build:
+#   stage: build
+#   only:
+#     - master
+#   image: $IMAGE
+#   script:
+#     - npm install
+#     - npm run-script build
 
-frontend-build:
-  stage: build
-  only:
-    - master
-  image: $IMAGE
-  script:
-    - npm install
-    - npm run-script build
-
-frontend-test:
-  stage: test
-  only:
-    - master
-  image: $IMAGE
-  script:
-    - npm run test
+# frontend-test:
+#   stage: test
+#   only:
+#     - master
+#   image: $IMAGE
+#   script:
+#     - npm run test
 
 deploy:
   stage: deploy
@@ -35,4 +33,4 @@ deploy:
     - gcloud auth activate-service-account --key-file=$GCLOUD_KEY
     - gcloud config set project $GCLOUD_PROJECT_ID
     - gcloud builds submit --tag gcr.io/$GCLOUD_PROJECT_ID/console-$CI_COMMIT_SHORT_SHA
-    - gcloud beta run deploy relm-app --image gcr.io/$GCLOUD_PROJECT_ID/console-$CI_COMMIT_SHORT_SHA --port 3000 --platform managed --min-instances 0 --max-instances 3 --allow-unauthenticated --region asia-southeast1 --memory 128Mi --cpu 1 --concurrency 5 --timeout 3000
+    - gcloud beta run deploy relm-app --image gcr.io/$GCLOUD_PROJECT_ID/console-$CI_COMMIT_SHORT_SHA --port 3000 --platform managed --min-instances 0 --allow-unauthenticated --region asia-southeast1 --memory 128Mi --cpu 1 --concurrency 20
