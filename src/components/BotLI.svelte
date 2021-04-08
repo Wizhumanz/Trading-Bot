@@ -32,16 +32,15 @@
     }
   });
 
-  //if (user !== undefined && user.webhooks !== undefined) {
-  console.log(user.webhookPrivate);
-  user.webhooks.forEach((w) => {
-    if (w.KEY === bot.WebhookConnectionID) {
-      webhookURL = w.Name;
-    } else if (user.webhookURL && w.KEY === user.webhookPrivate.KEY) {
-      webhookURL = w.URL;
-    }
-  });
-  //}
+  // if (user !== undefined && user.publicWebhookConns !== undefined) {
+  //   user.publicWebhookConns.forEach((w) => {
+  //     if (w.KEY === bot.WebhookConnectionID) {
+  //       webhookURL = w.Name;
+  //     } else if (user.webhookURL && w.KEY === user.privateWebhookConns.KEY) {
+  //       webhookURL = w.URL;
+  //     }
+  //   });
+  // }
 
   //notification when values have been modified
   $: if (
@@ -204,6 +203,7 @@
       <div class="row">
         <div class="col-sm-12 col-lg-4">
           <h4>{bot.Name}</h4>
+          <p>{bot.KEY}</p>
           <div class="red">
             {#if bot.IsActive === "true" || bot.IsActive === true}
               <p>ACTIVE</p>

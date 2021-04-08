@@ -23,8 +23,8 @@
     bots: [],
     trades: [],
     exchanges: [],
-    webhooks: [],
-    webhookPrivate: [],
+    publicWebhookConns: [],
+    privateWebhookConns: [],
   };
 
   onMount(() => {
@@ -62,6 +62,72 @@
     });
   }
 
+  function getPrivateWebhooksInfo() {
+    const hds = {
+      //"Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
+
+    //get ids of private WebhookConnections
+    let privateIDs = [];
+    user.bots.forEach((bot) => {
+      //if webhookConnID of bot isn't found in public webhooks array, must fetch
+      let found = user.publicWebhookConns.find(
+        (element) => element.KEY == bot.WebhookConnectionID
+      );
+      if (!found) {
+        privateIDs.push(bot.WebhookConnectionID);
+      }
+    });
+
+    //build query string with all IDs
+    let webhookURL = privateIDs[0];
+    privateIDs.forEach((id, index) => {
+      if (index != 0) {
+        webhookURL = webhookURL + "+" + id;
+      }
+    });
+
+    let reqURL = "http://localhost:8000/webhook?ids=" + webhookURL;
+    axios
+      .get(reqURL, {
+        headers: hds,
+      })
+      .then((res) => {
+        console.log("get private URLs res ");
+        user.privateWebhookConns = res.data;
+        storeUser.set(JSON.stringify(user));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+
+  function getAllWebhookConnections() {
+    // get all webhook connections
+    const hds = {
+      //"Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
+    axios
+      .get("http://localhost:8000/webhooks", {
+        headers: hds,
+      })
+      .then((res) => {
+        user.publicWebhookConns = res.data;
+        console.log(user.publicWebhookConns);
+        storeUser.set(JSON.stringify(user));
+        getPrivateWebhooksInfo();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   //handler functions
   function signIn(e) {
     loading = true;
@@ -92,6 +158,7 @@
           storeUser.set(JSON.stringify(user));
           loading = false;
           goto("/bots/active");
+          getAllWebhookConnections();
         });
       })
       .catch((error) => {
@@ -100,72 +167,6 @@
         showAlert = "display: block;";
       });
   }
-  function getAllWebhookConnections() {
-    // get all webhook connections
-    const hds = {
-      //"Content-Type": "application/json",
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-    };
-    axios
-      .get("http://localhost:8000/webhooks", {
-        headers: hds,
-      })
-      .then((res) => {
-        user.webhooks = res.data;
-        storeUser.set(JSON.stringify(user));
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  }
-  getAllWebhookConnections();
-
-  function getWebhookConnection() {
-    const hds = {
-      //"Content-Type": "application/json",
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-    };
-
-    let webhookArrPublic = [];
-    user.webhooks.forEach((w) => {
-      webhookArrPublic.push(w.KEY);
-    });
-    console.log(user.webhooks);
-
-    let webhookArr = [];
-    user.bots.forEach((w) => {
-      console.log(w.WebhookConnectionID);
-      if (!webhookArrPublic.includes(w.WebhookConnectionID)) {
-        webhookArr.push(w.WebhookConnectionID);
-      }
-    });
-
-    let webhookURL = "";
-    webhookArr.forEach((w) => {
-      webhookURL = webhookURL + "+" + w;
-    });
-    webhookURL = webhookURL.substring(1);
-
-    console.log(webhookURL);
-
-    axios
-      .get("http://localhost:8000/webhook?ids=" + webhookURL, {
-        headers: hds,
-      })
-      .then((res) => {
-        console.log(res.data);
-        user.webhookPrivate = res.data;
-        storeUser.set(JSON.stringify(user));
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  }
-  getWebhookConnection();
 </script>
 
 <main>
