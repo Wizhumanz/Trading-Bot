@@ -53,6 +53,7 @@
       axios
         .get("https://ana-api.myika.co/bots" + "?user=" + user.id, {
           headers: hds,
+          mode: "cors",
         })
         .then((res) => {
           resolve(res.data);
@@ -79,6 +80,7 @@
     axios
       .post("https://ana-api.myika.co/user", newUser, {
         headers: hds,
+        mode: "cors",
       })
       .then((res) => {
         user.id = res.data.body;

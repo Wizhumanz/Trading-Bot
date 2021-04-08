@@ -39,12 +39,16 @@
           webhookDisplayData = found.Name;
         } else {
           //is private webhookConn, display URL
-          if (user !== undefined && user.privateWebhookConns !== undefined) {
-            let priv = user.privateWebhookConns.find(
-              (element) => element.KEY === bot.WebhookConnectionID
-            );
-            webhookDisplayData = priv.URL;
-          }
+          getPrivateWebhooksInfo().then(() => {
+            if (user !== undefined && user.privateWebhookConns !== undefined) {
+              let priv = user.privateWebhookConns.find(
+                (element) => element.KEY === bot.WebhookConnectionID
+              );
+              console.log(user.privateWebhookConns);
+              console.log(priv);
+              webhookDisplayData = priv.URL;
+            }
+          });
         }
       }
     }
@@ -141,6 +145,7 @@
         data,
         {
           headers: hds,
+          mode: "cors",
         }
       )
       .then((res) => {
@@ -179,6 +184,7 @@
     axios
       .delete("http://localhost:8000/bot/" + bot.KEY + "?user=" + user.id, {
         headers: hds,
+        mode: "cors",
       })
       .then(() => {
         loading = false;
@@ -197,6 +203,52 @@
       .catch((error) => {
         console.log(error.response);
       });
+  }
+
+  function getPrivateWebhooksInfo() {
+    return new Promise((resolve, reject) => {
+      const hds = {
+        //"Content-Type": "application/json",
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      };
+
+      //get ids of private WebhookConnections
+      let privateIDs = [];
+      user.bots.forEach((bot) => {
+        //if webhookConnID of bot isn't found in public webhooks array, must fetch
+        let found = user.publicWebhookConns.find(
+          (element) => element.KEY === bot.WebhookConnectionID
+        );
+        if (!found) {
+          privateIDs.push(bot.WebhookConnectionID);
+        }
+      });
+
+      //build query string with all IDs
+      let webhookURL = privateIDs[0];
+      privateIDs.forEach((id, index) => {
+        if (index != 0) {
+          webhookURL = webhookURL + "+" + id;
+        }
+      });
+
+      let reqURL = "http://localhost:8000/webhook?ids=" + webhookURL;
+      axios
+        .get(reqURL, {
+          headers: hds,
+          mode: "cors",
+        })
+        .then((res) => {
+          user.privateWebhookConns = res.data;
+          resolve(user.privateWebhookConns);
+          storeUser.set(JSON.stringify(user));
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    });
   }
 </script>
 

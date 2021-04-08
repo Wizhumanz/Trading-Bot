@@ -38,6 +38,7 @@
     axios
       .post("https://ana-api.myika.co/exchange", data, {
         headers: hds,
+        mode: "cors",
       })
       .then((res) => {
         loading = false;

@@ -54,54 +54,13 @@
       axios
         .get("https://ana-api.myika.co/bots" + "?user=" + user.id, {
           headers: hds,
+          mode: "cors",
         })
         .then((res) => {
           resolve(res.data);
         })
         .catch((error) => console.log(error));
     });
-  }
-
-  function getPrivateWebhooksInfo() {
-    const hds = {
-      //"Content-Type": "application/json",
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-    };
-
-    //get ids of private WebhookConnections
-    let privateIDs = [];
-    user.bots.forEach((bot) => {
-      //if webhookConnID of bot isn't found in public webhooks array, must fetch
-      let found = user.publicWebhookConns.find(
-        (element) => element.KEY === bot.WebhookConnectionID
-      );
-      if (!found) {
-        privateIDs.push(bot.WebhookConnectionID);
-      }
-    });
-
-    //build query string with all IDs
-    let webhookURL = privateIDs[0];
-    privateIDs.forEach((id, index) => {
-      if (index != 0) {
-        webhookURL = webhookURL + "+" + id;
-      }
-    });
-
-    let reqURL = "http://localhost:8000/webhook?ids=" + webhookURL;
-    axios
-      .get(reqURL, {
-        headers: hds,
-      })
-      .then((res) => {
-        user.privateWebhookConns = res.data;
-        storeUser.set(JSON.stringify(user));
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
   }
 
   function getAllWebhookConnections() {
@@ -115,12 +74,12 @@
     axios
       .get("http://localhost:8000/webhooks", {
         headers: hds,
+        mode: "cors",
       })
       .then((res) => {
         user.publicWebhookConns = res.data;
         console.log(user.publicWebhookConns);
         storeUser.set(JSON.stringify(user));
-        getPrivateWebhooksInfo();
       })
       .catch((error) => {
         console.log(error);
@@ -141,6 +100,7 @@
         headers: hds,
         email: userLogin.email,
         password: userLogin.password,
+        mode: "cors",
       })
       .then((res) => {
         user.id = res.data.body;

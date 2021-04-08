@@ -19,41 +19,43 @@
     Pragma: "no-cache",
     Expires: "0",
     Authorization: user.password,
-    "Access-Control-Allow-Origin": "*",
   };
-  // axios
-  //   .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
-  //     headers: hds,
-  //     mode: "no-cors",
-  //   })
-  //   .then((res) => {
-  //     user.trades = res.data;
-  //     console.log(res.status + " -- " + JSON.stringify(res.data));
-  //   })
-  //   .catch((error) => {
-  //     console.log(error.response);
-  //   });
-
-  const testURL = "https://ana-api.myika.co/trades" + "?user=" + user.id;
-  const myInit = {
-    method: "GET",
-    mode: "no-cors",
-    headers: hds,
-  };
-
-  const myRequest = new Request(testURL, myInit);
-
-  fetch(myRequest)
-    .then(function (response) {
-      //user.trades = res.data;
-      return response;
+  axios
+    .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
+      headers: hds,
+      mode: "cors",
     })
-    .then(function (response) {
-      console.log(response);
+    .then((res) => {
+      user.trades = res.data;
+      console.log(res.status + " -- " + JSON.stringify(res.data));
     })
-    .catch(function (e) {
-      console.log(e);
+    .catch((error) => {
+      console.log(error.response);
     });
+
+  // const testURL = "http://localhost:8000/trades" + "?user=" + user.id;
+  // const myInit = {
+  //   method: "GET",
+  //   mode: "cors",
+  //   headers: hds,
+  //   cache: "default",
+  // };
+  // fetch(testURL, myInit)
+  //   .then(function (response) {
+  //     if (response.ok) {
+  //       console.log("Success");
+  //     } else {
+  //       console.log("Fail");
+  //     }
+  //     return response.json();
+  //   })
+  //   .then(function (response) {
+  //     user.trades = response;
+  //     storeUser.set(JSON.stringify(user));
+  //   })
+  //   .catch(function (e) {
+  //     console.log(e);
+  //   });
 </script>
 
 <div class="container-fluid">
