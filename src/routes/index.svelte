@@ -50,7 +50,7 @@
       //MUST replace all '+' with '%2B'
       // let GETUrl = basicURL.split("+").join("%2B");
       axios
-        .get("https://ana-api.myika.co/bots" + "?user=" + user.id, {
+        .get("http://localhost:8000/bots" + "?user=" + user.id, {
           headers: hds,
         })
         .then((res) => {
@@ -70,7 +70,7 @@
       Expires: "0",
     };
     axios
-      .post("https://ana-api.myika.co/login", {
+      .post("http://localhost:8000/login", {
         headers: hds,
         email: userLogin.email,
         password: userLogin.password,
