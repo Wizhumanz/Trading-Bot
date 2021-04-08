@@ -1,10 +1,15 @@
 
-describe('localhost', () => {
+describe('Login page', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:3001');
   });
 
-  it('should show active bots after signin', () => {
+  it('should show login page', () => {
+    expect(page).toMatch('Sign In')
+    expect(page).toMatch('Register')
+  })
+
+  it('should show active bots after login', () => {
     page.click("#emailLogin");
     page.type("#emailLogin", 't@trader.com');
     page.click("#passwordLogin");
@@ -14,8 +19,9 @@ describe('localhost', () => {
       expect(page.url()).toMatch('http://localhost:3001/bots/active')
     }, 7000)
   })
+});
 
-  // it('checking All Listings page', async () => {
+// it('checking All Listings page', async () => {
   //   await page.goto('http://localhost:3000/listings/all');
   //   await expect(page).toMatch('All Listings')
   //   await page.click("#flexCheckDefault");
@@ -43,4 +49,3 @@ describe('localhost', () => {
   //   await page.click(".form");
   //   await page.click("[type='submit']");
   // })
-});
