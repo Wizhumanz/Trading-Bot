@@ -7,22 +7,20 @@ var mockLoginResp = [
   }
 ];
 
-(async () => {
-  await page.setRequestInterception(true)
+page.setRequestInterception(true);
 
-  page.on('request', (request) => {
-    if (request.url() === 'https://ana-api-myika.co/login') {
-      request.respond({
-        content: 'application/json',
-        body: JSON.stringify(mockLoginResp)
-      })
-    } else request.continue()
-  })
+page.on('request', request => {
+  console.log("Req in: " + request.url())
 
-  // await page.goto('https://danube-webshop.herokuapp.com/')
-  // await page.screenshot({ path: 'screenshot.png' })
-  // await browser.close()
-})()
+  if (request.url() === 'https://ana-api.myika.co/login') {
+    console.log("Intercepting")
+    request.respond({
+      content: 'application/json',
+      body: JSON.stringify(mockLoginResp),
+      status: 200,
+    })
+  } else request.continue()
+})
 
 page
   .on('console', message =>
@@ -48,12 +46,12 @@ describe("Login page", () => {
   it("should show active bots after login", async (done) => {
     await page.$eval("#emailLogin", el => el.value = "t@trader.com");
     await page.$eval("#passwordLogin", el => el.value = "trader");
-    await page.$eval("[type='submit']", elem => elem.click());
-    // await page.click("[type="submit"]");
+    await page.$eval("#signInBtn", elem => elem.click());
 
     setTimeout(() => {
       expect(page.url()).toMatch("http://localhost:3001/bots/active")
       expect(page).toMatch("Active Bots")
+      expect(page).toMatch("Leverage")
       done()
     }, 7000)
   }, 13000)
