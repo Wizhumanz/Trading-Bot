@@ -27,9 +27,9 @@
   function reassignProperties() {
     newTicker = "";
     botName = "";
-    accSizePerc = 0;
-    accRiskPerc = 0;
-    leverage = 0;
+    accSizePerc = null;
+    accRiskPerc = null;
+    leverage = null;
     exchange = "";
   }
 
@@ -42,8 +42,9 @@
         Authorization: user.password,
       };
       axios
-        .post("http://localhost:8000/addwebhook" + "?user=" + user.id, null, {
+        .post("http://localhost:8000/webhook" + "?user=" + user.id, null, {
           headers: hds,
+          mode: "cors",
         })
         .then((res) => {
           customWebhookID = res.data.body;
@@ -85,6 +86,7 @@
       axios
         .post("http://localhost:8000/bot", data, {
           headers: hds,
+          mode: "cors",
         })
         .then(() => {
           loading = false;
@@ -113,6 +115,7 @@
         axios
           .post("http://localhost:8000/bot", data, {
             headers: hds,
+            mode: "cors",
           })
           .then(() => {
             loading = false;

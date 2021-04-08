@@ -36,6 +36,7 @@
           user.id,
         {
           headers: hds,
+          mode: "cors",
         }
       )
       .then(() => {

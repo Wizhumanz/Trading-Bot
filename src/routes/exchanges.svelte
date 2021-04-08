@@ -34,6 +34,7 @@
   axios
     .get("https://ana-api.myika.co/exchanges" + "?user=" + user.id, {
       headers: hds,
+      mode: "cors",
     })
     .then((res) => {
       user.exchanges = res.data;
