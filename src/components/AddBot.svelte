@@ -14,7 +14,8 @@
   let leverage;
   let exchange;
   let customWebhookID;
-  let user = { publicWebhookConns: [] };
+  let user = {};
+  user.publicWebhookConns = [];
 
   storeUser.subscribe((newValue) => {
     if (newValue) {

@@ -14,7 +14,7 @@
   let newAccSizePerc;
   let newLeverage;
   let active;
-  let webhookURL;
+  let webhookDisplayData;
   let showSaveBtnAlert = "display: none;";
   let updateErrorAlert = "display: none;";
   let showConfirm = false;
@@ -29,18 +29,26 @@
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
+      //display names for public webhookConns, display URL for private webhookConns
+      if (user !== undefined && user.publicWebhookConns !== undefined) {
+        let found = user.publicWebhookConns.find(
+          (element) => element.KEY === bot.WebhookConnectionID
+        );
+        if (found) {
+          //is public webhookConn, display Name
+          webhookDisplayData = found.Name;
+        } else {
+          //is private webhookConn, display URL
+          if (user !== undefined && user.privateWebhookConns !== undefined) {
+            let priv = user.privateWebhookConns.find(
+              (element) => element.KEY === bot.WebhookConnectionID
+            );
+            webhookDisplayData = priv.URL;
+          }
+        }
+      }
     }
   });
-
-  // if (user !== undefined && user.publicWebhookConns !== undefined) {
-  //   user.publicWebhookConns.forEach((w) => {
-  //     if (w.KEY === bot.WebhookConnectionID) {
-  //       webhookURL = w.Name;
-  //     } else if (user.webhookURL && w.KEY === user.privateWebhookConns.KEY) {
-  //       webhookURL = w.URL;
-  //     }
-  //   });
-  // }
 
   //notification when values have been modified
   $: if (
@@ -65,7 +73,7 @@
 
   function copyText(e) {
     e.preventDefault();
-    var copyText = bot.WebhookURL;
+    var copyText = webhookDisplayData;
     document.addEventListener(
       "copy",
       function (e) {
@@ -283,7 +291,7 @@
                 <a
                   on:click={copyText}
                   data-toggle="tooltip"
-                  title="Copy to Clipboard">{webhookURL}</a
+                  title="Copy to Clipboard">{webhookDisplayData}</a
                 >
               </div>
             </div>

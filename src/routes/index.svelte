@@ -75,7 +75,7 @@
     user.bots.forEach((bot) => {
       //if webhookConnID of bot isn't found in public webhooks array, must fetch
       let found = user.publicWebhookConns.find(
-        (element) => element.KEY == bot.WebhookConnectionID
+        (element) => element.KEY === bot.WebhookConnectionID
       );
       if (!found) {
         privateIDs.push(bot.WebhookConnectionID);
@@ -96,7 +96,6 @@
         headers: hds,
       })
       .then((res) => {
-        console.log("get private URLs res ");
         user.privateWebhookConns = res.data;
         storeUser.set(JSON.stringify(user));
       })
