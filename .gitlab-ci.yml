@@ -7,6 +7,10 @@ variables:
   IMAGE: node:lts-alpine3.13
   GCLOUD_PROJECT_ID: "myika-anastasia"
 
+cache:
+  paths:
+    - node_modules/
+
 # frontend-build:
 #   stage: build
 #   only:
@@ -20,7 +24,7 @@ test:
   stage: test
   only:
     - master
-  image: $IMAGE
+  image: alekzonder/puppeteer:latest
   script:
     - npm install
     - npm run test
