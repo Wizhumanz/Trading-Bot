@@ -13,22 +13,46 @@
   user.trades = [];
 
   //get request for TradeAction/trade history
+
   const hds = {
     "Cache-Control": "no-cache",
     Pragma: "no-cache",
     Expires: "0",
     Authorization: user.password,
+    "Access-Control-Allow-Origin": "*",
   };
-  axios
-    .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
-      headers: hds,
+  // axios
+  //   .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
+  //     headers: hds,
+  //     mode: "no-cors",
+  //   })
+  //   .then((res) => {
+  //     user.trades = res.data;
+  //     console.log(res.status + " -- " + JSON.stringify(res.data));
+  //   })
+  //   .catch((error) => {
+  //     console.log(error.response);
+  //   });
+
+  const testURL = "https://ana-api.myika.co/trades" + "?user=" + user.id;
+  const myInit = {
+    method: "GET",
+    mode: "no-cors",
+    headers: hds,
+  };
+
+  const myRequest = new Request(testURL, myInit);
+
+  fetch(myRequest)
+    .then(function (response) {
+      //user.trades = res.data;
+      return response;
     })
-    .then((res) => {
-      user.trades = res.data;
-      console.log(res.status + " -- " + JSON.stringify(res.data));
+    .then(function (response) {
+      console.log(response);
     })
-    .catch((error) => {
-      console.log(error.response);
+    .catch(function (e) {
+      console.log(e);
     });
 </script>
 
