@@ -33,4 +33,4 @@ deploy:
     - gcloud auth activate-service-account --key-file=$GCLOUD_KEY
     - gcloud config set project $GCLOUD_PROJECT_ID
     - gcloud builds submit --tag gcr.io/$GCLOUD_PROJECT_ID/console-$CI_COMMIT_SHORT_SHA
-    - gcloud beta run deploy relm-app --image gcr.io/$GCLOUD_PROJECT_ID/console-$CI_COMMIT_SHORT_SHA --port 3000 --platform managed --min-instances 0 --allow-unauthenticated --region asia-southeast1 --memory 128Mi --cpu 1 --concurrency 20
+    - gcloud beta run deploy console --image gcr.io/$GCLOUD_PROJECT_ID/console-$CI_COMMIT_SHORT_SHA --port 3000 --platform managed --min-instances 0 --allow-unauthenticated --region asia-southeast1 --memory 128Mi --cpu 1 --concurrency 20
