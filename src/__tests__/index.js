@@ -1,5 +1,29 @@
 "use strict";
 
+var mockLoginResp = [
+  {
+    "message": "Successfully logged in!",
+    "body": "5632499082330112"
+  }
+];
+
+(async () => {
+  await page.setRequestInterception(true)
+
+  page.on('request', (request) => {
+    if (request.url() === 'https://ana-api-myika.co/login') {
+      request.respond({
+        content: 'application/json',
+        body: JSON.stringify(mockLoginResp)
+      })
+    } else request.continue()
+  })
+
+  // await page.goto('https://danube-webshop.herokuapp.com/')
+  // await page.screenshot({ path: 'screenshot.png' })
+  // await browser.close()
+})()
+
 page
   .on('console', message =>
     console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
@@ -8,6 +32,8 @@ page
     console.log(`${response.status()} ${response.url()}`))
   .on('requestfailed', request =>
     console.log(`${request.failure().errorText} ${request.url()}`))
+
+// tests
 
 describe("Login page", () => {
   beforeAll(async () => {
