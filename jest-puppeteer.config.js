@@ -4,4 +4,8 @@ module.exports = {
     port: 3001,
     launchTimeout: 10000,
   },
+  launch: {
+    headless: false,
+    slowMo: 250,
+  },
 }
