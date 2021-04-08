@@ -180,9 +180,11 @@
               class="form-select dark"
               bind:value={strategySelect}
             >
-              {#each user.publicWebhookConns as w}
-                <option value={w.KEY}>{w.Name}</option>
-              {/each}
+              {#if user.publicWebhookConns}
+                {#each user.publicWebhookConns as w}
+                  <option value={w.KEY}>{w.Name}</option>
+                {/each}
+              {/if}
               <!-- keep this option outside #each to allow custom strategy definition -->
               <option value="custom">Create my own webhook URL</option>
             </select>
