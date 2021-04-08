@@ -14,12 +14,39 @@
   let newAccSizePerc;
   let newLeverage;
   let active;
+  let webhookDisplayData;
   let showSaveBtnAlert = "display: none;";
   let updateErrorAlert = "display: none;";
+  let showConfirm = false;
+  let showConfirmBtn;
+
+  $: if (showConfirm) {
+    showConfirmBtn = "display: block;";
+  } else {
+    showConfirmBtn = "display: none;";
+  }
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
+      //display names for public webhookConns, display URL for private webhookConns
+      if (user !== undefined && user.publicWebhookConns !== undefined) {
+        let found = user.publicWebhookConns.find(
+          (element) => element.KEY === bot.WebhookConnectionID
+        );
+        if (found) {
+          //is public webhookConn, display Name
+          webhookDisplayData = found.Name;
+        } else {
+          //is private webhookConn, display URL
+          if (user !== undefined && user.privateWebhookConns !== undefined) {
+            let priv = user.privateWebhookConns.find(
+              (element) => element.KEY === bot.WebhookConnectionID
+            );
+            webhookDisplayData = priv.URL;
+          }
+        }
+      }
     }
   });
 
@@ -46,7 +73,7 @@
 
   function copyText(e) {
     e.preventDefault();
-    var copyText = bot.WebhookURL;
+    var copyText = webhookDisplayData;
     document.addEventListener(
       "copy",
       function (e) {
@@ -139,6 +166,38 @@
         loading = false;
       });
   };
+
+  function deleteBot() {
+    loading = true;
+    const hds = {
+      //"Content-Type": "application/json",
+      Authorization: user.password,
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
+    axios
+      .delete("http://localhost:8000/bot/" + bot.KEY + "?user=" + user.id, {
+        headers: hds,
+      })
+      .then(() => {
+        loading = false;
+
+        let storeBots = [];
+        user.bots.forEach((b) => {
+          if (b.KEY !== bot.KEY) {
+            storeBots.push(b);
+          }
+        });
+
+        user.bots = storeBots;
+        storeUser.set(JSON.stringify(user));
+        document.location.reload();
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
 </script>
 
 {#if loading}
@@ -152,6 +211,7 @@
       <div class="row">
         <div class="col-sm-12 col-lg-4">
           <h4>{bot.Name}</h4>
+          <p>{bot.KEY}</p>
           <div class="red">
             {#if bot.IsActive === "true" || bot.IsActive === true}
               <p>ACTIVE</p>
@@ -225,13 +285,13 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-7">Webhook URL</div>
+              <div class="col-7">Webhook</div>
               <div class="col-5 lowkey-val-col urlDisplay">
                 <!-- svelte-ignore a11y-missing-attribute -->
                 <a
                   on:click={copyText}
                   data-toggle="tooltip"
-                  title="Copy to Clipboard">{bot.WebhookURL}</a
+                  title="Copy to Clipboard">{webhookDisplayData}</a
                 >
               </div>
             </div>
@@ -302,12 +362,23 @@
             </div>
           </div>
         </div>
-        <button class="del-btn">
+        <button
+          class="del-btn"
+          on:click={() => {
+            showConfirm = !showConfirm;
+          }}
+        >
           <i class="bi bi-exclamation-triangle" />
           DELETE
           <i class="bi bi-exclamation-triangle" /></button
         >
-        <button class="del-btn-confirm"> CONFIRM </button>
+        <button
+          style={showConfirmBtn}
+          class="del-btn-confirm"
+          on:click={deleteBot}
+        >
+          CONFIRM
+        </button>
       </div>
     </div>
     <div class="col-sm-12 col-md-2" />
