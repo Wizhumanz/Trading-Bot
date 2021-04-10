@@ -15,9 +15,9 @@ context('login page', () => {
   it('should show active bots after login', () => {
     cy.intercept('/login', { fixture: 'loginSuccess.json' }).as('loginUser')
     cy.intercept('/bots?*', { fixture: 'getAllBots.json' }).as('getBots')
-    cy.intercept('/webhooks*', { fixture: 'getPublicWebhookConns.json' })
+    cy.intercept('/webhooks', { fixture: 'getPublicWebhookConns.json' })
       .as('getPublicWebhookConns')
-    cy.intercept('/webhook*', { fixture: 'getPrivateWebhookConns.json' })
+    cy.intercept('/webhook?*', { fixture: 'getPrivateWebhookConns.json' })
       .as('getPrivateWebhookConns')
 
     cy.get('[type="email"]')
