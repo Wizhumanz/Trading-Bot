@@ -6,7 +6,8 @@
     "dev": "sapper dev",
     "build": "sapper build --legacy",
     "export": "sapper export --legacy",
-    "start": "node __sapper__/build"
+    "start": "node __sapper__/build",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -30,6 +31,7 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/svelte": "^3.0.3",
     "autoprefixer": "^10.2.5",
+    "cypress": "^7.0.1",
     "node-sass": "^5.0.0",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
