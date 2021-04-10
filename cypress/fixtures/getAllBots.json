@@ -1,40 +1,8 @@
 [
   {
-    "KEY": "4949947610824704",
-    "K": "Eg4KA0JvdBCAgIDot77lCA",
-    "Name": "Mr Bot",
-    "AggregateID": "30",
-    "UserID": "5632499082330112",
-    "ExchangeConnection": "12",
-    "AccountRiskPercPerTrade": "12",
-    "AccountSizePercToTrade": "12",
-    "IsActive": "true",
-    "IsArchived": "false",
-    "Leverage": "12",
-    "Timestamp": "2021-04-08_23:56:54_+0900",
-    "Ticker": "BTC/USDT",
-    "WebhookConnectionID": "6248973186629632"
-  },
-  {
-    "KEY": "5001804072878080",
-    "K": "Eg4KA0JvdBCAgICY1KPxCA",
-    "Name": "Human Bot",
-    "AggregateID": "31",
-    "UserID": "5632499082330112",
-    "ExchangeConnection": "12",
-    "AccountRiskPercPerTrade": "12",
-    "AccountSizePercToTrade": "12",
-    "IsActive": "false",
-    "IsArchived": "false",
-    "Leverage": "12",
-    "Timestamp": "2021-04-08_23:57:42_+0900",
-    "Ticker": "BTC/USDT",
-    "WebhookConnectionID": "4841598303076352"
-  },
-  {
     "KEY": "5129025567588352",
     "K": "Eg4KA0JvdBCAgICYpZqOCQ",
-    "Name": "Simon Bot",
+    "Name": "Private URL Bot",
     "AggregateID": "28",
     "UserID": "5632499082330112",
     "ExchangeConnection": "12",
@@ -50,7 +18,7 @@
   {
     "KEY": "5142541561233408",
     "K": "Eg4KA0JvdBCAgICY1KORCQ",
-    "Name": "Jack Bot",
+    "Name": "Tester Clown Bot",
     "AggregateID": "25",
     "UserID": "5632499082330112",
     "ExchangeConnection": "12",
@@ -61,12 +29,12 @@
     "Leverage": "12",
     "Timestamp": "2021-04-07_19:45:22_+0900",
     "Ticker": "BTC/USDT",
-    "WebhookConnectionID": "6143420070363136"
+    "WebhookConnectionID": "4929992219688960"
   },
   {
     "KEY": "5650266825162752",
     "K": "Eg4KA0JvdBCAgICYtNyECg",
-    "Name": "Cat Bot",
+    "Name": "Taylor Swift Bot",
     "AggregateID": "32",
     "UserID": "5632499082330112",
     "ExchangeConnection": "12",
@@ -77,12 +45,12 @@
     "Leverage": "12",
     "Timestamp": "2021-04-09_06:29:16_+0000",
     "Ticker": "ETH/USDT",
-    "WebhookConnectionID": "4743852900483072"
+    "WebhookConnectionID": "6143420070363136"
   },
   {
     "KEY": "5711226101301248",
     "K": "Eg4KA0JvdBCAgICYx8qSCg",
-    "Name": "Mr Bot",
+    "Name": "Simon's Shit Code Bot",
     "AggregateID": "29",
     "UserID": "5632499082330112",
     "ExchangeConnection": "12",
@@ -92,39 +60,7 @@
     "IsArchived": "false",
     "Leverage": "20",
     "Timestamp": "2021-04-08_16:54:26_+0000",
-    "Ticker": "BTC/USDT",
-    "WebhookConnectionID": "6409178956431360"
-  },
-  {
-    "KEY": "5770178285535232",
-    "K": "Eg4KA0JvdBCAgICYpf6fCg",
-    "Name": "Test Bot",
-    "AggregateID": "26",
-    "UserID": "5632499082330112",
-    "ExchangeConnection": "23",
-    "AccountRiskPercPerTrade": "25",
-    "AccountSizePercToTrade": "23",
-    "IsActive": "false",
-    "IsArchived": "false",
-    "Leverage": "23",
-    "Timestamp": "2021-04-08_17:05:50_+0000",
-    "Ticker": "BTC/USDT",
+    "Ticker": "DOGE/BTC",
     "WebhookConnectionID": "6337367103242240"
-  },
-  {
-    "KEY": "5869752807325696",
-    "K": "Eg4KA0JvdBCAgICYpdC2Cg",
-    "Name": "Hello Bot",
-    "AggregateID": "27",
-    "UserID": "5632499082330112",
-    "ExchangeConnection": "34",
-    "AccountRiskPercPerTrade": "34",
-    "AccountSizePercToTrade": "34",
-    "IsActive": "false",
-    "IsArchived": "true",
-    "Leverage": "34",
-    "Timestamp": "2021-04-09_00:09:00_+0900",
-    "Ticker": "BTC/USDT",
-    "WebhookConnectionID": "4929992219688960"
   }
 ]
