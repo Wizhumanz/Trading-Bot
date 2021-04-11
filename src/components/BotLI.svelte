@@ -287,83 +287,86 @@
           </div>
         </div>
         <div class="col-sm-12 col-lg-8 settings-col">
-          <div class="row">
-            <div class="col-7">Ticker</div>
-            <div class="col-5 val-col">
-              {newTicker}
-            </div>
-          </div>
-          {#if newTicker !== bot.Ticker && newTicker !== null}
-            <div class="changeVal" class:dark={appThemeIsDark}>
-              <p><i class="bi bi-arrow-right" /> {bot.Ticker} | UNSAVED</p>
-            </div>
-          {/if}
-          <div class="row">
-            <div class="col-7">% of account to trade</div>
-            <div class="col-5 val-col">
-              {newAccSizePerc}%
-            </div>
-          </div>
-          {#if parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) && newAccSizePerc !== null}
-            <div class="changeVal" class:dark={appThemeIsDark}>
-              <p>
-                <i class="bi bi-arrow-right" />
-                {bot.AccountSizePercToTrade}% | UNSAVED
-              </p>
-            </div>
-          {/if}
-          <div class="row">
-            <div class="col-7">% of account risked per trade</div>
-            <div class="col-5 val-col">
-              {newRiskPerc}%
-            </div>
-          </div>
-          {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
-            <div class="changeVal" class:dark={appThemeIsDark}>
-              <p>
-                <i class="bi bi-arrow-right" />
-                {bot.AccountRiskPercPerTrade}% | UNSAVED
-              </p>
-            </div>
-          {/if}
-          <div class="row">
-            <div class="col-7">Leverage</div>
-            <div class="col-5 val-col">
-              {newLeverage}x
-            </div>
-          </div>
-          {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
-            <div class="changeVal" class:dark={appThemeIsDark}>
-              <p><i class="bi bi-arrow-right" /> {bot.Leverage}% | UNSAVED</p>
-            </div>
-          {/if}
-          <button
-            class="save-btn"
-            class:dark={appThemeIsDark}
-            style={showSaveBtnAlert}
-            on:click={updateBot}>Save</button
-          >
-          <!-- display-only fields -->
-          <div class="display-fields">
+          <div class="settingsDisplayBox">
             <div class="row">
-              <div class="col-7">Exchange</div>
-              <div class="col-5 lowkey-val-col">
-                {bot.ExchangeConnection}
+              <div class="col-7">Ticker</div>
+              <div class="col-5 val-col">
+                {newTicker}
               </div>
             </div>
+            {#if newTicker !== bot.Ticker && newTicker !== null}
+              <div class="changeVal" class:dark={appThemeIsDark}>
+                <p><i class="bi bi-arrow-right" /> {bot.Ticker} | UNSAVED</p>
+              </div>
+            {/if}
             <div class="row">
-              <div class="col-7">Webhook</div>
-              <div class="col-5 lowkey-val-col urlDisplay">
-                <!-- svelte-ignore a11y-missing-attribute -->
-                <a
-                  on:click={copyText}
-                  data-toggle="tooltip"
-                  title="Copy to Clipboard">{webhookDisplayData}</a
-                >
+              <div class="col-7">% of account to trade</div>
+              <div class="col-5 val-col">
+                {newAccSizePerc}%
+              </div>
+            </div>
+            {#if parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) && newAccSizePerc !== null}
+              <div class="changeVal" class:dark={appThemeIsDark}>
+                <p>
+                  <i class="bi bi-arrow-right" />
+                  {bot.AccountSizePercToTrade}% | UNSAVED
+                </p>
+              </div>
+            {/if}
+            <div class="row">
+              <div class="col-7">% of account risked per trade</div>
+              <div class="col-5 val-col">
+                {newRiskPerc}%
+              </div>
+            </div>
+            {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
+              <div class="changeVal" class:dark={appThemeIsDark}>
+                <p>
+                  <i class="bi bi-arrow-right" />
+                  {bot.AccountRiskPercPerTrade}% | UNSAVED
+                </p>
+              </div>
+            {/if}
+            <div class="row">
+              <div class="col-7">Leverage</div>
+              <div class="col-5 val-col">
+                {newLeverage}x
+              </div>
+            </div>
+            {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
+              <div class="changeVal" class:dark={appThemeIsDark}>
+                <p><i class="bi bi-arrow-right" /> {bot.Leverage}% | UNSAVED</p>
+              </div>
+            {/if}
+            <button
+              class="save-btn"
+              class:dark={appThemeIsDark}
+              style={showSaveBtnAlert}
+              on:click={updateBot}>Save</button
+            >
+            <div class="displayOnlyFields">
+              <!-- display-only fields -->
+              <div class="display-fields">
+                <div class="row">
+                  <div class="col-7">Exchange</div>
+                  <div class="col-5 lowkey-val-col">
+                    {bot.ExchangeConnection}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-7">Webhook</div>
+                  <div class="col-5 lowkey-val-col urlDisplay">
+                    <!-- svelte-ignore a11y-missing-attribute -->
+                    <a
+                      on:click={copyText}
+                      data-toggle="tooltip"
+                      title="Copy to Clipboard">{webhookDisplayData}</a
+                    >
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <hr />
           <!-- inputs -->
           <div class="form">
             <div class="row">
@@ -478,12 +481,16 @@
     border: none;
     border-radius: 5px;
     padding: 2rem 3rem 1rem 3rem;
+
+    background: linear-gradient(40deg, $blue 50%, black 50%);
   }
 
   .main-box.dark {
     background-color: black;
     border: $blood 3px dashed;
     border-radius: 5px;
+
+    background: linear-gradient(40deg, #0d0000 50%, black 50%);
   }
 
   div.statusDiv {
@@ -556,6 +563,16 @@
     hr {
       color: $cream;
     }
+  }
+
+  .settingsDisplayBox {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .displayOnlyFields {
+    margin-top: 1rem;
   }
 
   .val-col {
