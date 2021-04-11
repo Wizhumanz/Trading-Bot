@@ -1,6 +1,6 @@
 <script>
   import { stores } from "@sapper/app";
-  import { storeUser, currentPage } from "../../../store.js";
+  import { storeUser, currentPage, storeAppTheme } from "../../../store.js";
   import AddBot from "../../components/AddBot.svelte";
   import BotLI from "../../components/BotLI.svelte";
   import LoadingIndicator from "../../components/LoadingIndicator.svelte";
@@ -10,6 +10,7 @@
   var route;
   let user = {};
   let loading = false;
+  let appThemeIsDark = false;
 
   page.subscribe(({ path, params, query }) => {
     route = params.slug;
@@ -20,6 +21,10 @@
     if (newValue) {
       user = JSON.parse(newValue);
     }
+  });
+
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
   });
 </script>
 
@@ -33,16 +38,19 @@
     <ul id="head">
       <li><h1>Active Bots</h1></li>
       <li>
-        <a
-          class="btn"
-          data-bs-toggle="collapse"
-          href="#collapseExample"
-          role="button"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-        >
-          Add
-        </a>
+        <h1>
+          <a
+            class="btn"
+            class:dark={appThemeIsDark}
+            data-bs-toggle="collapse"
+            href="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Add Bot
+          </a>
+        </h1>
       </li>
     </ul>
   {:else if route == "all"}
@@ -73,7 +81,11 @@
 
       .btn {
         padding: 0 1rem;
-        margin-top: -1rem;
+        margin: -5rem 1rem auto auto;
+        color: $blood;
+      }
+
+      .btn.dark {
         color: $cream;
       }
 
