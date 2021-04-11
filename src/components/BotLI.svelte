@@ -292,39 +292,56 @@
             <div class="col-5 val-col">
               {newTicker}
             </div>
-            {#if newTicker !== bot.Ticker && newTicker !== null}
-              <p class="changeVal">=> {bot.Ticker} UNSAVED</p>
-            {/if}
           </div>
+          {#if newTicker !== bot.Ticker && newTicker !== null}
+            <div class="changeVal" class:dark={appThemeIsDark}>
+              <p><i class="bi bi-arrow-right" /> {bot.Ticker} | UNSAVED</p>
+            </div>
+          {/if}
           <div class="row">
             <div class="col-7">% of account to trade</div>
             <div class="col-5 val-col">
               {newAccSizePerc}%
             </div>
-            {#if parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) && newAccSizePerc !== null}
-              <p class="changeVal">=> {bot.AccountSizePercToTrade}% UNSAVED</p>
-            {/if}
           </div>
+          {#if parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) && newAccSizePerc !== null}
+            <div class="changeVal" class:dark={appThemeIsDark}>
+              <p>
+                <i class="bi bi-arrow-right" />
+                {bot.AccountSizePercToTrade}% | UNSAVED
+              </p>
+            </div>
+          {/if}
           <div class="row">
             <div class="col-7">% of account risked per trade</div>
             <div class="col-5 val-col">
               {newRiskPerc}%
             </div>
-            {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
-              <p class="changeVal">=> {bot.AccountRiskPercPerTrade}% UNSAVED</p>
-            {/if}
           </div>
+          {#if parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) && newRiskPerc !== null}
+            <div class="changeVal" class:dark={appThemeIsDark}>
+              <p>
+                <i class="bi bi-arrow-right" />
+                {bot.AccountRiskPercPerTrade}% | UNSAVED
+              </p>
+            </div>
+          {/if}
           <div class="row">
             <div class="col-7">Leverage</div>
             <div class="col-5 val-col">
               {newLeverage}x
             </div>
-            {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
-              <p class="changeVal">=> {bot.Leverage}% UNSAVED</p>
-            {/if}
           </div>
-          <button class="save-btn" style={showSaveBtnAlert} on:click={updateBot}
-            >Save</button
+          {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
+            <div class="changeVal" class:dark={appThemeIsDark}>
+              <p><i class="bi bi-arrow-right" /> {bot.Leverage}% | UNSAVED</p>
+            </div>
+          {/if}
+          <button
+            class="save-btn"
+            class:dark={appThemeIsDark}
+            style={showSaveBtnAlert}
+            on:click={updateBot}>Save</button
           >
           <!-- display-only fields -->
           <div class="display-fields">
@@ -550,28 +567,47 @@
     font-size: small;
   }
 
-  // button {
-  //   background-color: $cream;
-  //   color: black;
-  //   border-radius: 5px;
-  // }
+  .changeVal {
+    font-weight: bold;
+    width: fit-content;
+    color: black;
+    background-color: $cream;
+    border-radius: 7px;
+    margin: auto auto 0.75rem 0.5rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .changeVal.dark {
+    background-color: $blood;
+    color: $cream;
+
+    p {
+      font-weight: bold;
+    }
+  }
 
   .save-btn {
-    padding: 0.25rem 0.75rem;
     margin-bottom: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 3px;
+    border: none;
+    font-size: normal;
+    background-color: $cream;
+    color: black;
+  }
+
+  .save-btn:hover {
+    color: $ivory;
+  }
+
+  .save-btn.dark {
     color: $cream;
-    background-color: $blue;
-    border: $cream 2px dashed;
-    font-size: small;
+    background-color: black;
+    border: $cream 2px solid;
   }
 
   .display-fields {
     font-size: small;
-  }
-
-  p.changeVal {
-    color: yellow;
-    font-weight: bold;
   }
 
   #imgDisplay {
