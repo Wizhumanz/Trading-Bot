@@ -66,8 +66,6 @@
 {/if}
 
 <div class="container-fluid">
-  <h3>Add Exchange</h3>
-
   <div id="fields-box">
     <form class="form" on:submit|preventDefault={addExchangeHandler}>
       <div class="mb-3">
@@ -93,7 +91,7 @@
         />
       </div>
       <div>
-        <button type="submit">Add Exchange</button>
+        <button type="submit"><i class="bi bi-plus-circle" /> Exchange</button>
       </div>
       <div style={addedAlert}>
         <p>Exchange Added</p>
@@ -134,6 +132,10 @@
 
   button {
     margin-bottom: 1rem;
+
+    i {
+      margin-right: 0.2rem;
+    }
   }
 
   #excel-upload {
