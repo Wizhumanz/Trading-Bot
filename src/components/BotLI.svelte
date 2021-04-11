@@ -358,6 +358,7 @@
                   <input
                     type="text"
                     class="form-control"
+                    class:dark={appThemeIsDark}
                     id={"ticker" + bot.WebhookConnectionID}
                     bind:value={bot.Ticker}
                   />
@@ -373,6 +374,7 @@
                     step=".01"
                     min="0"
                     class="form-control"
+                    class:dark={appThemeIsDark}
                     id="accSizePerc"
                     bind:value={bot.AccountSizePercToTrade}
                   />
@@ -391,6 +393,7 @@
                     step=".01"
                     min="0"
                     class="form-control"
+                    class:dark={appThemeIsDark}
                     id="riskPerc"
                     bind:value={bot.AccountRiskPercPerTrade}
                   />
@@ -404,6 +407,7 @@
                     step="1"
                     min="0"
                     class="form-control"
+                    class:dark={appThemeIsDark}
                     id="leverage"
                     bind:value={bot.Leverage}
                   />
@@ -546,11 +550,11 @@
     font-size: small;
   }
 
-  button {
-    background-color: $cream;
-    color: black;
-    border-radius: 5px;
-  }
+  // button {
+  //   background-color: $cream;
+  //   color: black;
+  //   border-radius: 5px;
+  // }
 
   .save-btn {
     padding: 0.25rem 0.75rem;
@@ -597,6 +601,23 @@
 
   .urlDisplay {
     overflow: hidden;
+  }
+
+  input:focus-within {
+    background-color: black;
+    color: $ivory;
+  }
+
+  // input.dark {
+  //   background-color: black;
+  //   color: $ivory;
+  //   border: $blood 3px dashed;
+  // }
+
+  input.dark:focus-within {
+    background-color: $blood;
+    color: $cream;
+    border: none;
   }
 
   button.del-btn {
