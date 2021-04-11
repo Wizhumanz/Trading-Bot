@@ -1,5 +1,5 @@
 <script>
-  import { storeUser } from "../../store.js";
+  import { storeUser, storeAppTheme } from "../../store.js";
   import axios from "axios";
 
   let user = {};
@@ -7,6 +7,11 @@
     if (newValue) {
       user = JSON.parse(newValue);
     }
+  });
+
+  let appThemeIsDark = false;
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
   });
 
   //need this for some reason. Otherwise it gives an error
@@ -62,7 +67,7 @@
   <h1>Trade History</h1>
   <div id="filterMenu">
     <a
-      class="btn"
+      class:dark={appThemeIsDark}
       data-bs-toggle="collapse"
       href="#collapseExample"
       role="button"
@@ -135,8 +140,16 @@
   }
 
   #filterMenu {
-    width: 100%;
+    margin-left: 1rem;
     text-align: left;
+
+    a {
+      color: $blue;
+    }
+
+    a.dark {
+      color: $cream;
+    }
   }
 
   .btn {
