@@ -3,6 +3,9 @@
   import { storeUser, storeAppTheme } from "../../store.js";
 
   let appThemeIsDark = false;
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
 
   var email = storeUser ? storeUser.email : null;
   storeUser.subscribe((newValue) => {
@@ -13,6 +16,7 @@
 
   function logout() {
     storeUser.set("");
+    storeAppTheme.set("light");
     setTimeout(() => {
       goto("/");
       if (document) {

@@ -12,4 +12,12 @@ storeUser.subscribe(value => {
 
 export var currentPage = writable('')
 
-export var storeAppTheme = writable('light')
+var localTheme = (typeof window !== 'undefined') && (localStorage.getItem("theme"))
+  ? localStorage.getItem("theme")
+  : "";
+export var storeAppTheme = writable(localTheme)
+storeAppTheme.subscribe(value => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem("theme", value);
+  }
+});

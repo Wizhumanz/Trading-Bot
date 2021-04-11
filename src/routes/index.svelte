@@ -6,7 +6,7 @@
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   //global variables
-  let appThemeIsDark = false;
+  let appThemeIsDark;
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
   });
