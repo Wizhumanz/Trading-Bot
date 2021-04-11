@@ -168,7 +168,7 @@
               class="form-control"
               class:dark={appThemeIsDark}
               id="botName"
-              placeholder="Long Bot"
+              placeholder="Evermore 50x Long"
               bind:value={botName}
             />
           </div>
@@ -268,7 +268,7 @@
               </div>
             </div>
           </div>
-          <div>
+          <div class="btn-row">
             <button type="submit" class:dark={appThemeIsDark}>Add Bot</button>
           </div>
           <div style={addedAlert}>
@@ -305,6 +305,10 @@
     label {
       // padding-left: 0.5rem;
     }
+  }
+
+  .btn-row {
+    text-align: center;
   }
 
   button {
