@@ -433,28 +433,29 @@
             </div>
           </div>
         </div>
-        <button
-          class="del-btn"
+      </div>
+      <div class="del-btn-row">
+        <!-- svelte-ignore a11y-missing-attribute -->
+        <a
+          class:dark={appThemeIsDark}
           on:click={() => {
             showConfirm = !showConfirm;
           }}
         >
-          <i class="bi bi-exclamation-triangle" />
-          DELETE
-          <i class="bi bi-exclamation-triangle" /></button
+          DELETE</a
         >
         <button
           style={showConfirmBtn}
-          class="del-btn-confirm"
+          class:dark={appThemeIsDark}
           on:click={deleteBot}
         >
+          <i class="bi bi-exclamation-triangle" />
           CONFIRM
         </button>
       </div>
     </div>
     <div class="col-sm-12 col-md-2" />
   </div>
-  <hr />
 </div>
 
 <style type="text/scss">
@@ -476,7 +477,7 @@
     color: $ivory;
     border: none;
     border-radius: 5px;
-    padding: 2rem;
+    padding: 2rem 3rem 1rem 3rem;
   }
 
   .main-box.dark {
@@ -656,19 +657,42 @@
     border: none;
   }
 
-  button.del-btn {
-    color: $blood;
+  .del-btn-row {
+    text-align: center;
 
-    i {
-      background-color: $cream;
-      color: black;
+    a:hover {
+      color: $cream;
+      text-decoration: underline;
     }
-  }
 
-  button.del-btn-confirm {
-    margin-bottom: -0.5rem;
-    color: $cream;
-    background-color: $blood;
-    border-color: $blood;
+    button {
+      background-color: black;
+      color: $cream;
+      position: relative;
+      width: 30%;
+      margin: 0.5rem auto;
+      border: none;
+
+      background-size: 100% 200%;
+      background-image: linear-gradient(to bottom, black 50%, $blood 50%);
+      -webkit-transition: background-position 0.5s;
+      -moz-transition: background-position 0.5s;
+      transition: background-position 0.5s;
+    }
+
+    button.dark {
+      background-color: $blue;
+      color: $cream;
+
+      background-size: 100% 200%;
+      background-image: linear-gradient(to bottom, $blue 50%, $blood 50%);
+      -webkit-transition: background-position 0.5s;
+      -moz-transition: background-position 0.5s;
+      transition: background-position 0.5s;
+    }
+
+    button.dark:hover {
+      background-position: 0 -100%;
+    }
   }
 </style>
