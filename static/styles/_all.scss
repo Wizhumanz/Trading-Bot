@@ -6,7 +6,7 @@
 $ivory: #fffff0;
 $cream: #fffdd0;
 $blood: #8a0000;
-$blue: #000058;
+$blue: #00008b;
 
 $title-font: "Alata", sans-serif;
 $body-font: "Volkhov", serif;
@@ -38,10 +38,6 @@ h3,
 h4 {
   font-family: $title-font;
   font-weight: bold;
-}
-
-h1.brand {
-  color: $blue;
 }
 
 p,
@@ -97,20 +93,39 @@ textarea {
   padding: 0.6em;
   margin: 0 0 0.5em 0;
   box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  // border: 1px solid #ccc;
+  // border-radius: 3px;
 }
 
 input {
-  background-color: black;
-  color: $cream;
-  border: $blood 2px dashed;
+  background-color: white;
+  color: black;
+  border: $blue 2px dashed;
 }
 
 input:focus-within {
-  background-color: $blood;
+  background-color: $blue;
   color: $ivory;
   border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+input.dark {
+  background-color: black;
+  color: $ivory;
+  border: $blood 2px dashed;
+}
+
+input.dark:focus-within {
+  background-color: $blood;
+  border: none;
+}
+
+input.dark:focus {
+  outline: none;
 }
 
 button {

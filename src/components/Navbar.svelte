@@ -206,7 +206,7 @@
         color: yellow;
       }
       i.dark:hover {
-        color: lightskyblue;
+        color: $blue;
       }
     }
   }

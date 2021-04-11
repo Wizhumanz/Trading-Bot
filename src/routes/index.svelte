@@ -8,7 +8,7 @@
   //global variables
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
-  let appThemeIsDark = true;
+  let appThemeIsDark = false;
 
   //only for user login
   let userLogin = {
@@ -151,9 +151,9 @@
             <label for="emailLogin" class="form-label"> Email</label>
             <input
               type="email"
-              class="form-control"
+              class="form-control {appThemeIsDark === true ? 'dark' : ''}"
               id="emailLogin"
-              placeholder="name@agency.com"
+              placeholder="ana@myika.co"
               bind:value={userLogin.email}
             />
           </div>
@@ -161,9 +161,9 @@
             <label for="passwordLogin" class="form-label"> Password</label>
             <input
               type="password"
-              class="form-control"
+              class="form-control {appThemeIsDark === true ? 'dark' : ''}"
               id="passwordLogin"
-              placeholder="password"
+              placeholder="g@iN$z"
               bind:value={userLogin.password}
             />
           </div>
