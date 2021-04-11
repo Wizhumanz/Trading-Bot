@@ -68,6 +68,22 @@
             <a class="nav-link active" on:click={logout}>Log Out</a>
           </li>
         {/if}
+        <li class="nav-tem">
+          <ul id="themeSelector">
+            <li>
+              <i
+                on:click={() => console.log("Clicked light")}
+                class="bi bi-sun light"
+              />
+            </li>
+            <li>
+              <i
+                on:click={() => console.log("Clicked dark")}
+                class="bi bi-moon dark"
+              />
+            </li>
+          </ul>
+        </li>
         <li class="nav-item d-md-none">
           <span>***</span>
         </li>
@@ -114,6 +130,8 @@
 
   .nav-link.active {
     color: $ivory;
+    position: relative;
+    z-index: 100;
   }
 
   button.navbar-toggler {
@@ -148,5 +166,29 @@
 
   .loggedInID {
     color: gray !important;
+  }
+
+  #themeSelector {
+    margin: 0.1rem -0.5rem auto -2.5rem;
+    padding: auto -2rem auto 0;
+    position: relative;
+    z-index: 1;
+
+    li {
+      display: inline;
+      margin: auto -0.5rem;
+      padding: auto 0;
+
+      i {
+        margin: 0.75rem 0 auto 0;
+        padding: auto 0;
+      }
+      i.light:hover {
+        color: yellow;
+      }
+      i.dark:hover {
+        color: lightskyblue;
+      }
+    }
   }
 </style>
