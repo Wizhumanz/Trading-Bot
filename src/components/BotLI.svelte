@@ -1,12 +1,17 @@
 <script>
   import { onMount } from "svelte";
   import axios from "axios";
-  import { storeUser } from "../../store.js";
+  import { storeUser, storeAppTheme } from "../../store.js";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   export let bot;
 
   // global variables
+  let appThemeIsDark = false;
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
+
   let user = {};
   let loading = false;
   let newTicker;
@@ -257,7 +262,7 @@
 <div class="container-fluid" class:active>
   <div class="row">
     <div class="col-sm-12 col-md-2" />
-    <div class="col-sm-12 col-md-8 main-box">
+    <div class="col-sm-12 col-md-8 main-box" class:dark={appThemeIsDark}>
       <div class="row">
         <div class="col-sm-12 col-lg-4">
           <h4>{bot.Name}</h4>
@@ -451,9 +456,16 @@
   }
 
   .main-box {
-    border: $blue 3px solid;
+    background-color: $blue;
+    color: $ivory;
+    border: none;
     border-radius: 5px;
     padding: 2rem;
+  }
+
+  .main-box {
+    border: $blue 3px solid;
+    border-radius: 5px;
   }
 
   div.red {
