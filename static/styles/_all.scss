@@ -23,6 +23,11 @@ $grid-breakpoints: (
 
 // global styles
 
+// * {
+//   background-color: white;
+//   color: black;
+// }
+
 body {
   margin-bottom: 5rem;
 }
@@ -33,7 +38,7 @@ h3,
 h4 {
   font-family: $title-font;
   font-weight: bold;
-  color: $ivory;
+  // color: $ivory;
 }
 
 h1.brand {

@@ -2,8 +2,9 @@
   import { goto } from "@sapper/app";
   import { storeUser, storeAppTheme } from "../../store.js";
 
-  var email = storeUser ? storeUser.email : null;
+  let appThemeIsDark = false;
 
+  var email = storeUser ? storeUser.email : null;
   storeUser.subscribe((newValue) => {
     if (newValue) {
       email = JSON.parse(newValue) ? JSON.parse(newValue).email : null;
@@ -22,15 +23,26 @@
 
   function setLightTheme() {
     storeAppTheme.set("light");
+    appThemeIsDark = false;
+    console.log(appThemeIsDark);
   }
   function setDarkTheme() {
     storeAppTheme.set("dark");
+    appThemeIsDark = true;
+    console.log(appThemeIsDark);
   }
 </script>
 
-<nav class="navbar navbar-expand-md sticky-top navbar-light" id="the-nav">
+<nav
+  class="navbar navbar-expand-md sticky-top {appThemeIsDark === true
+    ? 'dark'
+    : ''}"
+  id="the-nav"
+>
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Anastasia</a>
+    <a class="navbar-brand {appThemeIsDark === true ? 'dark' : ''}" href="/"
+      >Anastasia</a
+    >
     <button
       class="navbar-toggler"
       type="button"
@@ -98,8 +110,8 @@
 
   nav {
     font-family: $title-font;
-    background-color: $blood;
-    color: $ivory;
+    background-color: white;
+    color: black;
 
     // margin-bottom: 1rem;
     padding: 0;
@@ -113,15 +125,24 @@
     -webkit-transition: 1.5s ease;
   }
 
+  nav.dark {
+    background-color: black;
+    color: $ivory;
+  }
+
   a.navbar-brand {
     font-size: 1.5rem;
     padding: 0;
     margin: 1rem 2rem;
-    color: $ivory;
+    color: $blood;
 
     @media only screen and (max-width: 767px) {
       margin: 0.75rem 1rem;
     }
+  }
+
+  a.navbar-brand.dark {
+    color: $cream;
   }
 
   .navbar-collapse {
@@ -130,7 +151,7 @@
   }
 
   .nav-link.active {
-    color: $ivory;
+    color: inherit;
     position: relative;
     z-index: 100;
   }
@@ -148,7 +169,6 @@
     margin-right: 0;
     margin-top: 0;
     font-size: 1.2rem;
-    background-color: green;
 
     li {
       font-family: $body-font;

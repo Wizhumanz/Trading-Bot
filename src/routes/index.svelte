@@ -8,6 +8,7 @@
   //global variables
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
+  let appThemeIsDark = true;
 
   //only for user login
   let userLogin = {
@@ -38,7 +39,8 @@
   });
 
   storeAppTheme.subscribe((newVal) => {
-    console.log(newVal);
+    appThemeIsDark = newVal === "dark";
+    console.log(appThemeIsDark);
   });
 
   //helper functions
