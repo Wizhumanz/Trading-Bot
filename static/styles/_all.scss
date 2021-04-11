@@ -97,7 +97,8 @@ textarea {
   // border-radius: 3px;
 }
 
-input {
+input,
+select {
   background-color: white;
   color: black;
   border: $blue 2px dashed;
@@ -113,7 +114,8 @@ input:focus {
   outline: none;
 }
 
-input.dark {
+input.dark,
+select.dark {
   background-color: black;
   color: $ivory;
   border: $blood 2px dashed;

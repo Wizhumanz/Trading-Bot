@@ -1,9 +1,15 @@
 <script>
   import axios from "axios";
-  import { storeUser } from "../../store.js";
   import LoadingIndicator from "./LoadingIndicator.svelte";
+  import { storeUser, storeAppTheme } from "../../store.js";
 
   //global variables
+  let appThemeIsDark = false;
+
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
+
   let loading = false;
   let addedAlert = "display: none;";
   let newTicker;
@@ -160,6 +166,7 @@
               required="required"
               type="text"
               class="form-control"
+              class:dark={appThemeIsDark}
               id="botName"
               placeholder="Long Bot"
               bind:value={botName}
@@ -171,6 +178,7 @@
               required="required"
               type="text"
               class="form-control"
+              class:dark={appThemeIsDark}
               id="ticker"
               placeholder="BTC/USDT"
               bind:value={newTicker}
@@ -180,7 +188,8 @@
             <label for="webhookConn" class="form-label">Strategy</label>
             <select
               id="webhookConn"
-              class="form-select dark"
+              class="form-select"
+              class:dark={appThemeIsDark}
               bind:value={strategySelect}
             >
               {#if user.publicWebhookConns}
@@ -203,6 +212,7 @@
                   type="number"
                   step=".01"
                   class="form-control"
+                  class:dark={appThemeIsDark}
                   id="accSize"
                   placeholder="20"
                   bind:value={accSizePerc}
@@ -217,6 +227,7 @@
                   type="number"
                   step=".01"
                   class="form-control"
+                  class:dark={appThemeIsDark}
                   id="accRisk"
                   placeholder="1.5"
                   bind:value={accRiskPerc}
@@ -230,6 +241,7 @@
                   required="required"
                   type="number"
                   class="form-control"
+                  class:dark={appThemeIsDark}
                   id="leverage"
                   placeholder="10"
                   bind:value={leverage}
@@ -242,6 +254,7 @@
                   required="required"
                   type="text"
                   class="form-control"
+                  class:dark={appThemeIsDark}
                   id="area"
                   placeholder="000000000"
                   bind:value={exchange}
@@ -250,7 +263,7 @@
             </div>
           </div>
           <div>
-            <button type="submit">Add Bot</button>
+            <button type="submit" class:dark={appThemeIsDark}>Add Bot</button>
           </div>
           <div style={addedAlert}>
             <p>Bot Added</p>
@@ -280,18 +293,6 @@
     text-align: left;
   }
 
-  select {
-    font-family: $body-font;
-    background-color: $ivory;
-    border: $blood 1px dashed;
-  }
-
-  select.dark {
-    background-color: black;
-    color: $cream;
-    border: $blood 2px dashed;
-  }
-
   .form-check {
     margin: 0.75rem 0.5rem;
 
@@ -302,9 +303,5 @@
 
   button {
     margin-bottom: 1rem;
-  }
-
-  #excel-upload {
-    margin: 5rem auto;
   }
 </style>

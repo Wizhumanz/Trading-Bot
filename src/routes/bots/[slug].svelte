@@ -48,7 +48,7 @@
             aria-expanded="false"
             aria-controls="collapseExample"
           >
-            Add Bot
+            + Add Bot
           </a>
         </h1>
       </li>
