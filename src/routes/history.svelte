@@ -103,7 +103,7 @@
 
   <table class="table">
     <thead>
-      <tr>
+      <tr class:dark={appThemeIsDark}>
         <th scope="col">Action</th>
         <th scope="col">Ticker</th>
         <th scope="col">Size</th>
@@ -116,7 +116,7 @@
     </thead>
     <tbody>
       {#each user.trades as t}
-        <tr>
+        <tr class:dark={appThemeIsDark}>
           <td>{t.Action}</td>
           <td>{t.Ticker}</td>
           <td>{t.Size}</td>
@@ -161,9 +161,27 @@
   table {
     margin-top: 0.75rem;
     text-align: left;
+    font-family: $body-font;
+  }
+
+  thead {
+    font-style: italic;
+  }
+
+  tr {
+    color: black;
+  }
+
+  tr.dark {
+    color: $ivory;
   }
 
   tr:hover {
+    background-color: $blue;
+    color: $ivory;
+  }
+
+  tr.dark:hover {
     background-color: $blood;
     color: $cream;
   }
