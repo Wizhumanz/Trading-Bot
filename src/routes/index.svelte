@@ -138,7 +138,7 @@
     <LoadingIndicator />
   {/if}
 
-  <div class="container-fluid">
+  <div class="container-fluid" class:dark={appThemeIsDark}>
     <div class="row signIn">
       <div class="col-2" />
       <div class="col-8">
@@ -182,6 +182,16 @@
 
 <style type="text/scss">
   @import "../../static/styles/_all";
+
+  .container-fluid {
+    height: 100%;
+    position: fixed;
+    background-color: white;
+  }
+
+  .container-fluid.dark {
+    background-color: black;
+  }
 
   div.row.signIn {
     margin-top: 1.5rem;
