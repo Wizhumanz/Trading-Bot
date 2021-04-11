@@ -1,11 +1,15 @@
 <script>
   import axios from "axios";
-  import { storeUser } from "../../store.js";
+  import { storeUser, storeAppTheme } from "../../store.js";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   export let exchange;
 
   //global variables
+  let appThemeIsDark = false;
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
   let user = {};
   let loading = false;
   let exchangeBool = exchange.IsDeleted === "true" ? true : false;
@@ -61,19 +65,24 @@
   <LoadingIndicator />
 {/if}
 
+{#if user.exchanges[0].APIKey !== exchange.APIKey}
+  <h3><i class="bi bi-chevron-compact-down" /></h3>
+{/if}
 <div class="container-fluid" style={hideExchange}>
   <div class="row">
     <div class="col-sm col-md-1" />
-    <div class="col-sm col-md-10 main-box">
-      <div class="row">
-        <div class="col-7"><h4>Name</h4></div>
-        <div class="col-5 val-col">
+    <div class="col-sm col-md-10 main-box" class:dark={appThemeIsDark}>
+      <div class="row val-row">
+        <div class="col-3"><h4>Name</h4></div>
+        <div class="col-9 val-col">
           {exchange.Name}
         </div>
       </div>
       <div class="row">
-        <div class="col-7"><h4>API Key</h4></div>
-        <div class="col-5 val-col">
+        <div class="col-3">
+          <h4>API <i class="bi bi-key" /></h4>
+        </div>
+        <div class="col-9 val-col">
           {exchange.APIKey}
         </div>
       </div>
@@ -81,11 +90,15 @@
     </div>
     <div class="col-sm col-md-1" />
   </div>
-  <hr />
+  <span />
 </div>
 
 <style type="text/scss">
   @import "../../static/styles/_all";
+
+  h4 {
+    color: $cream;
+  }
 
   div.container-fluid {
     font-family: $body-font;
@@ -99,88 +112,54 @@
   }
 
   div.main-box {
+    background-color: $blue;
+    color: $ivory;
+    border: none;
+    border-radius: 5px;
+    padding: 1.5rem 2.5rem 1rem 2rem;
+
+    button {
+      font-size: larger;
+      margin-top: 1rem;
+      border-radius: 3px;
+      border: none;
+      color: $ivory;
+      background-color: black;
+
+      background-size: 100% 200%;
+      background-image: linear-gradient(to bottom, black 50%, $blood 50%);
+      -webkit-transition: background-position 0.5s;
+      -moz-transition: background-position 0.5s;
+      transition: background-position 0.5s;
+    }
+
+    button:hover {
+      background-position: 0 -100%;
+      color: $ivory;
+    }
+  }
+
+  div.main-box.dark {
+    background-color: black;
     border: $blood 3px dotted;
     border-radius: 5px;
     padding: 1.5rem;
   }
 
-  div.red {
-    border: $blood 3px solid;
-    background-color: $blood;
-    border-radius: 3px;
-    color: $ivory;
-    text-align: center;
-    margin: auto auto 1.5rem auto;
-    padding: 1.5rem;
+  .val-row {
+    margin-bottom: 0.5rem;
+    text-align: left;
+  }
 
-    p {
-      background-color: $blood;
-      color: $cream;
-    }
+  .bi-key {
+    margin-left: 0.25rem;
+  }
+
+  .val-col {
+    padding-top: 0.25rem;
   }
 
   .mb-3 {
     margin-top: 0.5rem;
-  }
-
-  div.settings-col {
-    hr {
-      color: $cream;
-    }
-  }
-
-  .val-col {
-    font-family: $title-font;
-    font-size: large;
-  }
-
-  .lowkey-val-col {
-    font-family: $title-font;
-    font-size: small;
-  }
-
-  button {
-    background-color: $cream;
-    color: black;
-    border-radius: 5px;
-  }
-
-  .save-btn {
-    padding: 0.25rem 0.75rem;
-    margin-bottom: 1rem;
-    color: $cream;
-    background-color: $blue;
-    border: $cream 2px dashed;
-    font-size: small;
-  }
-
-  .display-fields {
-    font-size: small;
-  }
-
-  p.changeVal {
-    color: yellow;
-    font-weight: bold;
-  }
-
-  #imgDisplay {
-    overflow: hidden;
-    display: block;
-    margin: auto;
-  }
-
-  input.form-check-input {
-    margin: 1rem auto;
-  }
-
-  .editA {
-    height: fit-content;
-    color: $blue;
-    font-style: italic;
-    margin-top: 0.5rem;
-  }
-
-  a {
-    text-decoration: underline;
   }
 </style>

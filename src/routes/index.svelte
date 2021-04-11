@@ -6,9 +6,13 @@
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   //global variables
+  let appThemeIsDark = false;
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
+
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
-  let appThemeIsDark = false;
 
   //only for user login
   let userLogin = {
@@ -36,10 +40,6 @@
         goto("/bots/active");
       }
     }
-  });
-
-  storeAppTheme.subscribe((newVal) => {
-    appThemeIsDark = newVal === "dark";
   });
 
   //helper functions
