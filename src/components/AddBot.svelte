@@ -172,34 +172,40 @@
               bind:value={botName}
             />
           </div>
-          <div class="mb-3">
-            <label for="ticker" class="form-label">Ticker</label>
-            <input
-              required="required"
-              type="text"
-              class="form-control"
-              class:dark={appThemeIsDark}
-              id="ticker"
-              placeholder="BTC/USDT"
-              bind:value={newTicker}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="webhookConn" class="form-label">Strategy</label>
-            <select
-              id="webhookConn"
-              class="form-select"
-              class:dark={appThemeIsDark}
-              bind:value={strategySelect}
-            >
-              {#if user.publicWebhookConns}
-                {#each user.publicWebhookConns as w}
-                  <option value={w.KEY}>{w.Name}</option>
-                {/each}
-              {/if}
-              <!-- keep this option outside #each to allow custom strategy definition -->
-              <option value="custom">Create my own webhook URL</option>
-            </select>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="ticker" class="form-label">Ticker</label>
+                <input
+                  required="required"
+                  type="text"
+                  class="form-control"
+                  class:dark={appThemeIsDark}
+                  id="ticker"
+                  placeholder="BTC/USDT"
+                  bind:value={newTicker}
+                />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="webhookConn" class="form-label">Strategy</label>
+                <select
+                  id="webhookConn"
+                  class="form-select"
+                  class:dark={appThemeIsDark}
+                  bind:value={strategySelect}
+                >
+                  {#if user.publicWebhookConns}
+                    {#each user.publicWebhookConns as w}
+                      <option value={w.KEY}>{w.Name}</option>
+                    {/each}
+                  {/if}
+                  <!-- keep this option outside #each to allow custom strategy definition -->
+                  <option value="custom">Create my own webhook URL</option>
+                </select>
+              </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-6">
