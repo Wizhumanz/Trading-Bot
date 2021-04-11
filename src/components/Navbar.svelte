@@ -83,6 +83,9 @@
             <a class="nav-link active" href="/history">History</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link active" href="/strategy">Strategies</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link active" href="/exchanges">Exchanges</a>
           </li>
           <li class="nav-item">
