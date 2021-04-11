@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { goto } from "@sapper/app";
-  import { storeUser } from "../../store.js";
+  import { storeUser, storeAppTheme } from "../../store.js";
   import axios from "axios";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
@@ -35,6 +35,10 @@
         goto("/bots/active");
       }
     }
+  });
+
+  storeAppTheme.subscribe((newVal) => {
+    console.log(newVal);
   });
 
   //helper functions

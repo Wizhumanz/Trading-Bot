@@ -11,3 +11,5 @@ storeUser.subscribe(value => {
 });
 
 export var currentPage = writable('')
+
+export var storeAppTheme = writable('light')

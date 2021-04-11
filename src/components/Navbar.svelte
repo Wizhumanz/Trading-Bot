@@ -1,6 +1,6 @@
 <script>
-  import { storeUser } from "../../store.js";
   import { goto } from "@sapper/app";
+  import { storeUser, storeAppTheme } from "../../store.js";
 
   var email = storeUser ? storeUser.email : null;
 
@@ -18,6 +18,13 @@
         document.location.reload();
       }
     }, 300);
+  }
+
+  function setLightTheme() {
+    storeAppTheme.set("light");
+  }
+  function setDarkTheme() {
+    storeAppTheme.set("dark");
   }
 </script>
 
@@ -71,16 +78,10 @@
         <li class="nav-tem">
           <ul id="themeSelector">
             <li>
-              <i
-                on:click={() => console.log("Clicked light")}
-                class="bi bi-sun light"
-              />
+              <i on:click={setLightTheme} class="bi bi-sun light" />
             </li>
             <li>
-              <i
-                on:click={() => console.log("Clicked dark")}
-                class="bi bi-moon dark"
-              />
+              <i on:click={setDarkTheme} class="bi bi-moon dark" />
             </li>
           </ul>
         </li>
