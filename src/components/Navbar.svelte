@@ -16,7 +16,8 @@
 
   function logout() {
     storeUser.set("");
-    storeAppTheme.set("light");
+    // DO NOT reset theme on regular login, use for debug only
+    // storeAppTheme.set("light");
     setTimeout(() => {
       goto("/");
       if (document) {
@@ -121,10 +122,6 @@
     @media only screen and (max-width: 767px) {
       margin-bottom: 0.5rem;
     }
-
-    transition: 1.5s ease;
-    -moz-transition: 1.5s ease;
-    -webkit-transition: 1.5s ease;
   }
 
   nav.dark {
