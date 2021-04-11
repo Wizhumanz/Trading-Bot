@@ -24,12 +24,10 @@
   function setLightTheme() {
     storeAppTheme.set("light");
     appThemeIsDark = false;
-    console.log(appThemeIsDark);
   }
   function setDarkTheme() {
     storeAppTheme.set("dark");
     appThemeIsDark = true;
-    console.log(appThemeIsDark);
   }
 </script>
 

@@ -6,7 +6,6 @@
 
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
-    console.log(appThemeIsDark);
   });
 </script>
 
