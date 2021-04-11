@@ -65,6 +65,9 @@
             >{email ? email : ""}</a
           >
         </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/strategy">Strategies</a>
+        </li>
         {#if !email}
           <!-- <li class="nav-item">
             <a class="nav-link active" href="/">About</a>
@@ -81,9 +84,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="/history">History</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/strategy">Strategies</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="/exchanges">Exchanges</a>
