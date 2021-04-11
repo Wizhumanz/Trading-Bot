@@ -93,10 +93,21 @@
         <li class="nav-tem">
           <ul id="themeSelector">
             <li>
-              <i on:click={setLightTheme} class="bi bi-sun light" />
+              {#if appThemeIsDark}
+                <i on:click={setLightTheme} class="bi bi-sun light" />
+              {:else}
+                <i
+                  on:click={setLightTheme}
+                  class="bi bi-brightness-high-fill light"
+                />
+              {/if}
             </li>
             <li>
-              <i on:click={setDarkTheme} class="bi bi-moon dark" />
+              {#if appThemeIsDark}
+                <i on:click={setDarkTheme} class="bi bi-moon-fill dark" />
+              {:else}
+                <i on:click={setDarkTheme} class="bi bi-moon dark" />
+              {/if}
             </li>
           </ul>
         </li>
@@ -204,10 +215,10 @@
         padding: auto 0;
       }
       i.light:hover {
-        color: yellow;
+        color: $blood;
       }
       i.dark:hover {
-        color: $blue;
+        color: blue;
       }
     }
   }
