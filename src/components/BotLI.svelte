@@ -445,7 +445,7 @@
             showConfirm = !showConfirm;
           }}
         >
-          DELETE</a
+          {showConfirm === false ? "DELETE" : "Cancel"}</a
         >
         <button
           style={showConfirmBtn}
