@@ -130,29 +130,69 @@ input.dark:focus {
 
 button {
   font-size: larger;
-  border: 2px solid $cream;
-  color: $cream;
   padding: 0.5rem 1rem 0.5rem 1rem;
   margin-top: 0.5rem;
+  border: 2px solid $blood;
+  border-radius: 5px;
+  color: $blood;
+  background-color: white;
+
+  background-size: 100% 200%;
+  background-image: linear-gradient(to bottom, white 50%, $blood 50%);
+  -webkit-transition: background-position 0.5s;
+  -moz-transition: background-position 0.5s;
+  transition: background-position 0.5s;
 }
 
-// button:hover {
-//   color: $ivory;
-//   background-color: $blood;
+button:hover {
+  background-position: 0 -100%;
+  color: $ivory;
 
-//   animation-name: blood-btn-flash;
-//   animation-duration: 0.3s;
-//   animation-timing-function: ease-out;
-// }
+  // animation-name: blood-btn-flash;
+  // animation-duration: 0.5s;
+  // animation-timing-function: cubic-bezier();
+}
 
 @keyframes blood-btn-flash {
   0% {
     color: $blood;
-    background-color: $ivory;
+    background-color: white;
   }
   100% {
     color: $ivory;
     background-color: $blood;
+  }
+}
+
+button.dark {
+  border: 2px solid $cream;
+  color: $cream;
+  background-color: black;
+
+  background-size: 100% 200%;
+  background-image: linear-gradient(to bottom, black 50%, $cream 50%);
+  -webkit-transition: background-position 0.5s;
+  -moz-transition: background-position 0.5s;
+  transition: background-position 0.5s;
+}
+
+button.dark:hover {
+  background-position: 0 -100%;
+  color: black;
+
+  // animation-name: dark-btn-flash;
+  // animation-duration: 0.5s;
+  // animation-timing-function: cubic-bezier();
+}
+
+@keyframes dark-btn-flash {
+  0% {
+    color: $cream;
+    background-color: black;
+  }
+  100% {
+    color: black;
+    background-color: $cream;
   }
 }
 

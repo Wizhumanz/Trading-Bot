@@ -151,9 +151,10 @@
             <label for="emailLogin" class="form-label"> Email</label>
             <input
               type="email"
-              class="form-control {appThemeIsDark === true ? 'dark' : ''}"
+              class="form-control"
               id="emailLogin"
               placeholder="ana@myika.co"
+              class:dark={appThemeIsDark}
               bind:value={userLogin.email}
             />
           </div>
@@ -161,14 +162,17 @@
             <label for="passwordLogin" class="form-label"> Password</label>
             <input
               type="password"
-              class="form-control {appThemeIsDark === true ? 'dark' : ''}"
+              class="form-control"
               id="passwordLogin"
               placeholder="g@iN$z"
+              class:dark={appThemeIsDark}
               bind:value={userLogin.password}
             />
           </div>
-          <button type="submit" id="signInBtn">Sign In</button>
-          <a class="register" href="/register">Register</a>
+          <button type="submit" class:dark={appThemeIsDark}>Sign In</button>
+          <a class="register" href="/register" class:dark={appThemeIsDark}
+            >Register</a
+          >
         </form>
       </div>
       <div class="col-2" />
@@ -184,9 +188,13 @@
   }
 
   a.register {
-    color: $cream;
+    color: black;
     font-family: $title-font;
     text-decoration: underline;
     margin-left: 0.75rem;
+  }
+
+  a.register.dark {
+    color: $cream;
   }
 </style>
