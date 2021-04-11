@@ -360,7 +360,7 @@
                     <a
                       on:click={copyText}
                       data-toggle="tooltip"
-                      title="Copy to Clipboard">{webhookDisplayData}</a
+                      title="Copy link to clipboard">{webhookDisplayData}</a
                     >
                   </div>
                 </div>
@@ -655,6 +655,14 @@
 
   .urlDisplay {
     overflow: hidden;
+
+    a {
+      color: $ivory;
+    }
+    a:hover {
+      color: $cream;
+      text-decoration: underline;
+    }
   }
 
   input:focus-within {
