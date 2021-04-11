@@ -266,19 +266,14 @@
       <div class="row">
         <div class="col-sm-12 col-lg-4">
           <h4>{bot.Name}</h4>
-          <p>{bot.KEY}</p>
-          <div class="red">
+          <div class="statusDiv" class:dark={appThemeIsDark}>
             {#if bot.IsActive === "true" || bot.IsActive === true}
-              <p>ACTIVE</p>
+              <h4>ACTIVE</h4>
             {:else}
-              <p>INACTIVE</p>
+              <h4>INACTIVE</h4>
             {/if}
 
-            <button
-              on:click={toggleBotStatus}
-              type="button"
-              class="btn blood-btn"
-            >
+            <button on:click={toggleBotStatus} class:dark={appThemeIsDark}>
               {bot.IsActive === "true" || bot.IsActive === true
                 ? "Shut Down"
                 : "Activate"}
@@ -463,23 +458,75 @@
     padding: 2rem;
   }
 
-  .main-box {
-    border: $blue 3px solid;
+  .main-box.dark {
+    background-color: black;
+    border: $blood 3px dashed;
     border-radius: 5px;
   }
 
-  div.red {
+  div.statusDiv {
+    background-color: $cream;
+    color: black;
+    border-radius: 7px;
+
+    text-align: center;
+    margin: 0.75rem auto 1.5rem auto;
+    padding: 1.25rem 1rem;
+
+    h4 {
+    }
+
+    button {
+      font-size: larger;
+      padding: 0.25rem 0.75rem;
+      margin-top: 0;
+      border-radius: 3px;
+      border: none;
+      color: $ivory;
+      background-color: black;
+
+      background-size: 100% 200%;
+      background-image: linear-gradient(to bottom, black 50%, $blood 50%);
+      -webkit-transition: background-position 0.5s;
+      -moz-transition: background-position 0.5s;
+      transition: background-position 0.5s;
+    }
+
+    button:hover {
+      background-position: 0 -100%;
+      color: $ivory;
+    }
+  }
+
+  div.statusDiv.dark {
     border: $blood 3px solid;
     background-color: $blood;
-    border-radius: 3px;
     color: $ivory;
-    text-align: center;
-    margin: auto auto 1.5rem auto;
-    padding: 1.5rem;
 
-    p {
+    h4 {
       background-color: $blood;
       color: $cream;
+    }
+
+    button {
+      font-size: larger;
+      padding: 0.25rem 0.75rem;
+      margin-top: 0;
+      border-radius: 3px;
+      border: none;
+      color: $ivory;
+      background-color: black;
+
+      background-size: 100% 200%;
+      background-image: linear-gradient(to bottom, black 50%, $cream 50%);
+      -webkit-transition: background-position 0.5s;
+      -moz-transition: background-position 0.5s;
+      transition: background-position 0.5s;
+    }
+
+    button:hover {
+      background-position: 0 -100%;
+      color: $blood;
     }
   }
 
