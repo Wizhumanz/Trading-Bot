@@ -27,26 +27,26 @@
   };
 
   //global variables
-  const { page } = stores();
-  var route;
-  let user = {};
-  let loading = false;
   let appThemeIsDark = false;
-
-  page.subscribe(({ path, params, query }) => {
-    route = params.slug;
-    currentPage.set(route);
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
   });
 
+  let user = {};
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
     }
   });
 
-  storeAppTheme.subscribe((newVal) => {
-    appThemeIsDark = newVal === "dark";
+  const { page } = stores();
+  var route;
+  page.subscribe(({ path, params, query }) => {
+    route = params.slug;
+    currentPage.set(route);
   });
+
+  let loading = false;
 </script>
 
 <!--Loading Sign-->

@@ -32,7 +32,7 @@
     })
     .then((res) => {
       user.trades = res.data;
-      console.log(res.status + " -- " + JSON.stringify(res.data));
+      // console.log(res.status + " -- " + JSON.stringify(res.data));
     })
     .catch((error) => {
       console.log(error.response);

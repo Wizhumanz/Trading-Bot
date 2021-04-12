@@ -40,7 +40,7 @@
       user.exchanges = res.data;
       storeUser.set(JSON.stringify(user));
 
-      console.log(res.status + " -- " + JSON.stringify(res.data));
+      // console.log(res.status + " -- " + JSON.stringify(res.data));
     })
     .catch((error) => {
       console.log(error.response);
