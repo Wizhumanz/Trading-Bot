@@ -129,7 +129,7 @@
     // }
 
     let data = { ...bot };
-    console.log(data);
+    // console.log(data);
     delete data.AggregateID;
     data.IsActive = data.IsActive.toString();
     data.AccountRiskPercPerTrade = data.AccountRiskPercPerTrade.toString();
