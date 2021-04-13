@@ -8,6 +8,11 @@
   let showHistoryBool = false;
   let user = {};
   let whichKey = "";
+  let showLong = true;
+  let showShort = true;
+  let showOpen = true;
+  let showClose = true;
+  let showUpdate = true;
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
@@ -76,6 +81,7 @@
   <div class="row options">
     <div class="col-1 col-md-1">
       <div id="filterMenu">
+        <!-- svelte-ignore a11y-missing-attribute -->
         <a
           class:dark={appThemeIsDark}
           data-bs-toggle="collapse"
@@ -84,29 +90,64 @@
           aria-expanded="false"
           aria-controls="collapseExample"
         >
-          <h4><i class="bi bi-card-checklist" /></h4>
+          Display
         </a>
         <div class="collapse" id="collapseExample">
           <div class="form-check">
+            <label class="form-check-label" for="flexCheckDefault">
+              Long
+            </label>
             <input
               class="form-check-input"
               type="checkbox"
               value=""
               id="flexCheckDefault"
+              bind:checked={showLong}
             />
             <label class="form-check-label" for="flexCheckDefault">
-              FAKE field 1
+              Short
             </label>
-
             <input
               class="form-check-input"
               type="checkbox"
               value=""
               id="flexCheckDefault"
+              bind:checked={showShort}
+            />
+          </div>
+        </div>
+        <div class="collapse" id="collapseExample">
+          <div class="form-check">
+            <label class="form-check-label" for="flexCheckDefault">
+              Open
+            </label>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+              bind:checked={showOpen}
             />
             <label class="form-check-label" for="flexCheckDefault">
-              FAKE field 2
+              Close
             </label>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+              bind:checked={showClose}
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              Update
+            </label>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+              bind:checked={showUpdate}
+            />
           </div>
         </div>
       </div>
