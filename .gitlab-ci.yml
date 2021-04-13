@@ -1,15 +1,10 @@
 stages:
   - build
-  - test
   - deploy
 
 variables:
   IMAGE: node:lts-alpine3.13
   GCLOUD_PROJECT_ID: "myika-anastasia"
-
-cache:
-  paths:
-    - node_modules/
 
 frontend-build:
   stage: build
@@ -18,22 +13,13 @@ frontend-build:
     - npm install
     - npm run-script build
 
-# test:
-#   stage: test
-#   only:
-#     - master
-#   image: alekzonder/puppeteer:latest
-#   script:
-#     - npm install
-#     - npm run test
-
 deploy:
   stage: deploy
   rules:
     - if: '$CI_COMMIT_BRANCH == "production"'
   image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
   script:
-    - gcloud auth activate-service-account --key-file=$GCLOUD_KEY
+    - gcloud auth activate-service-account --key-file=$GCLOUD_ACC_KEY
     - gcloud config set project $GCLOUD_PROJECT_ID
     - gcloud builds submit --tag gcr.io/$GCLOUD_PROJECT_ID/console-$CI_COMMIT_SHORT_SHA
     - gcloud beta run deploy console --image gcr.io/$GCLOUD_PROJECT_ID/console-$CI_COMMIT_SHORT_SHA --port 3000 --platform managed --min-instances 0 --allow-unauthenticated --region asia-southeast1 --memory 128Mi --cpu 1 --concurrency 20
