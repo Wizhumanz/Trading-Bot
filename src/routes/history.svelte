@@ -46,9 +46,9 @@
 
       delete whichKey[whichKey.indexOf(e.target.innerText)];
     } else {
-      showHistoryBool = !showHistoryBool;
+      showHistoryBool = true;
 
-      whichKey.push(e.target.innerText);
+      whichKey = [...whichKey, e.target.innerText];
       console.log(whichKey);
     }
   }
