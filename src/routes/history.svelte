@@ -217,7 +217,7 @@
           {#if whichKey == key}
             {#each groupedView[key] as history}
               <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-              <tr style={showHistory} class:dark={appThemeIsDark}>
+              <tr class:dark={appThemeIsDark}>
                 <td>{history.Action}</td>
                 <td>{history.Ticker}</td>
                 <td>{history.Size}</td>
