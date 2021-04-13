@@ -57,8 +57,8 @@
 <div id="stratIndex" class:dark={appThemeIsDark}>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-1" />
-      <div class="col-10">
+      <div class="col-4" />
+      <div class="col-4">
         <!-- top strats carousel -->
         <div
           id="topStratsCarouselIndic"
@@ -85,40 +85,22 @@
           </div>
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <div class="row">
-                <div class="col-sm-1 col-md-4" />
-                <div class="col-sm-10 col-md-4 card">
-                  <h1>#1: {strats[0].name}</h1>
-                  <p>Timeframe: {strats[0].timeframe}</p>
-                  <p>Monthly % Gain: {strats[0].monthlyPercGain}</p>
-                  <p>Winrate: {strats[0].winrate}</p>
-                </div>
-                <div class="col-sm-1 col-md-4" />
-              </div>
+              <h1>#1: {strats[0].name}</h1>
+              <p>Timeframe: {strats[0].timeframe}</p>
+              <p>Monthly % Gain: {strats[0].monthlyPercGain}</p>
+              <p>Winrate: {strats[0].winrate}</p>
             </div>
             <div class="carousel-item">
-              <div class="row">
-                <div class="col-sm-1 col-md-4" />
-                <div class="col-sm-10 col-md-4 card">
-                  <h1>#2: {strats[1].name}</h1>
-                  <p>Timeframe: {strats[1].timeframe}</p>
-                  <p>Monthly % Gain: {strats[1].monthlyPercGain}</p>
-                  <p>Winrate: {strats[1].winrate}</p>
-                </div>
-                <div class="col-sm-1 col-md-4" />
-              </div>
+              <h1>#2: {strats[1].name}</h1>
+              <p>Timeframe: {strats[1].timeframe}</p>
+              <p>Monthly % Gain: {strats[1].monthlyPercGain}</p>
+              <p>Winrate: {strats[1].winrate}</p>
             </div>
             <div class="carousel-item">
-              <div class="row">
-                <div class="col-sm-1 col-md-4" />
-                <div class="col-sm-10 col-md-4 card">
-                  <h1>#3: {strats[2].name}</h1>
-                  <p>Timeframe: {strats[2].timeframe}</p>
-                  <p>Monthly % Gain: {strats[2].monthlyPercGain}</p>
-                  <p>Winrate: {strats[2].winrate}</p>
-                </div>
-                <div class="col-sm-1 col-md-4" />
-              </div>
+              <h1>#3: {strats[2].name}</h1>
+              <p>Timeframe: {strats[2].timeframe}</p>
+              <p>Monthly % Gain: {strats[2].monthlyPercGain}</p>
+              <p>Winrate: {strats[2].winrate}</p>
             </div>
           </div>
           <!-- <button
@@ -140,7 +122,13 @@
             <span class="visually-hidden">Next</span>
           </button> -->
         </div>
+      </div>
+      <div class="col-4" />
+    </div>
 
+    <div class="row charts">
+      <div class="col-1" />
+      <div class="col-10">
         <!-- charts -->
         <table class="table">
           <thead>
@@ -188,7 +176,9 @@
   }
 
   .carousel-indicators {
+    margin-top: 1.5rem;
     margin-bottom: 1rem;
+
     button {
       all: initial;
       all: unset;
@@ -204,15 +194,14 @@
   }
 
   .carousel-item {
-    .row {
-      text-align: left;
+    padding: 2rem;
+    border: $cream 3px dashed;
+    border-radius: 5px;
+    background-color: black;
+  }
 
-      .card {
-        padding: 2rem;
-        border: $cream 3px dashed;
-        background-color: black;
-      }
-    }
+  .row.charts {
+    margin-top: 1.5rem;
   }
 
   table {
