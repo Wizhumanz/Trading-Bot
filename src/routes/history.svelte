@@ -75,167 +75,177 @@
     });
 </script>
 
-<div class="container-fluid">
-  <h1>Trade History</h1>
-  <div class="row options">
-    <div class="col-1 col-md-1">
-      <div id="filterMenu">
-        <!-- svelte-ignore a11y-missing-attribute -->
-        <a
-          class:dark={appThemeIsDark}
-          data-bs-toggle="collapse"
-          href="#collapseExample"
-          role="button"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-        >
-          Display
-        </a>
-        <div class="collapse" id="collapseExample">
-          <div class="form-check">
-            <label class="form-check-label" for="flexCheckDefault">
-              Long
-            </label>
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="flexCheckDefault"
-              bind:checked={showLong}
-            />
-            <label class="form-check-label" for="flexCheckDefault">
-              Short
-            </label>
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="flexCheckDefault"
-              bind:checked={showShort}
-            />
+<div id="tradeHistory">
+  <div class="container-fluid">
+    <h1>Trade History</h1>
+    <div class="row options">
+      <div class="col-1 col-md-1">
+        <div id="filterMenu">
+          <!-- svelte-ignore a11y-missing-attribute -->
+          <a
+            class:dark={appThemeIsDark}
+            data-bs-toggle="collapse"
+            href="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Display
+          </a>
+          <div class="collapse" id="collapseExample">
+            <div class="form-check">
+              <label class="form-check-label" for="flexCheckDefault">
+                Long
+              </label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+                bind:checked={showLong}
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Short
+              </label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+                bind:checked={showShort}
+              />
+            </div>
           </div>
-        </div>
-        <div class="collapse" id="collapseExample">
-          <div class="form-check">
-            <label class="form-check-label" for="flexCheckDefault">
-              Open
-            </label>
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="flexCheckDefault"
-              bind:checked={showOpen}
-            />
-            <label class="form-check-label" for="flexCheckDefault">
-              Close
-            </label>
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="flexCheckDefault"
-              bind:checked={showClose}
-            />
-            <label class="form-check-label" for="flexCheckDefault">
-              Update
-            </label>
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="flexCheckDefault"
-              bind:checked={showUpdate}
-            />
+          <div class="collapse" id="collapseExample">
+            <div class="form-check">
+              <label class="form-check-label" for="flexCheckDefault">
+                Open
+              </label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+                bind:checked={showOpen}
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Close
+              </label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+                bind:checked={showClose}
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Update
+              </label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+                bind:checked={showUpdate}
+              />
+            </div>
           </div>
         </div>
       </div>
+      <div class="col-7 col-md-8" />
+      <div class="col-4 col-md-3">
+        <ul id="viewOptions">
+          <!-- svelte-ignore a11y-missing-attribute -->
+
+          <li>
+            <a
+              on:click={() => {
+                view = "log";
+              }}
+              class:dark={appThemeIsDark}>Log Mode</a
+            >
+          </li>
+          <li>/</li>
+
+          <!-- svelte-ignore a11y-missing-attribute -->
+
+          <li>
+            <a
+              on:click={() => {
+                view = "grouped";
+              }}
+              class:dark={appThemeIsDark}>Grouped Mode</a
+            >
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="col-7 col-md-8" />
-    <div class="col-4 col-md-3">
-      <ul id="viewOptions">
-        <!-- svelte-ignore a11y-missing-attribute -->
 
-        <li>
-          <a
-            on:click={() => {
-              view = "log";
-            }}
-            class:dark={appThemeIsDark}>Log Mode</a
-          >
-        </li>
-        <li>/</li>
-
-        <!-- svelte-ignore a11y-missing-attribute -->
-
-        <li>
-          <a
-            on:click={() => {
-              view = "grouped";
-            }}
-            class:dark={appThemeIsDark}>Grouped Mode</a
-          >
-        </li>
-      </ul>
-    </div>
+    <table class="table">
+      <thead>
+        <tr class:dark={appThemeIsDark}>
+          <th scope="col">Action</th>
+          <th scope="col">Ticker</th>
+          <th scope="col">Size</th>
+          <th scope="col">Timestamp</th>
+          <th scope="col">BotID</th>
+          <th scope="col">AggregateID</th>
+          <th scope="col">ID</th>
+          <th scope="col">Exchange</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#if view === "log"}
+          {#each user.trades as t}
+            <tr class:dark={appThemeIsDark}>
+              <td>{t.Action}</td>
+              <td>{t.Ticker}</td>
+              <td>{t.Size}</td>
+              <td>{t.Timestamp}</td>
+              <td>{t.BotID}</td>
+              <td>{t.AggregateID}</td>
+              <td>{t.KEY}</td>
+              <td>{t.Exchange}</td>
+            </tr>
+          {/each}
+        {:else if view === "grouped"}
+          {#each Object.keys(groupedView) as key}
+            <tr class:dark={appThemeIsDark}>
+              <td on:click={showHideHistoryHandler}>{key}</td>
+            </tr>
+            <!-- if the row is expanded -->
+            {#if whichKey == key}
+              {#each groupedView[key] as history}
+                <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
+                <tr class:dark={appThemeIsDark} hidden={!showHistoryBool}>
+                  <td class="expanded-row">{history.Action}</td>
+                  <td class="expanded-row">{history.Ticker}</td>
+                  <td class="expanded-row">{history.Size}</td>
+                  <td class="expanded-row">{history.Timestamp}</td>
+                  <td class="expanded-row">{history.BotID}</td>
+                  <td class="expanded-row">{history.AggregateID}</td>
+                  <td class="expanded-row">{history.KEY}</td>
+                  <td class="expanded-row">{history.Exchange}</td>
+                </tr>
+              {/each}
+            {/if}
+          {/each}
+        {/if}
+      </tbody>
+    </table>
   </div>
-
-  <table class="table">
-    <thead>
-      <tr class:dark={appThemeIsDark}>
-        <th scope="col">Action</th>
-        <th scope="col">Ticker</th>
-        <th scope="col">Size</th>
-        <th scope="col">Timestamp</th>
-        <th scope="col">BotID</th>
-        <th scope="col">AggregateID</th>
-        <th scope="col">ID</th>
-        <th scope="col">Exchange</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#if view === "log"}
-        {#each user.trades as t}
-          <tr class:dark={appThemeIsDark}>
-            <td>{t.Action}</td>
-            <td>{t.Ticker}</td>
-            <td>{t.Size}</td>
-            <td>{t.Timestamp}</td>
-            <td>{t.BotID}</td>
-            <td>{t.AggregateID}</td>
-            <td>{t.KEY}</td>
-            <td>{t.Exchange}</td>
-          </tr>
-        {/each}
-      {:else if view === "grouped"}
-        {#each Object.keys(groupedView) as key}
-          <tr class:dark={appThemeIsDark}>
-            <td on:click={showHideHistoryHandler}>{key}</td>
-          </tr>
-          <!-- if the row is expanded -->
-          {#if whichKey == key}
-            {#each groupedView[key] as history}
-              <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-              <tr class:dark={appThemeIsDark} hidden={!showHistoryBool}>
-                <td class="expanded-row">{history.Action}</td>
-                <td class="expanded-row">{history.Ticker}</td>
-                <td class="expanded-row">{history.Size}</td>
-                <td class="expanded-row">{history.Timestamp}</td>
-                <td class="expanded-row">{history.BotID}</td>
-                <td class="expanded-row">{history.AggregateID}</td>
-                <td class="expanded-row">{history.KEY}</td>
-                <td class="expanded-row">{history.Exchange}</td>
-              </tr>
-            {/each}
-          {/if}
-        {/each}
-      {/if}
-    </tbody>
-  </table>
 </div>
 
 <style type="text/scss">
   @import "../../static/styles/_all";
+
+  #tradeHistory {
+    background-color: black;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+  }
 
   .container-fluid {
     padding: 1rem 2rem;
