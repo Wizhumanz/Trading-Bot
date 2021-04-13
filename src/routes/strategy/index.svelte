@@ -97,6 +97,11 @@
           </div>
           <div class="carousel-inner">
             <div class="carousel-item active">
+              <div class="topLabel">
+                <p>
+                  <i class="bi bi-lightning-charge-fill" /> TOP STRATEGY
+                </p>
+              </div>
               <h1>#1: {strats[0].name}</h1>
               <p>Timeframe: {strats[0].timeframe}</p>
               <p>Monthly % Gain: {strats[0].monthlyPercGain}</p>
@@ -202,6 +207,18 @@
 
   .row {
     text-align: center;
+  }
+
+  .topLabel {
+    p {
+      font-size: smaller;
+      color: gold;
+      font-family: $title-font;
+
+      i {
+        margin-right: 0.25rem;
+      }
+    }
   }
 
   .carousel-indicators {
