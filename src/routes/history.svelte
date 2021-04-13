@@ -194,6 +194,7 @@
           <th scope="col">AggregateID</th>
           <th scope="col">ID</th>
           <th scope="col">Exchange</th>
+          <th scope="col">Trade Direction</th>
         </tr>
       </thead>
       <tbody>
@@ -205,16 +206,19 @@
             {#if (t.Action.toLowerCase().includes("enter") && showOpen) ||
             (t.Action.toLowerCase().includes("exit") && showClose) ||
             (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
-              <tr class:dark={appThemeIsDark}>
-                <td>{t.Action}</td>
-                <td>{t.Ticker}</td>
-                <td>{t.Size}</td>
-                <td>{t.Timestamp}</td>
-                <td>{t.BotID}</td>
-                <td>{t.AggregateID}</td>
-                <td>{t.KEY}</td>
-                <td>{t.Exchange}</td>
-              </tr>
+              {#if (t.Direction === "LONG" && showLong) || (t.Direction === "SHORT" && showShort)}
+                <tr class:dark={appThemeIsDark}>
+                  <td>{t.Action}</td>
+                  <td>{t.Ticker}</td>
+                  <td>{t.Size}</td>
+                  <td>{t.Timestamp}</td>
+                  <td>{t.BotID}</td>
+                  <td>{t.AggregateID}</td>
+                  <td>{t.KEY}</td>
+                  <td>{t.Exchange}</td>
+                  <td>{t.Direction}</td>
+                </tr>
+              {/if}
             {/if}
           {/each}
         {:else if view === "grouped"}
@@ -226,19 +230,22 @@
             {#if whichKey.includes(key)}
               {#each groupedView[key] as history}
                 <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-                  {#if (history.Action.toLowerCase().includes("enter") && showOpen) ||
-            (history.Action.toLowerCase().includes("exit") && showClose) ||
-            (!history.Action.toLowerCase().includes("enter") && !history.Action.toLowerCase().includes("exit") && showUpdate)}
-                <tr class:dark={appThemeIsDark}>
-                  <td class="expanded-row">{history.Action}</td>
-                  <td class="expanded-row">{history.Ticker}</td>
-                  <td class="expanded-row">{history.Size}</td>
-                  <td class="expanded-row">{history.Timestamp}</td>
-                  <td class="expanded-row">{history.BotID}</td>
-                  <td class="expanded-row">{history.AggregateID}</td>
-                  <td class="expanded-row">{history.KEY}</td>
-                  <td class="expanded-row">{history.Exchange}</td>
-                </tr>
+                {#if (history.Action.toLowerCase().includes("enter") && showOpen) ||
+                (history.Action.toLowerCase().includes("exit") && showClose) ||
+                (!history.Action.toLowerCase().includes("enter") && !history.Action.toLowerCase().includes("exit") && showUpdate)}
+                  {#if (history.Direction === "LONG" && showLong) || (history.Direction === "SHORT" && showShort)}
+                    <tr class:dark={appThemeIsDark}>
+                      <td class="expanded-row">{history.Action}</td>
+                      <td class="expanded-row">{history.Ticker}</td>
+                      <td class="expanded-row">{history.Size}</td>
+                      <td class="expanded-row">{history.Timestamp}</td>
+                      <td class="expanded-row">{history.BotID}</td>
+                      <td class="expanded-row">{history.AggregateID}</td>
+                      <td class="expanded-row">{history.KEY}</td>
+                      <td class="expanded-row">{history.Exchange}</td>
+                      <td class="expanded-row">{history.Direction}</td>
+                    </tr>
+                  {/if}
                 {/if}
               {/each}
             {/if}
