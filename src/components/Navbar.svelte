@@ -65,29 +65,66 @@
             >{email ? email : ""}</a
           >
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            class:dark={appThemeIsDark}
+            href="/strategy">Strategies</a
+          >
+        </li>
         {#if !email}
           <!-- <li class="nav-item">
             <a class="nav-link active" href="/">About</a>
           </li> -->
           <li class="nav-item">
-            <a class="nav-link active" href="/pricing">Pricing</a>
+            <a
+              class="nav-link active"
+              class:dark={appThemeIsDark}
+              href="/pricing">Pricing</a
+            >
           </li>
         {:else}
-          <li class="nav-item">
-            <a class="nav-link active" href="/bots/active">Active</a>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              class:dark={appThemeIsDark}
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Bots
+            </a>
+            <ul
+              class="dropdown-menu"
+              class:dark={appThemeIsDark}
+              aria-labelledby="navbarDropdown"
+            >
+              <li><a class="dropdown-item" href="/bots/active">Active</a></li>
+              <li><a class="dropdown-item" href="/bots/all">All</a></li>
+            </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/bots/all">All</a>
+            <a
+              class="nav-link active"
+              class:dark={appThemeIsDark}
+              href="/history">History</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/history">History</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/exchanges">Exchanges</a>
+            <a
+              class="nav-link active"
+              class:dark={appThemeIsDark}
+              href="/exchanges">Exchanges</a
+            >
           </li>
           <li class="nav-item">
             <!-- svelte-ignore a11y-missing-attribute -->
-            <a class="nav-link active" on:click={logout}>Log Out</a>
+            <a
+              class="nav-link active"
+              class:dark={appThemeIsDark}
+              on:click={logout}>Log Out</a
+            >
           </li>
         {/if}
         <li class="nav-tem">
@@ -161,9 +198,46 @@
   }
 
   .nav-link.active {
-    color: inherit;
+    color: black;
     position: relative;
     z-index: 100;
+  }
+
+  .nav-link.active.dark {
+    color: $ivory;
+    position: relative;
+    z-index: 100;
+  }
+
+  .nav-link.dropdown-toggle {
+    color: black;
+  }
+  .nav-link.dropdown-toggle.dark {
+    color: $ivory;
+  }
+
+  .dropdown-menu {
+    background-color: white;
+    li {
+      a {
+        color: black;
+      }
+      a:hover {
+        background-color: white;
+      }
+    }
+  }
+
+  .dropdown-menu.dark {
+    background-color: $blood;
+    li {
+      a {
+        color: $ivory;
+      }
+      a:hover {
+        background-color: $blood;
+      }
+    }
   }
 
   button.navbar-toggler {
@@ -171,7 +245,7 @@
 
     i {
       opacity: 100;
-      color: $cream;
+      color: $ivory;
     }
   }
 
