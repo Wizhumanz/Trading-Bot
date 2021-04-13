@@ -84,70 +84,71 @@
           <!-- svelte-ignore a11y-missing-attribute -->
           <a
             class:dark={appThemeIsDark}
+            class="viewOptionsToggle"
             data-bs-toggle="collapse"
-            href="#collapseExample"
+            href="#displayOptionsCollapse"
             role="button"
             aria-expanded="false"
-            aria-controls="collapseExample"
+            aria-controls="displayOptionsCollapse"
           >
-            Display
+            View Options...
           </a>
-          <div class="collapse" id="collapseExample">
-            <div class="form-check">
-              <label class="form-check-label" for="flexCheckDefault">
-                Long
-              </label>
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault"
-                bind:checked={showLong}
-              />
-              <label class="form-check-label" for="flexCheckDefault">
-                Short
-              </label>
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault"
-                bind:checked={showShort}
-              />
+          <div class="collapse" id="displayOptionsCollapse">
+            <p>Trade Direction</p>
+            <div class="checkbox-row row">
+              <div class="col-4">
+                <input type="checkbox" id="longCheck" bind:checked={showLong} />
+              </div>
+              <div class="col-8">
+                <label class="form-check-label" for="longCheck"> Long </label>
+              </div>
             </div>
-          </div>
-          <div class="collapse" id="collapseExample">
-            <div class="form-check">
-              <label class="form-check-label" for="flexCheckDefault">
-                Open
-              </label>
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault"
-                bind:checked={showOpen}
-              />
-              <label class="form-check-label" for="flexCheckDefault">
-                Close
-              </label>
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault"
-                bind:checked={showClose}
-              />
-              <label class="form-check-label" for="flexCheckDefault">
-                Update
-              </label>
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault"
-                bind:checked={showUpdate}
-              />
+            <div class="checkbox-row row">
+              <div class="col-4">
+                <input
+                  type="checkbox"
+                  id="shortCheck"
+                  bind:checked={showShort}
+                />
+              </div>
+              <div class="col-8">
+                <label class="form-check-label" for="shortCheck"> Short </label>
+              </div>
+            </div>
+            <p>Action Type</p>
+            <div class="checkbox-row row">
+              <div class="col-4">
+                <input type="checkbox" id="showOpen" bind:checked={showOpen} />
+              </div>
+              <div class="col-8">
+                <label class="form-check-label" for="showOpen"> Open </label>
+              </div>
+            </div>
+            <div class="checkbox-row row">
+              <div class="col-4">
+                <input
+                  type="checkbox"
+                  id="showClose"
+                  bind:checked={showClose}
+                />
+              </div>
+              <div class="col-8">
+                <label class="form-check-label" for="showClose"> Close </label>
+              </div>
+            </div>
+            <div class="checkbox-row row">
+              <div class="col-4">
+                <input
+                  type="checkbox"
+                  id="showUpdate"
+                  bind:checked={showUpdate}
+                />
+              </div>
+              <div class="col-8">
+                <label class="form-check-label" for="showUpdate">
+                  Update
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -265,6 +266,10 @@
     }
   }
 
+  .viewOptionsToggle {
+    font-family: $title-font;
+  }
+
   #viewOptions {
     font-size: smaller;
     text-align: right;
@@ -282,6 +287,39 @@
         color: $cream;
       }
     }
+  }
+
+  #displayOptionsCollapse {
+    width: 150px;
+    text-align: left;
+    padding: 0.75rem;
+    padding-top: 0;
+    margin-top: 0.25rem;
+    border-left: $cream 1px dashed;
+    border-right: $cream 1px dashed;
+    border-bottom: $cream 1px dashed;
+
+    p {
+      margin-bottom: 0;
+      margin-top: 0.5rem;
+    }
+
+    .col-4 {
+      margin-top: 0.25rem;
+      input {
+        margin-left: 0.75rem;
+        width: 18px;
+        height: 18px;
+      }
+      input:checked {
+        background-color: $blood;
+      }
+    }
+  }
+
+  input[type="checkbox"] {
+    /* change "blue" browser chrome to yellow */
+    filter: invert(100%) hue-rotate(-18deg) brightness(1.7);
   }
 
   table {
