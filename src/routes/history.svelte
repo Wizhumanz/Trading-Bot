@@ -3,7 +3,11 @@
   import axios from "axios";
 
   let view = "grouped";
+  let groupedView = {};
+  let showHistory = "display: none;";
+  let showHistoryBool = false;
   let user = {};
+  let whichKey = "";
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
@@ -15,11 +19,37 @@
     appThemeIsDark = newVal === "dark";
   });
 
+  function viewOptionsHandler() {
+    //logic for grouped view
+    user.trades.forEach((v) => {
+      if (v.BotID in groupedView) {
+        groupedView[v.BotID].push(v);
+      } else {
+        groupedView[v.BotID] = [v];
+      }
+    });
+    // for (var key in groupedView) {
+    //   console.log(key);
+    //   groupedView[key].forEach((v) => {
+    //     console.log(v);
+    //   });
+    // }
+  }
+
+  function showHideHistoryHandler(e) {
+    whichKey = e.target.innerText;
+    showHistoryBool = !showHistoryBool;
+    if (showHistoryBool === true) {
+      showHistory = "display: block;";
+    } else {
+      showHistory = "display: none;";
+    }
+  }
+
   //need this for some reason. Otherwise it gives an error
   user.trades = [];
 
   //get request for TradeAction/trade history
-
   const hds = {
     "Cache-Control": "no-cache",
     Pragma: "no-cache",
@@ -34,6 +64,7 @@
     .then((res) => {
       user.trades = res.data;
       // console.log(res.status + " -- " + JSON.stringify(res.data));
+      viewOptionsHandler();
     })
     .catch((error) => {
       console.log(error.response);
@@ -42,8 +73,8 @@
 
 <div class="container-fluid">
   <h1>Trade History</h1>
-  <div class="row">
-    <div class="col-sm-1 col-md-1">
+  <div class="row options">
+    <div class="col-1 col-md-1">
       <div id="filterMenu">
         <a
           class:dark={appThemeIsDark}
@@ -53,7 +84,7 @@
           aria-expanded="false"
           aria-controls="collapseExample"
         >
-          Filter ▼
+          <h4><i class="bi bi-card-checklist" /></h4>
         </a>
         <div class="collapse" id="collapseExample">
           <div class="form-check">
@@ -80,23 +111,30 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-7 col-md-8" />
-    <div class="col-sm-4 col-md-3">
+    <div class="col-7 col-md-8" />
+    <div class="col-4 col-md-3">
       <ul id="viewOptions">
-        <li
-          on:click={() => {
-            view = "log";
-          }}
-        >
-          >Log Mode
+        <!-- svelte-ignore a11y-missing-attribute -->
+
+        <li>
+          <a
+            on:click={() => {
+              view = "log";
+            }}
+            class:dark={appThemeIsDark}>Log Mode</a
+          >
         </li>
         <li>/</li>
-        <li
-          on:click={() => {
-            view = "grouped";
-          }}
-        >
-          Grouped Mode
+
+        <!-- svelte-ignore a11y-missing-attribute -->
+
+        <li>
+          <a
+            on:click={() => {
+              view = "grouped";
+            }}
+            class:dark={appThemeIsDark}>Grouped Mode</a
+          >
         </li>
       </ul>
     </div>
@@ -129,7 +167,27 @@
             <td>{t.Exchange}</td>
           </tr>
         {/each}
-      {:else if view === "grouped"}{/if}
+      {:else if view === "grouped"}
+        {#each Object.keys(groupedView) as key}
+          <tr class:dark={appThemeIsDark}>
+            <td on:click={showHideHistoryHandler}>{key}</td>
+          </tr>
+          {#each groupedView[key] as history}
+            {#if whichKey == key}
+              <tr style={showHistory} class:dark={appThemeIsDark}>
+                <td>{history.Action}</td>
+                <td>{history.Ticker}</td>
+                <td>{history.Size}</td>
+                <td>{history.Timestamp}</td>
+                <td>{history.BotID}</td>
+                <td>{history.AggregateID}</td>
+                <td>{history.KEY}</td>
+                <td>{history.Exchange}</td>
+              </tr>
+            {/if}
+          {/each}
+        {/each}
+      {/if}
     </tbody>
   </table>
 </div>
@@ -143,10 +201,10 @@
   }
 
   #filterMenu {
-    margin-left: 1rem;
     text-align: left;
 
     a {
+      display: inline-block;
       color: $blue;
     }
 
@@ -165,6 +223,10 @@
       a {
         font-family: $title-font;
         text-decoration: underline;
+        color: $blue;
+      }
+
+      a.dark {
         color: $cream;
       }
     }
