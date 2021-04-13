@@ -96,29 +96,22 @@
             >
           </div>
           <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="topLabel">
-                <p>
-                  <i class="bi bi-lightning-charge-fill" /> TOP STRATEGY
-                </p>
+            {#each strats.slice(0, 3) as topStrat, i}
+              <div
+                class="carousel-item"
+                class:active={topStrat.name === strats[0].name}
+              >
+                <div class="topLabel">
+                  <p>
+                    <i class="bi bi-lightning-charge-fill" /> TOP STRATEGY
+                  </p>
+                </div>
+                <h1>#{i + 1}: {topStrat.name}</h1>
+                <p>Timeframe: {topStrat.timeframe}</p>
+                <p>Monthly % Gain: {topStrat.monthlyPercGain}</p>
+                <p>Winrate: {topStrat.winrate}</p>
               </div>
-              <h1>#1: {strats[0].name}</h1>
-              <p>Timeframe: {strats[0].timeframe}</p>
-              <p>Monthly % Gain: {strats[0].monthlyPercGain}</p>
-              <p>Winrate: {strats[0].winrate}</p>
-            </div>
-            <div class="carousel-item">
-              <h1>#2: {strats[1].name}</h1>
-              <p>Timeframe: {strats[1].timeframe}</p>
-              <p>Monthly % Gain: {strats[1].monthlyPercGain}</p>
-              <p>Winrate: {strats[1].winrate}</p>
-            </div>
-            <div class="carousel-item">
-              <h1>#3: {strats[2].name}</h1>
-              <p>Timeframe: {strats[2].timeframe}</p>
-              <p>Monthly % Gain: {strats[2].monthlyPercGain}</p>
-              <p>Winrate: {strats[2].winrate}</p>
-            </div>
+            {/each}
           </div>
           <!-- <button
             class="carousel-control-prev carouselBtn"
