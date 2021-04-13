@@ -4,7 +4,6 @@
 
   let view = "grouped";
   let groupedView = {};
-  let showHistory = "display: none;";
   let showHistoryBool = false;
   let user = {};
   let whichKey = "";
@@ -217,15 +216,15 @@
           {#if whichKey == key}
             {#each groupedView[key] as history}
               <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-              <tr class:dark={appThemeIsDark}>
-                <td>{history.Action}</td>
-                <td>{history.Ticker}</td>
-                <td>{history.Size}</td>
-                <td>{history.Timestamp}</td>
-                <td>{history.BotID}</td>
-                <td>{history.AggregateID}</td>
-                <td>{history.KEY}</td>
-                <td>{history.Exchange}</td>
+              <tr class:dark={appThemeIsDark} hidden={!showHistoryBool}>
+                <td class="expanded-row">{history.Action}</td>
+                <td class="expanded-row">{history.Ticker}</td>
+                <td class="expanded-row">{history.Size}</td>
+                <td class="expanded-row">{history.Timestamp}</td>
+                <td class="expanded-row">{history.BotID}</td>
+                <td class="expanded-row">{history.AggregateID}</td>
+                <td class="expanded-row">{history.KEY}</td>
+                <td class="expanded-row">{history.Exchange}</td>
               </tr>
             {/each}
           {/if}
@@ -301,5 +300,9 @@
   tr.dark:hover {
     background-color: $blood;
     color: $cream;
+  }
+
+  .expanded-row {
+    background-color: $blue;
   }
 </style>
