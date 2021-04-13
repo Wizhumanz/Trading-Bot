@@ -65,39 +65,51 @@
 
 <div class="container-fluid">
   <h1>Trade History</h1>
-  <div id="filterMenu">
-    <a
-      class:dark={appThemeIsDark}
-      data-bs-toggle="collapse"
-      href="#collapseExample"
-      role="button"
-      aria-expanded="false"
-      aria-controls="collapseExample"
-    >
-      Filter ▼
-    </a>
-    <div class="collapse" id="collapseExample">
-      <div class="form-check">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          value=""
-          id="flexCheckDefault"
-        />
-        <label class="form-check-label" for="flexCheckDefault">
-          FAKE field 1
-        </label>
+  <div class="row options">
+    <div class="col-1 col-md-1">
+      <div id="filterMenu">
+        <a
+          class:dark={appThemeIsDark}
+          data-bs-toggle="collapse"
+          href="#collapseExample"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+        >
+          <h4><i class="bi bi-card-checklist" /></h4>
+        </a>
+        <div class="collapse" id="collapseExample">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              FAKE field 1
+            </label>
 
-        <input
-          class="form-check-input"
-          type="checkbox"
-          value=""
-          id="flexCheckDefault"
-        />
-        <label class="form-check-label" for="flexCheckDefault">
-          FAKE field 2
-        </label>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              FAKE field 2
+            </label>
+          </div>
+        </div>
       </div>
+    </div>
+    <div class="col-7 col-md-8" />
+    <div class="col-4 col-md-3">
+      <ul id="viewOptions">
+        <li><a href="/" class:dark={appThemeIsDark}>Log Mode</a></li>
+        <li>/</li>
+        <li><a href="/" class:dark={appThemeIsDark}>Grouped Mode</a></li>
+      </ul>
     </div>
   </div>
 
@@ -140,10 +152,10 @@
   }
 
   #filterMenu {
-    margin-left: 1rem;
     text-align: left;
 
     a {
+      display: inline-block;
       color: $blue;
     }
 
@@ -152,10 +164,23 @@
     }
   }
 
-  .btn {
-    padding: 0 1rem;
-    margin-top: -1rem;
-    color: $ivory !important;
+  #viewOptions {
+    font-size: smaller;
+    text-align: right;
+
+    li {
+      display: inline;
+
+      a {
+        font-family: $title-font;
+        text-decoration: underline;
+        color: $blue;
+      }
+
+      a.dark {
+        color: $cream;
+      }
+    }
   }
 
   table {
