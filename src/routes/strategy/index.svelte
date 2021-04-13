@@ -57,8 +57,12 @@
 <div id="stratIndex" class:dark={appThemeIsDark}>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-4" />
-      <div class="col-4">
+      <div class="col-2" />
+      <div class="col-5">
+        <h1>Strategy Store</h1>
+        <p>All strategies 50% off with the Peasant Pass.</p>
+      </div>
+      <div class="col-3">
         <!-- top strats carousel -->
         <div
           id="topStratsCarouselIndic"
@@ -123,7 +127,7 @@
           </button> -->
         </div>
       </div>
-      <div class="col-4" />
+      <div class="col-2" />
     </div>
 
     <div class="row charts">
@@ -164,6 +168,7 @@
     width: 100%;
     height: 100%;
     padding: 1rem;
+    padding-top: 2rem;
   }
 
   #stratIndex.dark {
@@ -176,7 +181,6 @@
   }
 
   .carousel-indicators {
-    margin-top: 1.5rem;
     margin-bottom: 1rem;
 
     button {
