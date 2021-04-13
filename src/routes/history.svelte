@@ -65,8 +65,8 @@
 
 <div class="container-fluid">
   <h1>Trade History</h1>
-  <div class="row">
-    <div class="col-sm-1 col-md-1">
+  <div class="row options">
+    <div class="col-1 col-md-1">
       <div id="filterMenu">
         <a
           class:dark={appThemeIsDark}
@@ -76,7 +76,7 @@
           aria-expanded="false"
           aria-controls="collapseExample"
         >
-          Filter ▼
+          <h4><i class="bi bi-card-checklist" /></h4>
         </a>
         <div class="collapse" id="collapseExample">
           <div class="form-check">
@@ -103,12 +103,12 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-7 col-md-8" />
-    <div class="col-sm-4 col-md-3">
+    <div class="col-7 col-md-8" />
+    <div class="col-4 col-md-3">
       <ul id="viewOptions">
-        <li><a href="/">Log Mode</a></li>
+        <li><a href="/" class:dark={appThemeIsDark}>Log Mode</a></li>
         <li>/</li>
-        <li><a href="/">Grouped Mode</a></li>
+        <li><a href="/" class:dark={appThemeIsDark}>Grouped Mode</a></li>
       </ul>
     </div>
   </div>
@@ -152,10 +152,10 @@
   }
 
   #filterMenu {
-    margin-left: 1rem;
     text-align: left;
 
     a {
+      display: inline-block;
       color: $blue;
     }
 
@@ -174,6 +174,10 @@
       a {
         font-family: $title-font;
         text-decoration: underline;
+        color: $blue;
+      }
+
+      a.dark {
         color: $cream;
       }
     }
