@@ -58,9 +58,17 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-2" />
-      <div class="col-5">
-        <h1>Strategy Store</h1>
-        <p>All strategies 50% off with the Peasant Pass.</p>
+      <div class="col-5 stratHeader">
+        <div>
+          <h1>Strategy Store</h1>
+          <p>
+            All strategies 50% off with the <a
+              href="/pricing"
+              class="pricingLink"
+              class:dark={appThemeIsDark}>Peasant Pass</a
+            >.
+          </p>
+        </div>
       </div>
       <div class="col-3">
         <!-- top strats carousel -->
@@ -174,6 +182,22 @@
   #stratIndex.dark {
     background-color: black;
     color: $cream;
+  }
+
+  .stratHeader {
+    text-align: left;
+    padding: 70px 0;
+
+    div {
+      padding-left: 1.5rem;
+
+      h1 {
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
+        width: fit-content;
+        background-color: $blood;
+      }
+    }
   }
 
   .row {

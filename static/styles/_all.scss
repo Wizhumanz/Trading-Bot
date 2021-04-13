@@ -201,3 +201,27 @@ button.dark:hover {
 hr {
   color: $blue;
 }
+
+.pricingLink {
+  color: $blue;
+}
+
+.pricingLink:hover {
+  text-decoration: underline;
+}
+
+.pricingLink.dark {
+  color: gold;
+  -webkit-animation: glow 2s ease-out infinite alternate;
+  -moz-animation: glow 2s ease-out infinite alternate;
+  animation: glow 2s ease-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 1px #ffeb7f, 0 0 3px #ffeb7f, 0 0 2px gold, 0 0 5px gold, 0 0 7px gold, 0 0 8px gold, 0 0 3px gold;
+  }
+  to {
+    text-shadow: 0 0 2x #ffeb7f, 0 0 4px #ffeb7f, 0 0 3px gold, 0 0 5px gold, 0 0 4px gold, 0 0 3px gold, 0 0 1px gold;
+  }
+}
