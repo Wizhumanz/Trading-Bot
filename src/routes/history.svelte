@@ -4,9 +4,9 @@
 
   let view = "grouped";
   let groupedView = {};
-  let showHistoryBool = false;
+  let showHistoryBool = true;
   let user = {};
-  let whichKey = "";
+  let whichKey = [];
   let showLong = true;
   let showShort = true;
   let showOpen = true;
@@ -41,12 +41,15 @@
   }
 
   function showHideHistoryHandler(e) {
-    whichKey = e.target.innerText;
-    showHistoryBool = !showHistoryBool;
-    if (showHistoryBool === true) {
-      showHistory = "display: block;";
+    if (whichKey.includes(e.target.innerText)) {
+      showHistoryBool = !showHistoryBool;
+
+      delete whichKey[whichKey.indexOf(e.target.innerText)];
     } else {
-      showHistory = "display: none;";
+      showHistoryBool = !showHistoryBool;
+
+      whichKey.push(e.target.innerText);
+      console.log(whichKey);
     }
   }
 
@@ -214,7 +217,7 @@
               <td on:click={showHideHistoryHandler}>{key}</td>
             </tr>
             <!-- if the row is expanded -->
-            {#if whichKey == key}
+            {#if whichKey.includes(key)}
               {#each groupedView[key] as history}
                 <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
                 <tr class:dark={appThemeIsDark} hidden={!showHistoryBool}>
