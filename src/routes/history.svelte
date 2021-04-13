@@ -4,7 +4,6 @@
 
   let view = "grouped";
   let groupedView = {};
-  let showHistoryBool = true;
   let user = {};
   let whichKey = [];
   let showLong = true;
@@ -42,12 +41,10 @@
 
   function showHideHistoryHandler(e) {
     if (whichKey.includes(e.target.innerText)) {
-      showHistoryBool = !showHistoryBool;
-
       delete whichKey[whichKey.indexOf(e.target.innerText)];
+      whichKey = whichKey;
+      console.log(whichKey);
     } else {
-      showHistoryBool = true;
-
       whichKey = [...whichKey, e.target.innerText];
       console.log(whichKey);
     }
@@ -220,7 +217,7 @@
             {#if whichKey.includes(key)}
               {#each groupedView[key] as history}
                 <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-                <tr class:dark={appThemeIsDark} hidden={!showHistoryBool}>
+                <tr class:dark={appThemeIsDark}>
                   <td class="expanded-row">{history.Action}</td>
                   <td class="expanded-row">{history.Ticker}</td>
                   <td class="expanded-row">{history.Size}</td>
