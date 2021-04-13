@@ -213,8 +213,10 @@
           <tr class:dark={appThemeIsDark}>
             <td on:click={showHideHistoryHandler}>{key}</td>
           </tr>
-          {#each groupedView[key] as history}
-            {#if whichKey == key}
+          <!-- if the row is expanded -->
+          {#if whichKey == key}
+            {#each groupedView[key] as history}
+              <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
               <tr style={showHistory} class:dark={appThemeIsDark}>
                 <td>{history.Action}</td>
                 <td>{history.Ticker}</td>
@@ -225,8 +227,8 @@
                 <td>{history.KEY}</td>
                 <td>{history.Exchange}</td>
               </tr>
-            {/if}
-          {/each}
+            {/each}
+          {/if}
         {/each}
       {/if}
     </tbody>
