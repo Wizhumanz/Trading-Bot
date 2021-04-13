@@ -11,6 +11,7 @@
   let showOpen = true;
   let showClose = true;
   let showUpdate = true;
+
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
@@ -198,16 +199,23 @@
       <tbody>
         {#if view === "log"}
           {#each user.trades as t}
-            <tr class:dark={appThemeIsDark}>
-              <td>{t.Action}</td>
-              <td>{t.Ticker}</td>
-              <td>{t.Size}</td>
-              <td>{t.Timestamp}</td>
-              <td>{t.BotID}</td>
-              <td>{t.AggregateID}</td>
-              <td>{t.KEY}</td>
-              <td>{t.Exchange}</td>
-            </tr>
+          <!--
+          {#if (!t.Action.toLowerCase().includes("enter") || !t.Action.toLowerCase().includes("exit") && showUpdate)}
+          -->
+            {#if (t.Action.toLowerCase().includes("enter") && showOpen) ||
+            (t.Action.toLowerCase().includes("exit") && showClose) ||
+            (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
+              <tr class:dark={appThemeIsDark}>
+                <td>{t.Action}</td>
+                <td>{t.Ticker}</td>
+                <td>{t.Size}</td>
+                <td>{t.Timestamp}</td>
+                <td>{t.BotID}</td>
+                <td>{t.AggregateID}</td>
+                <td>{t.KEY}</td>
+                <td>{t.Exchange}</td>
+              </tr>
+            {/if}
           {/each}
         {:else if view === "grouped"}
           {#each Object.keys(groupedView) as key}
@@ -218,6 +226,9 @@
             {#if whichKey.includes(key)}
               {#each groupedView[key] as history}
                 <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
+                  {#if (history.Action.toLowerCase().includes("enter") && showOpen) ||
+            (history.Action.toLowerCase().includes("exit") && showClose) ||
+            (!history.Action.toLowerCase().includes("enter") && !history.Action.toLowerCase().includes("exit") && showUpdate)}
                 <tr class:dark={appThemeIsDark}>
                   <td class="expanded-row">{history.Action}</td>
                   <td class="expanded-row">{history.Ticker}</td>
@@ -228,6 +239,7 @@
                   <td class="expanded-row">{history.KEY}</td>
                   <td class="expanded-row">{history.Exchange}</td>
                 </tr>
+                {/if}
               {/each}
             {/if}
           {/each}
