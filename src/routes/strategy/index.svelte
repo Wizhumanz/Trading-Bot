@@ -19,6 +19,8 @@
     {
       id: "167267376177937",
       name: "Infinity Long",
+      description:
+        "Widows and orphans are terrible fucking tragedies, both in real life and definitely in typography. Be fucking bold. Greatness isn’t the height of your stature, it’s the heft of your spirit. Whatever can be captured in words can be conquered with understanding. Dedicate yourself to lifelong fucking learning. Practice won’t get you anywhere if you mindlessly fucking practice the same thing. Change only occurs when you work deliberately with purpose toward a goal. Intuition is fucking important. To go partway is easy, but mastering anything requires hard fucking work. Someday is not a fucking day of the week. The details are not the details. They make the fucking design. The graphic designer’s first fucking consideration is always the size and shape of the format, whether for the printed page or for digital display. Celebrate your fucking failures. Then you’ll prove to yourself that you can survive anything. Don’t fucking quit.",
       timeframe: "1D",
       monthlyPercGain: "3.22",
       winrate: "29.7%",
@@ -26,6 +28,8 @@
     {
       id: "167267376378199",
       name: "100X Everything",
+      description:
+        "You won’t get good at anything by doing it a lot fucking aimlessly. Don’t fucking lie to yourself. Defy fucking convention. If you don’t test your will against the dissent of the world, it can never grow stronger. Never, never assume that what you have achieved is fucking good enough. Widows and orphans are terrible fucking tragedies, both in real life and definitely in typography. Design as if your fucking life depended on it. The details are not the details. They make the fucking design. Make your work consistent but not fucking predictable. There is no right fucking answer. The splendor of the mystery is that you don’t understand. Nothing of value comes to you without fucking working at it. Learn from fucking criticism. Don’t fucking censor yourself. Sterility leads to susceptibility. Paul Rand once said, “The public is more familiar with bad fucking design than good design. It is,",
       timeframe: "2min",
       monthlyPercGain: "17.22",
       winrate: "24.9%",
@@ -33,6 +37,8 @@
     {
       id: "167267376177111",
       name: "Simon's Buns",
+      description:
+        "You won’t get good at anything by doing it a lot fucking aimlessly. Don’t fucking lie to yourself. Defy fucking convention. If you don’t test your will against the dissent of the world, it can never grow stronger. Never, never assume that what you have achieved is fucking good enough. Widows and orphans are terrible fucking tragedies, both in real life and definitely in typography. Design as if your fucking life depended on it. The details are not the details. They make the fucking design. Make your work consistent but not fucking predictable. There is no right fucking answer. The splendor of the mystery is that you don’t understand. Nothing of value comes to you without fucking working at it. Learn from fucking criticism. Don’t fucking censor yourself. Sterility leads to susceptibility. Paul Rand once said, “The public is more familiar with bad fucking design than good design. It is,",
       timeframe: "69min",
       monthlyPercGain: "4.20",
       winrate: "77.1%",
@@ -40,6 +46,8 @@
     {
       id: "167267376177008",
       name: "Dollar Store Strat",
+      description:
+        "You won’t get good at anything by doing it a lot fucking aimlessly. Don’t fucking lie to yourself. Defy fucking convention. If you don’t test your will against the dissent of the world, it can never grow stronger. Never, never assume that what you have achieved is fucking good enough. Widows and orphans are terrible fucking tragedies, both in real life and definitely in typography. Design as if your fucking life depended on it. The details are not the details. They make the fucking design. Make your work consistent but not fucking predictable. There is no right fucking answer. The splendor of the mystery is that you don’t understand. Nothing of value comes to you without fucking working at it. Learn from fucking criticism. Don’t fucking censor yourself. Sterility leads to susceptibility. Paul Rand once said, “The public is more familiar with bad fucking design than good design. It is,",
       timeframe: "1H",
       monthlyPercGain: "20.05",
       winrate: "40.37%",
@@ -47,6 +55,8 @@
     {
       id: "167267113177937",
       name: "Algo W5-78R",
+      description:
+        "You won’t get good at anything by doing it a lot fucking aimlessly. Don’t fucking lie to yourself. Defy fucking convention. If you don’t test your will against the dissent of the world, it can never grow stronger. Never, never assume that what you have achieved is fucking good enough. Widows and orphans are terrible fucking tragedies, both in real life and definitely in typography. Design as if your fucking life depended on it. The details are not the details. They make the fucking design. Make your work consistent but not fucking predictable. There is no right fucking answer. The splendor of the mystery is that you don’t understand. Nothing of value comes to you without fucking working at it. Learn from fucking criticism. Don’t fucking censor yourself. Sterility leads to susceptibility. Paul Rand once said, “The public is more familiar with bad fucking design than good design. It is,",
       timeframe: "4H",
       monthlyPercGain: "21.66",
       winrate: "13.8%%",
@@ -54,6 +64,8 @@
     {
       id: "167267376177006",
       name: "F-72 Stack Shorter",
+      description:
+        "You won’t get good at anything by doing it a lot fucking aimlessly. Don’t fucking lie to yourself. Defy fucking convention. If you don’t test your will against the dissent of the world, it can never grow stronger. Never, never assume that what you have achieved is fucking good enough. Widows and orphans are terrible fucking tragedies, both in real life and definitely in typography. Design as if your fucking life depended on it. The details are not the details. They make the fucking design. Make your work consistent but not fucking predictable. There is no right fucking answer. The splendor of the mystery is that you don’t understand. Nothing of value comes to you without fucking working at it. Learn from fucking criticism. Don’t fucking censor yourself. Sterility leads to susceptibility. Paul Rand once said, “The public is more familiar with bad fucking design than good design. It is,",
       timeframe: "15min",
       monthlyPercGain: "6.31",
       winrate: "78.1%",
