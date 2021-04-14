@@ -25,6 +25,7 @@
   let showConfirm = false;
   let showConfirmBtn;
 
+
   $: if (showConfirm) {
     showConfirmBtn = "display: block;";
   } else {
@@ -103,6 +104,11 @@
   //post request for Bot
   function toggleBotStatus() {
     loading = true;
+    console.log(typeof(bot.IsActive))
+
+    if (typeof(bot.IsActive) == "string"){
+      bot.IsActive = (bot.IsActive === "true")? true : false
+    }
     bot.IsActive = !bot.IsActive;
     updateBot();
   }
@@ -156,8 +162,10 @@
         let storeBots = [];
         user.bots.forEach((b) => {
           if (b.AggregateID === bot.AggregateID) {
+            console.log(bot.IsActive)
             storeBots.push(bot);
           } else {
+            console.log(b.IsActive)
             storeBots.push(b);
           }
         });
