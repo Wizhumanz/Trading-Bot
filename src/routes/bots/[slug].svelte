@@ -58,13 +58,17 @@
   {/if}
 
   <div class="collapse" id="collapseExample">
-    <AddBot />
+    <AddBot/>
   </div>
 
   <div class="botList">
     {#if user.bots && user.bots.length > 0}
       {#each user.bots as b}
-        <BotLI bot={b} />
+        {#if b.IsActive == "true" && route == "active"}
+          <BotLI bot={b} />
+        {:else if route == "all"}
+          <BotLI bot={b} />
+        {/if}
       {/each}
     {:else}
       <p>Error: No bots to show.</p>
