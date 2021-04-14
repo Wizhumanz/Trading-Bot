@@ -1,4 +1,5 @@
 <script>
+  import { goto } from "@sapper/app";
   import { storeUser, storeAppTheme } from "../../../store.js";
 
   let appThemeIsDark = false;
@@ -16,42 +17,50 @@
   //TODO: MOCK
   var strats = [
     {
+      id: "167267376177937",
       name: "Infinity Long",
       timeframe: "1D",
       monthlyPercGain: "3.22",
       winrate: "29.7%",
     },
     {
+      id: "167267376378199",
       name: "100X Everything",
       timeframe: "2min",
       monthlyPercGain: "17.22",
       winrate: "24.9%",
     },
     {
+      id: "167267376177111",
       name: "Simon's Buns",
       timeframe: "69min",
       monthlyPercGain: "4.20",
       winrate: "77.1%",
     },
     {
+      id: "167267376177008",
       name: "Dollar Store Strat",
       timeframe: "1H",
       monthlyPercGain: "20.05",
       winrate: "40.37%",
     },
     {
+      id: "167267113177937",
       name: "Algo W5-78R",
       timeframe: "4H",
       monthlyPercGain: "21.66",
       winrate: "13.8%%",
     },
     {
+      id: "167267376177006",
       name: "F-72 Stack Shorter",
       timeframe: "15min",
       monthlyPercGain: "6.31",
       winrate: "78.1%",
     },
   ];
+  user.strats = strats;
+  storeUser.set(JSON.stringify(user));
 </script>
 
 <div id="stratIndex" class:dark={appThemeIsDark}>
@@ -157,7 +166,10 @@
           </thead>
           <tbody>
             {#each strats as t}
-              <tr class:dark={appThemeIsDark}>
+              <tr
+                class:dark={appThemeIsDark}
+                on:click={() => goto("/strategy/" + t.id)}
+              >
                 <td>{t.name}</td>
                 <td>{t.timeframe}</td>
                 <td>{t.monthlyPercGain}</td>
