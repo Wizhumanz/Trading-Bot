@@ -34,13 +34,13 @@
     });
   }
 
-  function showHideHistoryHandler(e) {
-    console.log(e.target)
-    if (whichKey.includes(e.target.innerText)) {
-      delete whichKey[whichKey.indexOf(e.target.innerText)];
+  function showHideHistoryHandler(aggID) {
+    console.log(aggID)
+    if (whichKey.includes(aggID)) {
+      delete whichKey[whichKey.indexOf(aggID)];
       whichKey = whichKey;
     } else {
-      whichKey = [...whichKey, e.target.innerText];
+      whichKey = [...whichKey, aggID];
     }
   }
 
@@ -185,7 +185,6 @@
           <th scope="col">Timestamp</th>
           <th scope="col">BotID</th>
           <th scope="col">AggregateID</th>
-          <th scope="col">ID</th>
           <th scope="col">Exchange</th>
           <th scope="col">Trade Direction</th>
         </tr>
@@ -207,7 +206,6 @@
                   <td>{t.Timestamp}</td>
                   <td>{t.BotID}</td>
                   <td>{t.AggregateID}</td>
-                  <td>{t.KEY}</td>
                   <td>{t.Exchange}</td>
                   <td>{t.Direction}</td>
                 </tr>
@@ -225,14 +223,13 @@
                 (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
                   {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
                     {#if j === 0}
-                      <tr class:dark={appThemeIsDark} on:click={showHideHistoryHandler}>
+                      <tr class:dark={appThemeIsDark} on:click={showHideHistoryHandler(tradeAction.AggregateID)}>
                         <td>({groupedView[key].length})</td>
                         <td>{tradeAction.Ticker}</td>
                         <td>-</td>
                         <td>-</td>
                         <td>{tradeAction.BotID}</td>
                         <td>{tradeAction.AggregateID}</td>
-                        <td>-</td>
                         <td>{tradeAction.Exchange}</td>
                         <td>{tradeAction.Direction}</td>
                       </tr>
@@ -245,7 +242,6 @@
                         <td class="expanded-row">{tradeAction.Timestamp}</td>
                         <td class="expanded-row">{tradeAction.BotID}</td>
                         <td class="expanded-row">{tradeAction.AggregateID}</td>
-                        <td class="expanded-row">{tradeAction.KEY}</td>
                         <td class="expanded-row">{tradeAction.Exchange}</td>
                         <td class="expanded-row">{tradeAction.Direction}</td>
                       </tr>
