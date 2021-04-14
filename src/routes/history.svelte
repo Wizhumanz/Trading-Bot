@@ -4,6 +4,7 @@
 
   let view = "grouped";
   let groupedView = {};
+  let numOfTradeAction = {}
   let user = {};
   let whichKey = [];
   let showLong = true;
@@ -11,6 +12,13 @@
   let showOpen = true;
   let showClose = true;
   let showUpdate = true;
+
+  // {#each groupedView[key] as tradeActionRow, j}
+  //             {#if ((v.Action.toLowerCase().includes("enter") && showOpen) || (v.Action.toLowerCase().includes("exit") && showClose) || (!v.Action.toLowerCase().includes("enter") && !v.Action.toLowerCase().includes("exit") && showUpdate))}
+  //               {#if ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))}
+  //               {/if}
+  //             {/if}
+  //           {/each}
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -33,6 +41,20 @@
       }
     });
   }
+  //&& ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))
+  $: for (let key in groupedView) {
+    let num = 0
+    numOfTradeAction[key] = 0
+    groupedView[key].forEach((v) => {
+      if ((v.Action.toLowerCase().includes("enter") && showOpen) || (v.Action.toLowerCase().includes("exit") && showClose) || (!v.Action.toLowerCase().includes("enter") && !v.Action.toLowerCase().includes("exit") && showUpdate) && ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))){
+        if (((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))) {
+        numOfTradeAction[key] = num += 1;
+        }
+      }
+    })
+    console.log([key] + " : "+ numOfTradeAction[key])
+  }
+$: console.log(numOfTradeAction)
 
   function showHideHistoryHandler(aggID) {
     console.log(aggID)
@@ -213,8 +235,19 @@
             {/if}
           {/each}
         {:else if view === "grouped"}
-          {#each Object.keys(groupedView) as key, i}
-            
+          {#each Object.keys(groupedView) as key}
+            {#if numOfTradeAction[key] !== 0}
+              <tr class:dark={appThemeIsDark} on:click={showHideHistoryHandler(groupedView[key][0].AggregateID)}>
+                <td>({groupedView[key].length}) {numOfTradeAction[key]}</td>
+                <td>{groupedView[key][0].Ticker}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>{groupedView[key][0].BotID}</td>
+                <td>{groupedView[key][0].AggregateID}</td>
+                <td>{groupedView[key][0].Exchange}</td>
+                <td>{groupedView[key][0].Direction}</td>
+              </tr>
+            {/if}
             <!-- if the row is expanded -->
               {#each groupedView[key] as tradeAction, j}
                 <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
@@ -222,18 +255,6 @@
                 (tradeAction.Action.toLowerCase().includes("exit") && showClose) ||
                 (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
                   {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
-                    {#if j === 0}
-                      <tr class:dark={appThemeIsDark} on:click={showHideHistoryHandler(tradeAction.AggregateID)}>
-                        <td>({groupedView[key].length})</td>
-                        <td>{tradeAction.Ticker}</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>{tradeAction.BotID}</td>
-                        <td>{tradeAction.AggregateID}</td>
-                        <td>{tradeAction.Exchange}</td>
-                        <td>{tradeAction.Direction}</td>
-                      </tr>
-                    {/if}
                     {#if whichKey.includes(key)}
                       <tr class:dark={appThemeIsDark}>
                         <td class="expanded-row">{tradeAction.Action}</td>
