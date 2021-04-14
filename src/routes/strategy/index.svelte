@@ -18,37 +18,37 @@
     {
       name: "Infinity Long",
       timeframe: "1D",
-      monthlyPercGain: "3.22%",
+      monthlyPercGain: "3.22",
       winrate: "29.7%",
     },
     {
       name: "100X Everything",
       timeframe: "2min",
-      monthlyPercGain: "17.22%",
+      monthlyPercGain: "17.22",
       winrate: "24.9%",
     },
     {
-      name: "Simon's Strategy",
+      name: "Simon's Buns",
       timeframe: "69min",
-      monthlyPercGain: "4.20%",
+      monthlyPercGain: "4.20",
       winrate: "77.1%",
     },
     {
       name: "Dollar Store Strat",
       timeframe: "1H",
-      monthlyPercGain: "20.05%",
+      monthlyPercGain: "20.05",
       winrate: "40.37%",
     },
     {
       name: "Algo W5-78R",
       timeframe: "4H",
-      monthlyPercGain: "21.66%",
+      monthlyPercGain: "21.66",
       winrate: "13.8%%",
     },
     {
       name: "F-72 Stack Shorter",
       timeframe: "15min",
-      monthlyPercGain: "6.31%",
+      monthlyPercGain: "6.31",
       winrate: "78.1%",
     },
   ];
@@ -58,18 +58,6 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-2" />
-      <div class="col-5 stratHeader">
-        <div>
-          <h1>Strategy Store</h1>
-          <p>
-            All strategies 50% off with the <a
-              href="/pricing"
-              class="pricingLink"
-              class:dark={appThemeIsDark}>Peasant Pass</a
-            >.
-          </p>
-        </div>
-      </div>
       <div class="col-3">
         <!-- top strats carousel -->
         <div
@@ -107,9 +95,15 @@
                   </p>
                 </div>
                 <h1>#{i + 1}: {topStrat.name}</h1>
-                <p>Timeframe: {topStrat.timeframe}</p>
-                <p>Monthly % Gain: {topStrat.monthlyPercGain}</p>
-                <p>Winrate: {topStrat.winrate}</p>
+                <div class="row">
+                  <div class="col-6"><p>Monthly Gain</p></div>
+                  <div class="col-6"><h4>{topStrat.monthlyPercGain}%</h4></div>
+                </div>
+                <div class="row">
+                  <div class="col-6"><p>Winrate</p></div>
+                  <div class="col-6"><h4>{topStrat.winrate}%</h4></div>
+                </div>
+                <!-- <p>Timeframe: {topStrat.timeframe}</p> -->
               </div>
             {/each}
           </div>
@@ -131,6 +125,18 @@
             <span class="carousel-control-next-icon" aria-hidden="true" />
             <span class="visually-hidden">Next</span>
           </button> -->
+        </div>
+      </div>
+      <div class="col-5 stratHeader">
+        <div>
+          <h1>Strategy Store</h1>
+          <p>
+            All strategies 50% off with the <a
+              href="/pricing"
+              class="pricingLink"
+              class:dark={appThemeIsDark}>Peasant Pass</a
+            >.
+          </p>
         </div>
       </div>
       <div class="col-2" />
@@ -187,19 +193,13 @@
     padding: 70px 0;
 
     div {
-      padding-left: 1.5rem;
+      padding-left: 2.5rem;
 
       h1 {
-        padding: 0.75rem 1rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
         width: fit-content;
-        background-color: $blood;
       }
     }
-  }
-
-  .row {
-    text-align: center;
   }
 
   .topLabel {
@@ -212,6 +212,10 @@
         margin-right: 0.25rem;
       }
     }
+  }
+
+  .row {
+    text-align: center;
   }
 
   .carousel-indicators {
@@ -232,10 +236,19 @@
   }
 
   .carousel-item {
-    padding: 2rem;
+    padding: 2rem 2rem 5rem 2rem;
     border: $cream 3px dashed;
     border-radius: 5px;
     background-color: black;
+
+    .row {
+      text-align: left;
+      padding-left: 3rem;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+    }
   }
 
   .row.charts {
