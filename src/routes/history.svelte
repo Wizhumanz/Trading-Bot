@@ -52,9 +52,7 @@
         }
       }
     })
-    console.log([key] + " : "+ numOfTradeAction[key])
   }
-$: console.log(numOfTradeAction)
 
   function showHideHistoryHandler(aggID) {
     console.log(aggID)
