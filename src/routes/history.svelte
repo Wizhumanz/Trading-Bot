@@ -26,35 +26,28 @@
   function viewOptionsHandler() {
     //logic for grouped view
     user.trades.forEach((v) => {
-      if (v.BotID in groupedView) {
-        groupedView[v.BotID].push(v);
+      if (v.AggregateID in groupedView) {
+        groupedView[v.AggregateID].push(v);
       } else {
-        groupedView[v.BotID] = [v];
+        groupedView[v.AggregateID] = [v];
       }
     });
-    // for (var key in groupedView) {
-    //   console.log(key);
-    //   groupedView[key].forEach((v) => {
-    //     console.log(v);
-    //   });
-    // }
   }
 
   function showHideHistoryHandler(e) {
+    console.log(e.target)
     if (whichKey.includes(e.target.innerText)) {
       delete whichKey[whichKey.indexOf(e.target.innerText)];
       whichKey = whichKey;
-      console.log(whichKey);
     } else {
       whichKey = [...whichKey, e.target.innerText];
-      console.log(whichKey);
     }
   }
 
   //need this for some reason. Otherwise it gives an error
   user.trades = [];
 
-  //get request for TradeAction/trade history
+  //get request for TradeAction/trade histories
   const hds = {
     "Cache-Control": "no-cache",
     Pragma: "no-cache",
@@ -222,33 +215,44 @@
             {/if}
           {/each}
         {:else if view === "grouped"}
-          {#each Object.keys(groupedView) as key}
-            <tr class:dark={appThemeIsDark}>
-              <td on:click={showHideHistoryHandler}>{key}</td>
-            </tr>
+          {#each Object.keys(groupedView) as key, i}
+            
             <!-- if the row is expanded -->
-            {#if whichKey.includes(key)}
-              {#each groupedView[key] as history}
+              {#each groupedView[key] as tradeAction, j}
                 <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-                {#if (history.Action.toLowerCase().includes("enter") && showOpen) ||
-                (history.Action.toLowerCase().includes("exit") && showClose) ||
-                (!history.Action.toLowerCase().includes("enter") && !history.Action.toLowerCase().includes("exit") && showUpdate)}
-                  {#if (history.Direction === "LONG" && showLong) || (history.Direction === "SHORT" && showShort)}
-                    <tr class:dark={appThemeIsDark}>
-                      <td class="expanded-row">{history.Action}</td>
-                      <td class="expanded-row">{history.Ticker}</td>
-                      <td class="expanded-row">{history.Size}</td>
-                      <td class="expanded-row">{history.Timestamp}</td>
-                      <td class="expanded-row">{history.BotID}</td>
-                      <td class="expanded-row">{history.AggregateID}</td>
-                      <td class="expanded-row">{history.KEY}</td>
-                      <td class="expanded-row">{history.Exchange}</td>
-                      <td class="expanded-row">{history.Direction}</td>
-                    </tr>
+                {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) ||
+                (tradeAction.Action.toLowerCase().includes("exit") && showClose) ||
+                (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
+                  {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
+                    {#if j === 0}
+                      <tr class:dark={appThemeIsDark} on:click={showHideHistoryHandler}>
+                        <td>({groupedView[key].length})</td>
+                        <td>{tradeAction.Ticker}</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>{tradeAction.BotID}</td>
+                        <td>{tradeAction.AggregateID}</td>
+                        <td>-</td>
+                        <td>{tradeAction.Exchange}</td>
+                        <td>{tradeAction.Direction}</td>
+                      </tr>
+                    {/if}
+                    {#if whichKey.includes(key)}
+                      <tr class:dark={appThemeIsDark}>
+                        <td class="expanded-row">{tradeAction.Action}</td>
+                        <td class="expanded-row">{tradeAction.Ticker}</td>
+                        <td class="expanded-row">{tradeAction.Size}</td>
+                        <td class="expanded-row">{tradeAction.Timestamp}</td>
+                        <td class="expanded-row">{tradeAction.BotID}</td>
+                        <td class="expanded-row">{tradeAction.AggregateID}</td>
+                        <td class="expanded-row">{tradeAction.KEY}</td>
+                        <td class="expanded-row">{tradeAction.Exchange}</td>
+                        <td class="expanded-row">{tradeAction.Direction}</td>
+                      </tr>
+                    {/if}
                   {/if}
                 {/if}
               {/each}
-            {/if}
           {/each}
         {/if}
       </tbody>
