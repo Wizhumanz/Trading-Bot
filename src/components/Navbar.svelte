@@ -60,12 +60,6 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <!-- svelte-ignore a11y-missing-attribute -->
-          <a class="nav-link disabled loggedInID" disabled
-            >{email ? email : ""}</a
-          >
-        </li>
-        <li class="nav-item">
           <a
             class="nav-link active"
             class:dark={appThemeIsDark}
@@ -122,23 +116,12 @@
             >
               <li><a class="dropdown-item" href="/history">History</a></li>
               <li><a class="dropdown-item" href="/exchanges">Exchanges</a></li>
+              <li>
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <a class="dropdown-item loggedInID">{email ? email : ""}</a>
+              </li>
             </ul>
           </li>
-          <!-- 
-          <li class="nav-item">
-            <a
-              class="nav-link active"
-              class:dark={appThemeIsDark}
-              href="/history">History</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link active"
-              class:dark={appThemeIsDark}
-              href="/exchanges">Exchanges</a
-            >
-          </li> -->
           <li class="nav-item">
             <!-- svelte-ignore a11y-missing-attribute -->
             <a
@@ -246,6 +229,12 @@
       a:hover {
         background-color: white;
       }
+      .loggedInID {
+        color: $blue;
+      }
+      .loggedInID:hover {
+        text-decoration: none;
+      }
     }
   }
 
@@ -257,6 +246,12 @@
       }
       a:hover {
         background-color: $blood;
+      }
+      .loggedInID {
+        color: $cream;
+      }
+      .loggedInID:hover {
+        text-decoration: none;
       }
     }
   }
@@ -288,10 +283,6 @@
 
   a.disabled:hover {
     text-decoration: none;
-  }
-
-  .loggedInID {
-    color: gray !important;
   }
 
   #themeSelector {
