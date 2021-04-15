@@ -133,11 +133,11 @@
   }
 </script>
 
-{#if loading}
-  <LoadingIndicator />
-{/if}
+<main>
+  {#if loading}
+    <LoadingIndicator />
+  {/if}
 
-<div class="container-fluid" class:dark={appThemeIsDark}>
   <a
     id="hiddenSignIn"
     data-bs-toggle="collapse"
@@ -148,63 +148,67 @@
   >
     войти
   </a>
-  <div class="collapse" id="signInCollapse">
-    <div class="row signIn">
-      <div class="col-sm-2 col-md-3 col-lg-4" />
-      <div class="col-sm-8 col-md-6 col-lg-4">
-        <!-- Sign In tab -->
-        <div style={showAlert}>
-          <p>Incorrect Login Details</p>
+
+  <div class="container-fluid" class:dark={appThemeIsDark}>
+    <div class="collapse" id="signInCollapse">
+      <div class="row signIn">
+        <div class="col-sm-2 col-md-3 col-lg-4" />
+        <div class="col-sm-8 col-md-6 col-lg-4">
+          <!-- Sign In tab -->
+          <div style={showAlert}>
+            <p>Incorrect Login Details</p>
+          </div>
+          <form class="form" on:submit|preventDefault={signIn}>
+            <div class="mb-3">
+              <label for="emailLogin" class="form-label"> Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="emailLogin"
+                placeholder="ana@myika.co"
+                class:dark={appThemeIsDark}
+                bind:value={userLogin.email}
+              />
+            </div>
+            <div class="mb-3">
+              <label for="passwordLogin" class="form-label"> Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="passwordLogin"
+                placeholder="g@iN$z"
+                class:dark={appThemeIsDark}
+                bind:value={userLogin.password}
+              />
+            </div>
+            <button type="submit" class:dark={appThemeIsDark}>Sign In</button>
+            <a class="register" href="/register" class:dark={appThemeIsDark}
+              >Register</a
+            >
+          </form>
         </div>
-        <form class="form" on:submit|preventDefault={signIn}>
-          <div class="mb-3">
-            <label for="emailLogin" class="form-label"> Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="emailLogin"
-              placeholder="ana@myika.co"
-              class:dark={appThemeIsDark}
-              bind:value={userLogin.email}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="passwordLogin" class="form-label"> Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="passwordLogin"
-              placeholder="g@iN$z"
-              class:dark={appThemeIsDark}
-              bind:value={userLogin.password}
-            />
-          </div>
-          <button type="submit" class:dark={appThemeIsDark}>Sign In</button>
-          <a class="register" href="/register" class:dark={appThemeIsDark}
-            >Register</a
-          >
-        </form>
+        <div class="col-sm-2 col-md-3 col-lg-4" />
       </div>
-      <div class="col-sm-2 col-md-3 col-lg-4" />
     </div>
   </div>
-</div>
 
-<!-- landing page -->
-<div class="container-fluid">
-  <div class="row banner">
-    <h1 class="center">The best trading bot platform<br />in the world.</h1>
+  <!-- landing page -->
+  <div class="container-fluid">
+    <div class="row banner">
+      <h1 class="center">The best trading bot platform<br />in the world.</h1>
+    </div>
   </div>
-</div>
+</main>
 
 <style type="text/scss">
   @import "../../static/styles/_all";
 
   #hiddenSignIn {
+    z-index: 100;
     font-family: $body-font;
     position: absolute;
     right: 1%;
-    top: 0;
+    top: 8%;
   }
 
   #hiddenSignIn:hover {
@@ -221,7 +225,8 @@
   }
 
   div.row.signIn {
-    margin-top: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 
   a.register {
@@ -236,6 +241,7 @@
   }
 
   .banner {
+    z-index: 1;
     position: absolute;
     padding-right: 0;
     height: 90%;
