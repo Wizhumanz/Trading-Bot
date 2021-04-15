@@ -110,7 +110,11 @@
   {/if}
 
   <div class="container-fluid" class:dark={appThemeIsDark}>
-    <h1>Register Now</h1>
+    <h1>
+      <a href="/" class="pageNav"
+        ><i class="bi bi-arrow-left-circle pageNav" /></a
+      >Register Now
+    </h1>
     <div class="row signIn">
       <div class="col-2" />
       <div class="col-8">
