@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Alata&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap");
+
 @import url("https://fonts.googleapis.com/css2?family=Volkhov&display=swap");
 
 //vars
@@ -8,8 +10,11 @@ $cream: #fffdd0;
 $blood: #8a0000;
 $blue: #001b6b;
 
-$title-font: "Alata", sans-serif;
-$body-font: "Volkhov", serif;
+// $title-font: "Alata", sans-serif;
+// $body-font: "Volkhov", serif;
+
+$title-font: "DM Serif Display", serif;
+$body-font: "Alata", sans-serif;
 
 // BS5
 $grid-breakpoints: (
@@ -87,7 +92,7 @@ input,
 button,
 select,
 textarea {
-  font-family: $title-font;
+  font-family: $body-font;
   font-size: inherit;
   -webkit-padding: 0.4em 0;
   padding: 0.6em;

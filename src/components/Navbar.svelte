@@ -44,8 +44,7 @@
 >
   <div class="container-fluid">
     <a class="navbar-brand {appThemeIsDark === true ? 'dark' : ''}" href="/"
-      >Anastasia</a
-    >
+      >Anastasia.</a>
     <button
       class="navbar-toggler"
       type="button"
