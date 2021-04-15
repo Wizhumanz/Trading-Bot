@@ -4,7 +4,7 @@
 
   let view = "grouped";
   let groupedView = {};
-  let numOfTradeAction = {}
+  let numOfTradeAction = {};
   let user = {};
   let whichKey = [];
   let showLong = true;
@@ -43,19 +43,30 @@
   }
   //&& ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))
   $: for (let key in groupedView) {
-    let num = 0
-    numOfTradeAction[key] = 0
+    let num = 0;
+    numOfTradeAction[key] = 0;
     groupedView[key].forEach((v) => {
-      if ((v.Action.toLowerCase().includes("enter") && showOpen) || (v.Action.toLowerCase().includes("exit") && showClose) || (!v.Action.toLowerCase().includes("enter") && !v.Action.toLowerCase().includes("exit") && showUpdate) && ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))){
-        if (((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))) {
-        numOfTradeAction[key] = num += 1;
+      if (
+        (v.Action.toLowerCase().includes("enter") && showOpen) ||
+        (v.Action.toLowerCase().includes("exit") && showClose) ||
+        (!v.Action.toLowerCase().includes("enter") &&
+          !v.Action.toLowerCase().includes("exit") &&
+          showUpdate &&
+          ((v.Direction === "LONG" && showLong) ||
+            (v.Direction === "SHORT" && showShort)))
+      ) {
+        if (
+          (v.Direction === "LONG" && showLong) ||
+          (v.Direction === "SHORT" && showShort)
+        ) {
+          numOfTradeAction[key] = num += 1;
         }
       }
-    })
+    });
   }
 
   function showHideHistoryHandler(aggID) {
-    console.log(aggID)
+    console.log(aggID);
     if (whichKey.includes(aggID)) {
       delete whichKey[whichKey.indexOf(aggID)];
       whichKey = whichKey;
@@ -212,12 +223,10 @@
       <tbody>
         {#if view === "log"}
           {#each user.trades as t}
-          <!--
+            <!--
           {#if (!t.Action.toLowerCase().includes("enter") || !t.Action.toLowerCase().includes("exit") && showUpdate)}
           -->
-            {#if (t.Action.toLowerCase().includes("enter") && showOpen) ||
-            (t.Action.toLowerCase().includes("exit") && showClose) ||
-            (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
+            {#if (t.Action.toLowerCase().includes("enter") && showOpen) || (t.Action.toLowerCase().includes("exit") && showClose) || (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
               {#if (t.Direction === "LONG" && showLong) || (t.Direction === "SHORT" && showShort)}
                 <tr class:dark={appThemeIsDark}>
                   <td>{t.Action}</td>
@@ -235,7 +244,12 @@
         {:else if view === "grouped"}
           {#each Object.keys(groupedView) as key}
             {#if numOfTradeAction[key] !== 0}
-              <tr class:dark={appThemeIsDark} on:click={showHideHistoryHandler(groupedView[key][0].AggregateID)}>
+              <tr
+                class:dark={appThemeIsDark}
+                on:click={showHideHistoryHandler(
+                  groupedView[key][0].AggregateID
+                )}
+              >
                 <td>({groupedView[key].length}) {numOfTradeAction[key]}</td>
                 <td>{groupedView[key][0].Ticker}</td>
                 <td>-</td>
@@ -247,27 +261,25 @@
               </tr>
             {/if}
             <!-- if the row is expanded -->
-              {#each groupedView[key] as tradeAction, j}
-                <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-                {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) ||
-                (tradeAction.Action.toLowerCase().includes("exit") && showClose) ||
-                (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
-                  {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
-                    {#if whichKey.includes(key)}
-                      <tr class:dark={appThemeIsDark}>
-                        <td class="expanded-row">{tradeAction.Action}</td>
-                        <td class="expanded-row">{tradeAction.Ticker}</td>
-                        <td class="expanded-row">{tradeAction.Size}</td>
-                        <td class="expanded-row">{tradeAction.Timestamp}</td>
-                        <td class="expanded-row">{tradeAction.BotID}</td>
-                        <td class="expanded-row">{tradeAction.AggregateID}</td>
-                        <td class="expanded-row">{tradeAction.Exchange}</td>
-                        <td class="expanded-row">{tradeAction.Direction}</td>
-                      </tr>
-                    {/if}
+            {#each groupedView[key] as tradeAction, j}
+              <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
+              {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
+                {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
+                  {#if whichKey.includes(key)}
+                    <tr class:dark={appThemeIsDark}>
+                      <td class="expanded-row">{tradeAction.Action}</td>
+                      <td class="expanded-row">{tradeAction.Ticker}</td>
+                      <td class="expanded-row">{tradeAction.Size}</td>
+                      <td class="expanded-row">{tradeAction.Timestamp}</td>
+                      <td class="expanded-row">{tradeAction.BotID}</td>
+                      <td class="expanded-row">{tradeAction.AggregateID}</td>
+                      <td class="expanded-row">{tradeAction.Exchange}</td>
+                      <td class="expanded-row">{tradeAction.Direction}</td>
+                    </tr>
                   {/if}
                 {/if}
-              {/each}
+              {/if}
+            {/each}
           {/each}
         {/if}
       </tbody>
@@ -283,12 +295,14 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    padding: 1rem;
+    padding: 1rem 0;
   }
 
   .container-fluid {
     padding: 1rem 2rem;
+    width: 100%;
     text-align: center;
+    background-color: black;
   }
 
   #filterMenu {
