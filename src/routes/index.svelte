@@ -195,7 +195,11 @@
   <!-- landing page -->
   <div class="container-fluid">
     <div class="row banner">
-      <h1 class="center">The best trading bot platform<br />in the world.</h1>
+      <div class="center">
+        <h1>The best trading bot platform<br />in the world.</h1>
+        <button>Make Me Rich</button>
+      </div>
+      <h2><i class="bi bi-chevron-double-down" /></h2>
     </div>
   </div>
 </main>
@@ -206,13 +210,15 @@
   #hiddenSignIn {
     z-index: 100;
     font-family: $body-font;
+    font-size: xx-small;
     position: absolute;
     right: 1%;
     top: 8%;
+    color: $blue;
   }
 
   #hiddenSignIn:hover {
-    color: $blood;
+    color: $cream;
   }
 
   .container-fluid {
@@ -248,20 +254,27 @@
     width: 100%;
     vertical-align: middle;
 
-    background: linear-gradient(219deg, #8a0000, $blue);
+    background: linear-gradient(219deg, $blood, $blue);
     background-size: 400% 400%;
 
-    -webkit-animation: AnimationName 4s ease infinite;
-    -moz-animation: AnimationName 4s ease infinite;
-    animation: AnimationName 4s ease infinite;
+    -webkit-animation: AnimationName 6s ease infinite;
+    -moz-animation: AnimationName 6s ease infinite;
+    animation: AnimationName 6s ease infinite;
+
+    h2 {
+      position: absolute;
+      bottom: 1%;
+      width: 100%;
+      text-align: center;
+    }
   }
 
   @-webkit-keyframes AnimationName {
     0% {
       background-position: 0% 67%;
     }
-    20% {
-      background-position: 100% 34%;
+    10% {
+      background-position: 100% 44%;
     }
     100% {
       background-position: 0% 67%;
@@ -271,8 +284,8 @@
     0% {
       background-position: 0% 67%;
     }
-    20% {
-      background-position: 100% 34%;
+    10% {
+      background-position: 100% 44%;
     }
     100% {
       background-position: 0% 67%;
@@ -282,8 +295,8 @@
     0% {
       background-position: 0% 67%;
     }
-    20% {
-      background-position: 100% 34%;
+    10% {
+      background-position: 100% 44%;
     }
     100% {
       background-position: 0% 67%;
@@ -294,5 +307,23 @@
     text-align: center;
     width: fit-content;
     margin: auto;
+
+    h1 {
+      font-size: 3.5rem;
+    }
+
+    button {
+      all: initial;
+      all: unset;
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      font-family: $body-font;
+      font-size: 1.5rem;
+      border-radius: 7px;
+      border: $cream 1px solid;
+      background-color: $blood;
+      color: $cream;
+      cursor: pointer;
+    }
   }
 </style>
