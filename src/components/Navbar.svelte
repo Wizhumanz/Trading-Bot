@@ -289,10 +289,10 @@
         padding: auto 0;
       }
       i.light:hover {
-        color: $blood;
+        color: orangered;
       }
       i.dark:hover {
-        color: blue;
+        color: blueviolet;
       }
     }
   }
