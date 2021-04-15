@@ -133,69 +133,69 @@
   }
 </script>
 
-<main>
-  {#if loading}
-    <LoadingIndicator />
-  {/if}
+{#if loading}
+  <LoadingIndicator />
+{/if}
 
-  <div class="container-fluid" class:dark={appThemeIsDark}>
-    <a
-      id="hiddenSignIn"
-      data-bs-toggle="collapse"
-      href="#signInCollapse"
-      role="button"
-      aria-expanded="false"
-      aria-controls="signInCollapse"
-    >
-      войти
-    </a>
-    <div class="collapse" id="signInCollapse">
-      <div class="row signIn">
-        <div class="col-sm-2 col-md-3 col-lg-4" />
-        <div class="col-sm-8 col-md-6 col-lg-4">
-          <!-- Sign In tab -->
-          <div style={showAlert}>
-            <p>Incorrect Login Details</p>
-          </div>
-          <form class="form" on:submit|preventDefault={signIn}>
-            <div class="mb-3">
-              <label for="emailLogin" class="form-label"> Email</label>
-              <input
-                type="email"
-                class="form-control"
-                id="emailLogin"
-                placeholder="ana@myika.co"
-                class:dark={appThemeIsDark}
-                bind:value={userLogin.email}
-              />
-            </div>
-            <div class="mb-3">
-              <label for="passwordLogin" class="form-label"> Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="passwordLogin"
-                placeholder="g@iN$z"
-                class:dark={appThemeIsDark}
-                bind:value={userLogin.password}
-              />
-            </div>
-            <button type="submit" class:dark={appThemeIsDark}>Sign In</button>
-            <a class="register" href="/register" class:dark={appThemeIsDark}
-              >Register</a
-            >
-          </form>
+<div class="container-fluid" class:dark={appThemeIsDark}>
+  <a
+    id="hiddenSignIn"
+    data-bs-toggle="collapse"
+    href="#signInCollapse"
+    role="button"
+    aria-expanded="false"
+    aria-controls="signInCollapse"
+  >
+    войти
+  </a>
+  <div class="collapse" id="signInCollapse">
+    <div class="row signIn">
+      <div class="col-sm-2 col-md-3 col-lg-4" />
+      <div class="col-sm-8 col-md-6 col-lg-4">
+        <!-- Sign In tab -->
+        <div style={showAlert}>
+          <p>Incorrect Login Details</p>
         </div>
-        <div class="col-sm-2 col-md-3 col-lg-4" />
+        <form class="form" on:submit|preventDefault={signIn}>
+          <div class="mb-3">
+            <label for="emailLogin" class="form-label"> Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="emailLogin"
+              placeholder="ana@myika.co"
+              class:dark={appThemeIsDark}
+              bind:value={userLogin.email}
+            />
+          </div>
+          <div class="mb-3">
+            <label for="passwordLogin" class="form-label"> Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="passwordLogin"
+              placeholder="g@iN$z"
+              class:dark={appThemeIsDark}
+              bind:value={userLogin.password}
+            />
+          </div>
+          <button type="submit" class:dark={appThemeIsDark}>Sign In</button>
+          <a class="register" href="/register" class:dark={appThemeIsDark}
+            >Register</a
+          >
+        </form>
       </div>
-    </div>
-
-    <!-- landing page -->
-    <div class="row banner">
-      <h1 class="center">The best trading bot platform<br />in the world.</h1>
+      <div class="col-sm-2 col-md-3 col-lg-4" />
     </div>
   </div>
-</main>
+</div>
+
+<!-- landing page -->
+<div class="container-fluid">
+  <div class="row banner">
+    <h1 class="center">The best trading bot platform<br />in the world.</h1>
+  </div>
+</div>
 
 <style type="text/scss">
   @import "../../static/styles/_all";
@@ -212,10 +212,7 @@
   }
 
   .container-fluid {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
     height: 100%;
-    position: fixed;
     background-color: white;
   }
 
@@ -238,8 +235,10 @@
     color: $cream;
   }
 
-  .row.banner {
-    height: 100%;
+  .banner {
+    position: absolute;
+    padding-right: 0;
+    height: 90%;
     width: 100%;
     vertical-align: middle;
 

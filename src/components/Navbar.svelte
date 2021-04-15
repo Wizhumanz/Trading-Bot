@@ -44,7 +44,8 @@
 >
   <div class="container-fluid">
     <a class="navbar-brand {appThemeIsDark === true ? 'dark' : ''}" href="/"
-      >Anastasia.</a>
+      >Anastasia.</a
+    >
     <button
       class="navbar-toggler"
       type="button"
@@ -164,15 +165,11 @@
 
   nav {
     font-family: $title-font;
-    background-color: white;
+    background-color: transparent;
     color: black;
 
     // margin-bottom: 1rem;
     padding: 0;
-
-    @media only screen and (max-width: 767px) {
-      margin-bottom: 0.5rem;
-    }
   }
 
   nav.dark {
