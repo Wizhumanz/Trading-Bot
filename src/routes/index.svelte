@@ -191,48 +191,9 @@
     </div>
 
     <!-- landing page -->
-    <ul class="cb-slideshow">
-      <li>
-        <span>Image 01</span>
-        <div>
-          <h3>re·lax·a·tion</h3>
-        </div>
-      </li>
-      <li>
-        <span>Image 02</span>
-        <div>
-          <h3>re·lax·a·tion2</h3>
-        </div>
-      </li>
-      <li>
-        <span>Image 03</span>
-        <div>
-          <h3>re·lax·a·tion3</h3>
-        </div>
-      </li>
-      <li>
-        <span>Image 04</span>
-        <div>
-          <h3>re·lax·a·tion4</h3>
-        </div>
-      </li>
-      <li>
-        <span>Image 05</span>
-        <div>
-          <h3>re·lax·a·tion5</h3>
-        </div>
-      </li>
-      <li>
-        <span>Image 06</span>
-        <div>
-          <h3>re·lax·a·tion6</h3>
-        </div>
-      </li>
-    </ul>
-
-    <!-- <div class="row banner">
+    <div class="row banner">
       <h1 class="center">The best trading bot platform<br />in the world.</h1>
-    </div> -->
+    </div>
   </div>
 </main>
 
@@ -277,103 +238,56 @@
     color: $cream;
   }
 
-  .cb-slideshow,
-  .cb-slideshow:after {
-    position: fixed;
-    width: 100%;
+  .row.banner {
     height: 100%;
-    top: 0px;
-    left: 0px;
-    z-index: 0;
-  }
-  .cb-slideshow:after {
-    content: "";
-    background: transparent
-      url(https://upload.wikimedia.org/wikipedia/commons/e/e1/Alexander_the_Great_mosaic.jpg)
-      repeat top left;
-  }
-
-  .cb-slideshow li span {
     width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    color: transparent;
-    background-size: cover;
-    background-position: 50% 50%;
-    background-repeat: none;
-    opacity: 0;
-    z-index: 0;
-    animation: imageAnimation 36s linear infinite 0s;
+    vertical-align: middle;
+
+    background: linear-gradient(219deg, #8a0000, $blue);
+    background-size: 400% 400%;
+
+    -webkit-animation: AnimationName 4s ease infinite;
+    -moz-animation: AnimationName 4s ease infinite;
+    animation: AnimationName 4s ease infinite;
   }
 
-  .cb-slideshow li:nth-child(1) span {
-    background-image: url(https://lh3.googleusercontent.com/proxy/B5xHjGT2wZnlXtx_AIfZH7Ly6hk_e-AN-pwu5xHQ1qBEuS9NNFVthtFWaUdbwfApPelVE5KRsNO0s0ardxmnCBvVTYOusvujPg-pNBuHVmFa5_dUfpeE5dB_tGE1EVD8SnrBQYSMAJguHctuT7SjaBTJEiNNSg);
-  }
-  .cb-slideshow li:nth-child(2) span {
-    background-image: url(https://i.pinimg.com/originals/91/63/f7/9163f74d49ef8a277977a4ad045d81ae.jpg);
-    animation-delay: 6s;
-  }
-  .cb-slideshow li:nth-child(3) span {
-    background-image: url(https://i.pinimg.com/originals/50/98/86/5098866589940e3d320a0c23c6ee95b6.jpg);
-    animation-delay: 12s;
-  }
-  .cb-slideshow li:nth-child(4) span {
-    background-image: url(https://cdn3.vectorstock.com/i/1000x1000/42/92/ancient-greek-goddess-aphrodite-vector-18294292.jpg);
-    animation-delay: 18s;
-  }
-  .cb-slideshow li:nth-child(5) span {
-    background-image: url(https://lh3.googleusercontent.com/proxy/B5xHjGT2wZnlXtx_AIfZH7Ly6hk_e-AN-pwu5xHQ1qBEuS9NNFVthtFWaUdbwfApPelVE5KRsNO0s0ardxmnCBvVTYOusvujPg-pNBuHVmFa5_dUfpeE5dB_tGE1EVD8SnrBQYSMAJguHctuT7SjaBTJEiNNSg);
-    animation-delay: 24s;
-  }
-  .cb-slideshow li:nth-child(6) span {
-    background-image: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/palekh-box-traditional-russian-lacquer-work-detail-russian-school.jpg);
-    animation-delay: 30s;
-  }
-
-  .cb-slideshow li:nth-child(2) div {
-    animation-delay: 6s;
-  }
-  .cb-slideshow li:nth-child(3) div {
-    animation-delay: 12s;
-  }
-  .cb-slideshow li:nth-child(4) div {
-    animation-delay: 18s;
-  }
-  .cb-slideshow li:nth-child(5) div {
-    animation-delay: 24s;
-  }
-  .cb-slideshow li:nth-child(6) div {
-    animation-delay: 30s;
-  }
-
-  @keyframes imageAnimation {
+  @-webkit-keyframes AnimationName {
     0% {
-      opacity: 0;
-      animation-timing-function: ease-in;
+      background-position: 0% 67%;
     }
-    8% {
-      opacity: 1;
-      animation-timing-function: ease-out;
-    }
-    17% {
-      opacity: 1;
-    }
-    25% {
-      opacity: 0;
+    20% {
+      background-position: 100% 34%;
     }
     100% {
-      opacity: 0;
+      background-position: 0% 67%;
     }
   }
-
-  .row.banner {
+  @-moz-keyframes AnimationName {
+    0% {
+      background-position: 0% 67%;
+    }
+    20% {
+      background-position: 100% 34%;
+    }
+    100% {
+      background-position: 0% 67%;
+    }
+  }
+  @keyframes AnimationName {
+    0% {
+      background-position: 0% 67%;
+    }
+    20% {
+      background-position: 100% 34%;
+    }
+    100% {
+      background-position: 0% 67%;
+    }
   }
 
   .center {
     text-align: center;
     width: fit-content;
-    margin: 3rem auto;
+    margin: auto;
   }
 </style>
