@@ -116,8 +116,8 @@
       >Register Now
     </h1>
     <div class="row signIn">
-      <div class="col-2" />
-      <div class="col-8">
+      <div class="col-4" />
+      <div class="col-4">
         <!-- Sign In tab -->
         <div style={showAlert}>
           <p>Incorrect Login Details</p>
@@ -161,7 +161,7 @@
           </div>
         </form>
       </div>
-      <div class="col-2" />
+      <div class="col-4" />
     </div>
   </div>
 </main>

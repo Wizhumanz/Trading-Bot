@@ -140,8 +140,8 @@
 
   <div class="container-fluid" class:dark={appThemeIsDark}>
     <div class="row signIn">
-      <div class="col-2" />
-      <div class="col-8">
+      <div class="col-sm-2 col-md-3 col-lg-4" />
+      <div class="col-sm-8 col-md-6 col-lg-4">
         <!-- Sign In tab -->
         <div style={showAlert}>
           <p>Incorrect Login Details</p>
@@ -175,7 +175,7 @@
           >
         </form>
       </div>
-      <div class="col-2" />
+      <div class="col-sm-2 col-md-3 col-lg-4" />
     </div>
   </div>
 </main>
@@ -184,6 +184,8 @@
   @import "../../static/styles/_all";
 
   .container-fluid {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
     height: 100%;
     position: fixed;
     background-color: white;
