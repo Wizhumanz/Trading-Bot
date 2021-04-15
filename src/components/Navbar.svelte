@@ -123,7 +123,7 @@
             <a
               class="nav-link active"
               class:dark={appThemeIsDark}
-              on:click={logout}>Log Out</a
+              on:click={logout}><i class="bi bi-box-arrow-in-left" /></a
             >
           </li>
         {/if}
@@ -274,7 +274,7 @@
   }
 
   #themeSelector {
-    margin: 0.1rem -0.5rem auto -2.5rem;
+    margin: auto -0.5rem auto -2.5rem;
     padding: auto -2rem auto 0;
     position: relative;
     z-index: 1;
