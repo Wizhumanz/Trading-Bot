@@ -46,11 +46,6 @@
 <style type="text/scss">
   @import "../../../static/styles/_all";
 
-  .pageNav {
-    color: $cream;
-    margin-right: 1rem;
-  }
-
   #stratViewPage {
     position: absolute;
     width: 100%;
