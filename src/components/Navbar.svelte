@@ -104,6 +104,27 @@
               <li><a class="dropdown-item" href="/bots/all">All</a></li>
             </ul>
           </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              class:dark={appThemeIsDark}
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-gear-wide-connected" />
+            </a>
+            <ul
+              class="dropdown-menu"
+              class:dark={appThemeIsDark}
+              aria-labelledby="navbarDropdown"
+            >
+              <li><a class="dropdown-item" href="/history">History</a></li>
+              <li><a class="dropdown-item" href="/exchanges">Exchanges</a></li>
+            </ul>
+          </li>
+          <!-- 
           <li class="nav-item">
             <a
               class="nav-link active"
@@ -117,7 +138,7 @@
               class:dark={appThemeIsDark}
               href="/exchanges">Exchanges</a
             >
-          </li>
+          </li> -->
           <li class="nav-item">
             <!-- svelte-ignore a11y-missing-attribute -->
             <a
@@ -204,7 +225,7 @@
   }
 
   .nav-link.active.dark {
-    color: $ivory;
+    color: $cream;
     position: relative;
     z-index: 100;
   }
@@ -213,7 +234,7 @@
     color: black;
   }
   .nav-link.dropdown-toggle.dark {
-    color: $ivory;
+    color: $cream;
   }
 
   .dropdown-menu {
