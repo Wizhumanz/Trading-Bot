@@ -1,11 +1,16 @@
 <script>
   import { onMount } from "svelte";
   import { goto } from "@sapper/app";
-  import { storeUser } from "../../store.js";
+  import { storeUser, storeAppTheme } from "../../store.js";
   import axios from "axios";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   //global variables
+  let appThemeIsDark;
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
+
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
 
@@ -104,7 +109,7 @@
     <LoadingIndicator />
   {/if}
 
-  <div class="container-fluid">
+  <div class="container-fluid" class:dark={appThemeIsDark}>
     <h1>Register Now</h1>
     <div class="row signIn">
       <div class="col-2" />
@@ -119,6 +124,7 @@
             <input
               type="text"
               class="form-control"
+              class:dark={appThemeIsDark}
               id="nameInput"
               placeholder="Trader Joe"
               bind:value={userRegister.name}
@@ -129,6 +135,7 @@
             <input
               type="email"
               class="form-control"
+              class:dark={appThemeIsDark}
               id="emailInput"
               placeholder="mika@stonks.com"
               bind:value={userRegister.email}
@@ -139,13 +146,14 @@
             <input
               type="password"
               class="form-control"
+              class:dark={appThemeIsDark}
               id="passInput"
               placeholder="$$$$$$"
               bind:value={userRegister.password}
             />
           </div>
           <div class="mb-3">
-            <button type="submit">Register</button>
+            <button type="submit" class:dark={appThemeIsDark}>Register</button>
           </div>
         </form>
       </div>
@@ -158,11 +166,18 @@
   @import "../../static/styles/_all";
 
   .container-fluid {
+    height: 100%;
+    position: fixed;
+    background-color: white;
     text-align: center;
 
     h1 {
       margin-top: 0.75rem;
     }
+  }
+
+  .container-fluid.dark {
+    background-color: black;
   }
 
   .mb-3 {
