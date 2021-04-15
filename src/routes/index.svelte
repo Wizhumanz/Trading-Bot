@@ -139,49 +139,72 @@
   {/if}
 
   <div class="container-fluid" class:dark={appThemeIsDark}>
-    <div class="row signIn">
-      <div class="col-sm-2 col-md-3 col-lg-4" />
-      <div class="col-sm-8 col-md-6 col-lg-4">
-        <!-- Sign In tab -->
-        <div style={showAlert}>
-          <p>Incorrect Login Details</p>
+    <a
+      id="hiddenSignIn"
+      data-bs-toggle="collapse"
+      href="#signInCollapse"
+      role="button"
+      aria-expanded="false"
+      aria-controls="signInCollapse"
+    >
+      войти
+    </a>
+    <div class="collapse" id="signInCollapse">
+      <div class="row signIn">
+        <div class="col-sm-2 col-md-3 col-lg-4" />
+        <div class="col-sm-8 col-md-6 col-lg-4">
+          <!-- Sign In tab -->
+          <div style={showAlert}>
+            <p>Incorrect Login Details</p>
+          </div>
+          <form class="form" on:submit|preventDefault={signIn}>
+            <div class="mb-3">
+              <label for="emailLogin" class="form-label"> Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="emailLogin"
+                placeholder="ana@myika.co"
+                class:dark={appThemeIsDark}
+                bind:value={userLogin.email}
+              />
+            </div>
+            <div class="mb-3">
+              <label for="passwordLogin" class="form-label"> Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="passwordLogin"
+                placeholder="g@iN$z"
+                class:dark={appThemeIsDark}
+                bind:value={userLogin.password}
+              />
+            </div>
+            <button type="submit" class:dark={appThemeIsDark}>Sign In</button>
+            <a class="register" href="/register" class:dark={appThemeIsDark}
+              >Register</a
+            >
+          </form>
         </div>
-        <form class="form" on:submit|preventDefault={signIn}>
-          <div class="mb-3">
-            <label for="emailLogin" class="form-label"> Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="emailLogin"
-              placeholder="ana@myika.co"
-              class:dark={appThemeIsDark}
-              bind:value={userLogin.email}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="passwordLogin" class="form-label"> Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="passwordLogin"
-              placeholder="g@iN$z"
-              class:dark={appThemeIsDark}
-              bind:value={userLogin.password}
-            />
-          </div>
-          <button type="submit" class:dark={appThemeIsDark}>Sign In</button>
-          <a class="register" href="/register" class:dark={appThemeIsDark}
-            >Register</a
-          >
-        </form>
+        <div class="col-sm-2 col-md-3 col-lg-4" />
       </div>
-      <div class="col-sm-2 col-md-3 col-lg-4" />
     </div>
   </div>
 </main>
 
 <style type="text/scss">
   @import "../../static/styles/_all";
+
+  #hiddenSignIn {
+    font-family: $body-font;
+    position: absolute;
+    right: 1%;
+    top: 0;
+  }
+
+  #hiddenSignIn:hover {
+    color: $blood;
+  }
 
   .container-fluid {
     padding-left: 2.5rem;
