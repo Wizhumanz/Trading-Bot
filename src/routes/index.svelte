@@ -342,6 +342,19 @@
       </p>
     </div>
   </div>
+
+  <div class="row display">
+    <div class="col-sm-12 col-lg-6">
+      <div class="profile-card">
+        <h1>Simon Jeong</h1>
+      </div>
+    </div>
+    <div class="col-sm-12 col-lg-6">
+      <div class="profile-card">
+        <h1>Mika Yeap</h1>
+      </div>
+    </div>
+  </div>
 </main>
 
 <style type="text/scss">
@@ -443,8 +456,9 @@
 
   .row.display {
     padding: 5rem 2rem 4rem 2rem;
-    color: black;
     text-align: center;
+    background-color: white;
+    color: black;
 
     p {
       font-size: x-large;
@@ -491,6 +505,12 @@
       font-size: 3rem;
       color: $blood;
     }
+  }
+
+  .profile-card {
+    background-color: red;
+    width: 80%;
+    margin: auto;
   }
 
   // mock bot controls

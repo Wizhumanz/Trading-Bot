@@ -24,7 +24,7 @@
   }
 
   main.dark {
-    background-color: green;
+    background-color: black;
     color: $cream;
   }
 </style>
