@@ -211,16 +211,67 @@
       <h2><i class="bi bi-chevron-double-down" /></h2>
     </div>
 
-    <div class="row">
+    <div class="row colored">
       <div class="col-sm-12 col-md-5">
-        <h1>What makes us so good?</h1>
-        <p>
-          Risk management: Fine bot controls for deploying world-class
-          strategies.
-        </p>
+        <div class="feature">
+          <h1>What makes us so good?</h1>
+          <p>
+            Risk management: Fine bot controls for deploying world-class
+            strategies.
+          </p>
+        </div>
       </div>
       <div class="col-sm-12 col-md-7">
-        <p>hdouijdijdiojiojediji idjiojdoijeiodjwoidje ijd28480dj0jjdi</p>
+        <div class="main-box">
+          <!-- mock bot controls -->
+          <div class="row">
+            <div class="col-sm-12 col-lg-4 mockStatusCol">
+              <h4>EMA Bounce Scalper</h4>
+              <div class="statusDiv">
+                <h4>ACTIVE</h4>
+                <button> Abort </button>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-8 settings-col">
+              <div class="settingsDisplayBox">
+                <div class="row">
+                  <div class="col-7">Ticker</div>
+                  <div class="col-5 val-col">BTC/USDT</div>
+                </div>
+                <div class="row">
+                  <div class="col-7">Account % used</div>
+                  <div class="col-5 val-col">35%</div>
+                </div>
+                <div class="row">
+                  <div class="col-7">Account % risked per trade</div>
+                  <div class="col-5 val-col">1.5%</div>
+                </div>
+                <div class="row">
+                  <div class="col-7">Leverage</div>
+                  <div class="col-5 val-col">12x</div>
+                </div>
+                <div class="displayOnlyFields">
+                  <!-- display-only fields -->
+                  <div class="display-fields">
+                    <div class="row">
+                      <div class="col-7">Exchange</div>
+                      <div class="col-5 lowkey-val-col">
+                        Binance (ana@myika.co)
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-7">Webhook</div>
+                      <div class="col-5 lowkey-val-col urlDisplay">
+                        <!-- svelte-ignore a11y-missing-attribute -->
+                        <a>A65-45m EMA Cross</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -282,13 +333,6 @@
     vertical-align: middle;
     background-color: black;
 
-    // background: linear-gradient(219deg, $blood, $blue);
-    // background-size: 400% 400%;
-
-    // -webkit-animation: AnimationName 6s ease infinite;
-    // -moz-animation: AnimationName 6s ease infinite;
-    // animation: AnimationName 6s ease infinite;
-
     h2 {
       position: absolute;
       bottom: 1%;
@@ -296,40 +340,6 @@
       text-align: center;
     }
   }
-
-  // @-webkit-keyframes AnimationName {
-  //   0% {
-  //     background-position: 0% 67%;
-  //   }
-  //   10% {
-  //     background-position: 100% 44%;
-  //   }
-  //   100% {
-  //     background-position: 0% 67%;
-  //   }
-  // }
-  // @-moz-keyframes AnimationName {
-  //   0% {
-  //     background-position: 0% 67%;
-  //   }
-  //   10% {
-  //     background-position: 100% 44%;
-  //   }
-  //   100% {
-  //     background-position: 0% 67%;
-  //   }
-  // }
-  // @keyframes AnimationName {
-  //   0% {
-  //     background-position: 0% 67%;
-  //   }
-  //   10% {
-  //     background-position: 100% 44%;
-  //   }
-  //   100% {
-  //     background-position: 0% 67%;
-  //   }
-  // }
 
   .center {
     text-align: center;
@@ -360,6 +370,120 @@
       span {
         margin-left: 0.2rem;
       }
+    }
+  }
+
+  .row.colored {
+    padding: 3rem 2rem 3rem 4rem;
+    background-color: white;
+    color: black;
+    text-align: center;
+
+    .feature {
+      width: 70%;
+      margin: auto;
+      text-align: left;
+
+      h1 {
+        color: $blue;
+      }
+    }
+  }
+
+  // mock bot controls
+
+  .main-box {
+    text-align: left;
+    background-color: $blue;
+    color: $ivory;
+    border: none;
+    border-radius: 10px;
+    padding: 2rem 3rem 1rem 3rem;
+    margin-bottom: 1rem;
+
+    background: linear-gradient(40deg, $blue 50%, black 50%);
+  }
+
+  .mockStatusCol {
+    text-align: left;
+  }
+
+  div.statusDiv {
+    background-color: $cream;
+    color: black;
+    border-radius: 7px;
+
+    text-align: center;
+    margin: 0.75rem auto 1.5rem auto;
+    padding: 1.25rem 1rem;
+
+    button {
+      font-size: larger;
+      padding: 0.5rem 1rem;
+      margin-top: 0;
+      border-radius: 3px;
+      border: none;
+      color: $ivory;
+      background-color: black;
+
+      background-size: 100% 200%;
+      background-image: linear-gradient(to bottom, black 50%, $blood 50%);
+      -webkit-transition: background-position 0.5s;
+      -moz-transition: background-position 0.5s;
+      transition: background-position 0.5s;
+    }
+
+    button:hover {
+      background-position: 0 -100%;
+      color: $ivory;
+    }
+  }
+
+  div.settings-col {
+    hr {
+      color: $cream;
+    }
+  }
+
+  .settingsDisplayBox {
+    font-family: $body-font;
+    font-size: 1.3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .displayOnlyFields {
+    margin-top: 1rem;
+  }
+
+  .val-col {
+    font-family: $title-font;
+    font-size: 1.3rem;
+  }
+
+  .lowkey-val-col {
+    font-family: $title-font;
+    font-size: 1rem;
+  }
+
+  .display-fields {
+    font-size: 1rem;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  .urlDisplay {
+    overflow: hidden;
+
+    a {
+      color: $ivory;
+    }
+    a:hover {
+      color: $cream;
+      text-decoration: underline;
     }
   }
 </style>
