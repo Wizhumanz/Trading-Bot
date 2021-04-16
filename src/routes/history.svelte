@@ -4,7 +4,6 @@
 
   let view = "grouped";
   let groupedView = {};
-  let reverseGroupedView = {}
   let numOfTradeAction = {};
   let user = {};
   let whichKey = [];
@@ -33,7 +32,7 @@
       } else {
         groupedView[v.AggregateID] = [v];
       }
-    });
+    })
   }
   //&& ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))
   $: for (let key in groupedView) {
@@ -216,7 +215,7 @@
       </thead>
       <tbody>
         {#if view === "log"}
-          {#each user.trades as t}
+          {#each user.trades.sort((a, b) => new Date(b.Timestamp.replaceAll("_"," ")).getTime() - new Date(a.Timestamp.replaceAll("_"," ")).getTime()) as t}
             <!--
           {#if (!t.Action.toLowerCase().includes("enter") || !t.Action.toLowerCase().includes("exit") && showUpdate)}
           -->
@@ -255,7 +254,7 @@
               </tr>
             {/if}
             <!-- if the row is expanded -->
-            {#each groupedView[key] as tradeAction, j}
+            {#each groupedView[key].sort((a, b) => new Date(b.Timestamp.replaceAll("_"," ")).getTime() - new Date(a.Timestamp.replaceAll("_"," ")).getTime()) as tradeAction}
               <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
               {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
                 {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
