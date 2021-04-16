@@ -333,6 +333,14 @@
         </div>
       </div>
     </div>
+
+    <div class="row display red">
+      <h1>We don't hold your money.</h1>
+      <p>
+        Trade with bots from your own exchange account.
+        <br />No deposits required.
+      </p>
+    </div>
   </div>
 </main>
 
@@ -437,6 +445,10 @@
     padding: 5rem 2rem 4rem 2rem;
     color: black;
     text-align: center;
+
+    p {
+      font-size: x-large;
+    }
   }
 
   .row.clean {
@@ -450,10 +462,6 @@
 
       h1 {
         color: $blue;
-      }
-
-      p {
-        font-size: x-large;
       }
     }
   }
@@ -475,6 +483,14 @@
   .highlight {
     width: fit-content;
     background-color: $blood;
+  }
+
+  .row.red {
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 3rem;
+      color: $blood;
+    }
   }
 
   // mock bot controls
