@@ -4,6 +4,7 @@
 
   let view = "grouped";
   let groupedView = {};
+  let reverseGroupedView = {}
   let numOfTradeAction = {};
   let user = {};
   let whichKey = [];
@@ -12,13 +13,6 @@
   let showOpen = true;
   let showClose = true;
   let showUpdate = true;
-
-  // {#each groupedView[key] as tradeActionRow, j}
-  //             {#if ((v.Action.toLowerCase().includes("enter") && showOpen) || (v.Action.toLowerCase().includes("exit") && showClose) || (!v.Action.toLowerCase().includes("enter") && !v.Action.toLowerCase().includes("exit") && showUpdate))}
-  //               {#if ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))}
-  //               {/if}
-  //             {/if}
-  //           {/each}
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -242,7 +236,7 @@
             {/if}
           {/each}
         {:else if view === "grouped"}
-          {#each Object.keys(groupedView) as key}
+          {#each Object.keys(groupedView).sort(function(a,b){return b-a}) as key}
             {#if numOfTradeAction[key] !== 0}
               <tr
                 class:dark={appThemeIsDark}
