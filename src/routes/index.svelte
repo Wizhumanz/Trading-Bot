@@ -379,7 +379,7 @@
     font-size: xx-small;
     position: absolute;
     right: 1%;
-    top: 8%;
+    top: 20%;
     color: $blue;
   }
 

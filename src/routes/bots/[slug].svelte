@@ -27,19 +27,18 @@
   });
 
   let loading = false;
-
   let numInactiveBots = 0;
   let showNoActiveBots = false;
-  if (user.bots && user.bots.length > 0) {
+  if (user.bots) {
     Array.from(user.bots).forEach((b) => {
       if (b.IsActive === "false") {
         numInactiveBots += 1;
       }
     });
-  }
 
-  if (numInactiveBots === user.bots.length) {
+    if (numInactiveBots === user.bots.length) {
     showNoActiveBots = true;
+  }
   }
 </script>
 
