@@ -219,6 +219,7 @@
           <p>
             Risk management: Fine bot controls for deploying world-class
             strategies.
+            <br />
           </p>
         </div>
       </div>
@@ -296,6 +297,14 @@
             <h1>Plug n' play strategies</h1>
           </div>
         </div>
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1>Pro risk management</h1>
+          </div>
+        </div>
       </div>
       <div class="col-6">
         <div class="row feature-li">
@@ -311,7 +320,15 @@
             <h1><i class="bi bi-check" /></h1>
           </div>
           <div class="col-9">
-            <h1>High volume trading</h1>
+            <h1>No custodianship</h1>
+          </div>
+        </div>
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1>Built + tested by pro traders</h1>
           </div>
         </div>
       </div>
@@ -417,12 +434,13 @@
   }
 
   .row.display {
-    padding: 5rem 2rem 4rem 4rem;
+    padding: 5rem 2rem 4rem 2rem;
     color: black;
     text-align: center;
   }
 
   .row.clean {
+    padding: 5rem 2rem 4rem 4rem;
     background-color: white;
 
     .feature {
