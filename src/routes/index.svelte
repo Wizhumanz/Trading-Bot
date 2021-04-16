@@ -286,7 +286,7 @@
             <h1><i class="bi bi-check" /></h1>
           </div>
           <div class="col-9">
-            <h1>No code required</h1>
+            <h1 class="highlight">No code required</h1>
           </div>
         </div>
         <div class="row feature-li">
@@ -320,7 +320,7 @@
             <h1><i class="bi bi-check" /></h1>
           </div>
           <div class="col-9">
-            <h1>No custodianship</h1>
+            <h1 class="highlight">No custodianship</h1>
           </div>
         </div>
         <div class="row feature-li">
@@ -470,6 +470,11 @@
 
   .icon-col {
     text-align: right;
+  }
+
+  .highlight {
+    width: fit-content;
+    background-color: $blood;
   }
 
   // mock bot controls
