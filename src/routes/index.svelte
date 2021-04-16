@@ -297,6 +297,7 @@
   .container-fluid {
     background-color: white;
     padding: 0;
+    overflow-x: hidden;
 
     .row {
       padding: 0;
@@ -398,7 +399,7 @@
     color: $ivory;
     border: none;
     border-radius: 10px;
-    padding: 2rem 3rem 1rem 3rem;
+    padding: 2.5rem 3.5rem 2rem 3rem;
     margin-bottom: 1rem;
 
     background: linear-gradient(40deg, $blue 50%, black 50%);
@@ -458,12 +459,12 @@
   }
 
   .val-col {
-    font-family: $title-font;
+    font-family: $body-font;
     font-size: 1.3rem;
   }
 
   .lowkey-val-col {
-    font-family: $title-font;
+    font-family: $body-font;
     font-size: 1rem;
   }
 
