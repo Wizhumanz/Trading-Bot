@@ -26,6 +26,18 @@
   });
 
   let loading = false;
+
+  let numInactiveBots = 0
+  let showNoActiveBots = false
+  user.bots.forEach((b) => {
+    if (b.IsActive === "false") {
+      numInactiveBots += 1
+    }
+  })
+
+  if (numInactiveBots === user.bots.length){
+    showNoActiveBots = true
+  }
 </script>
 
 <!--Loading Sign-->
@@ -72,6 +84,9 @@
       {/each}
     {:else}
       <p>Error: No bots to show.</p>
+    {/if}
+    {#if showNoActiveBots == true}
+      <p>No active bots to show.</p>
     {/if}
   </div>
 </div>
