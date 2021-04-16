@@ -15,7 +15,7 @@
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
-      console.log("user changed in slug")
+      console.log("user changed in slug");
     }
   });
 
@@ -28,16 +28,18 @@
 
   let loading = false;
 
-  let numInactiveBots = 0
-  let showNoActiveBots = false
-  user.bots.forEach((b) => {
-    if (b.IsActive === "false") {
-      numInactiveBots += 1
-    }
-  })
+  let numInactiveBots = 0;
+  let showNoActiveBots = false;
+  if (user.bots && user.bots.length > 0) {
+    Array.from(user.bots).forEach((b) => {
+      if (b.IsActive === "false") {
+        numInactiveBots += 1;
+      }
+    });
+  }
 
-  if (numInactiveBots === user.bots.length){
-    showNoActiveBots = true
+  if (numInactiveBots === user.bots.length) {
+    showNoActiveBots = true;
   }
 </script>
 
@@ -71,13 +73,13 @@
   {/if}
 
   <div class="collapse" id="collapseExample">
-    <AddBot/>
+    <AddBot />
   </div>
 
   <div class="botList">
     {#if user.bots && user.bots.length > 0}
       {#each user.bots as b}
-        {#if b.IsActive === "true" || b.IsActive === true && route === "active"}
+        {#if b.IsActive === "true" || (b.IsActive === true && route === "active")}
           <BotLI bot={b} />
         {:else if route === "all"}
           <BotLI bot={b} />
