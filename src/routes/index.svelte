@@ -211,7 +211,8 @@
       <h2><i class="bi bi-chevron-double-down" /></h2>
     </div>
 
-    <div class="row colored">
+    <!-- main feature -->
+    <div class="row clean display">
       <div class="col-sm-12 col-md-5">
         <div class="feature">
           <h1>What makes us so good?</h1>
@@ -272,6 +273,48 @@
         </div>
       </div>
       <div class="col-sm-12 col-md-1" />
+    </div>
+
+    <!-- text features -->
+    <div class="row display colored">
+      <!-- one column of features -->
+      <div class="col-6">
+        <!-- one feature -->
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1>No code required</h1>
+          </div>
+        </div>
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1>Plug n' play strategies</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1>Fully autonomous</h1>
+          </div>
+        </div>
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1>High volume trading</h1>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
@@ -373,11 +416,14 @@
     }
   }
 
-  .row.colored {
-    padding: 4rem 2rem 3rem 4rem;
-    background-color: white;
+  .row.display {
+    padding: 5rem 2rem 4rem 4rem;
     color: black;
     text-align: center;
+  }
+
+  .row.clean {
+    background-color: white;
 
     .feature {
       width: 70%;
@@ -392,6 +438,20 @@
         font-size: x-large;
       }
     }
+  }
+
+  .row.colored {
+    background-color: $blue;
+    color: $ivory;
+    text-align: left;
+  }
+
+  .feature-li {
+    margin: 0.5rem;
+  }
+
+  .icon-col {
+    text-align: right;
   }
 
   // mock bot controls
