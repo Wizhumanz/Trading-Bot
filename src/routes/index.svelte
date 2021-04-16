@@ -244,8 +244,12 @@
   }
 
   .container-fluid {
-    height: 100%;
     background-color: white;
+    padding: 0;
+
+    .row {
+      padding: 0;
+    }
   }
 
   .container-fluid.dark {
@@ -270,9 +274,10 @@
 
   .banner {
     z-index: 1;
-    position: absolute;
-    padding-right: 0;
-    height: 90%;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    height: 700px;
     width: 100%;
     vertical-align: middle;
     background-color: black;
