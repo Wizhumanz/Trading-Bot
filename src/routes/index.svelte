@@ -221,7 +221,7 @@
           </p>
         </div>
       </div>
-      <div class="col-sm-12 col-md-7">
+      <div class="col-sm-12 col-md-6">
         <div class="main-box">
           <!-- mock bot controls -->
           <div class="row">
@@ -255,9 +255,7 @@
                   <div class="display-fields">
                     <div class="row">
                       <div class="col-7">Exchange</div>
-                      <div class="col-5 lowkey-val-col">
-                        Binance (ana@myika.co)
-                      </div>
+                      <div class="col-5 lowkey-val-col">Binance 3</div>
                     </div>
                     <div class="row">
                       <div class="col-7">Webhook</div>
@@ -273,6 +271,7 @@
           </div>
         </div>
       </div>
+      <div class="col-sm-12 col-md-1" />
     </div>
   </div>
 </main>
@@ -375,7 +374,7 @@
   }
 
   .row.colored {
-    padding: 3rem 2rem 3rem 4rem;
+    padding: 4rem 2rem 3rem 4rem;
     background-color: white;
     color: black;
     text-align: center;
@@ -387,6 +386,10 @@
 
       h1 {
         color: $blue;
+      }
+
+      p {
+        font-size: x-large;
       }
     }
   }
