@@ -197,9 +197,31 @@
     <div class="row banner">
       <div class="center">
         <h1>The best trading bot platform<br />in the world.</h1>
-        <button>Make Me Rich</button>
+        <button>Sign Me Up</button>
+        <p>
+          <s>$229</s>
+          <span />
+          <a href="/pricing" class="pricingLink" class:dark={appThemeIsDark}>
+            $99
+          </a>
+          /month
+          <br />Pre-launch offer!
+        </p>
       </div>
       <h2><i class="bi bi-chevron-double-down" /></h2>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-md-5">
+        <h1>What makes us so good?</h1>
+        <p>
+          Risk management: Fine bot controls for deploying world-class
+          strategies.
+        </p>
+      </div>
+      <div class="col-sm-12 col-md-7">
+        <p>hdouijdijdiojiojediji idjiojdoijeiodjwoidje ijd28480dj0jjdi</p>
+      </div>
     </div>
   </div>
 </main>
@@ -253,13 +275,14 @@
     height: 90%;
     width: 100%;
     vertical-align: middle;
+    background-color: black;
 
-    background: linear-gradient(219deg, $blood, $blue);
-    background-size: 400% 400%;
+    // background: linear-gradient(219deg, $blood, $blue);
+    // background-size: 400% 400%;
 
-    -webkit-animation: AnimationName 6s ease infinite;
-    -moz-animation: AnimationName 6s ease infinite;
-    animation: AnimationName 6s ease infinite;
+    // -webkit-animation: AnimationName 6s ease infinite;
+    // -moz-animation: AnimationName 6s ease infinite;
+    // animation: AnimationName 6s ease infinite;
 
     h2 {
       position: absolute;
@@ -269,39 +292,39 @@
     }
   }
 
-  @-webkit-keyframes AnimationName {
-    0% {
-      background-position: 0% 67%;
-    }
-    10% {
-      background-position: 100% 44%;
-    }
-    100% {
-      background-position: 0% 67%;
-    }
-  }
-  @-moz-keyframes AnimationName {
-    0% {
-      background-position: 0% 67%;
-    }
-    10% {
-      background-position: 100% 44%;
-    }
-    100% {
-      background-position: 0% 67%;
-    }
-  }
-  @keyframes AnimationName {
-    0% {
-      background-position: 0% 67%;
-    }
-    10% {
-      background-position: 100% 44%;
-    }
-    100% {
-      background-position: 0% 67%;
-    }
-  }
+  // @-webkit-keyframes AnimationName {
+  //   0% {
+  //     background-position: 0% 67%;
+  //   }
+  //   10% {
+  //     background-position: 100% 44%;
+  //   }
+  //   100% {
+  //     background-position: 0% 67%;
+  //   }
+  // }
+  // @-moz-keyframes AnimationName {
+  //   0% {
+  //     background-position: 0% 67%;
+  //   }
+  //   10% {
+  //     background-position: 100% 44%;
+  //   }
+  //   100% {
+  //     background-position: 0% 67%;
+  //   }
+  // }
+  // @keyframes AnimationName {
+  //   0% {
+  //     background-position: 0% 67%;
+  //   }
+  //   10% {
+  //     background-position: 100% 44%;
+  //   }
+  //   100% {
+  //     background-position: 0% 67%;
+  //   }
+  // }
 
   .center {
     text-align: center;
@@ -310,6 +333,7 @@
 
     h1 {
       font-size: 3.5rem;
+      color: $ivory;
     }
 
     button {
@@ -320,10 +344,17 @@
       font-family: $body-font;
       font-size: 1.5rem;
       border-radius: 7px;
-      border: $cream 1px solid;
+      // border: $ivory 1px solid;
       background-color: $blood;
-      color: $cream;
+      color: $ivory;
       cursor: pointer;
+    }
+
+    p {
+      margin-top: 0.75rem;
+      span {
+        margin-left: 0.2rem;
+      }
     }
   }
 </style>
