@@ -523,9 +523,11 @@
   .profile-card {
     width: 80%;
     margin: auto;
+    text-align: left;
     background-color: black;
+    color: $ivory;
     border-radius: 10px;
-    padding: 2rem;
+    padding: 4rem 3rem;
   }
 
   // mock bot controls
