@@ -74,7 +74,6 @@
       })
       timestampTA[key] = dict
     }
-    console.log(new Date)
   }
 
   // Number of trade actions for each view options
@@ -311,7 +310,7 @@
                       <td class="expanded-row">{tradeAction.Ticker}</td>
                       <td class="expanded-row">{tradeAction.Size}</td>
                       {#if timestampTA[key][tradeAction.Timestamp].includes("Around")}
-                      <td class="expanded-row">{tradeAction.Timestamp}</td>
+                      <td class="expanded-row">{tradeAction.Timestamp.substring(0, tradeAction.Timestamp.indexOf("+")).replaceAll("_"," ")}</td>
                       {:else}
                       <td class="expanded-row">{timestampTA[key][tradeAction.Timestamp]}</td>
                       {/if}
