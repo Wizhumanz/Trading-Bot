@@ -114,7 +114,6 @@
         getBots().then((res) => {
           loading = false;
           //assign properties to user
-          console.log(res)
           let hideIsArchived = []
           res.forEach((b) => {
             if (b.IsArchived !== "true") {
@@ -125,7 +124,6 @@
           if (user.bots !== null) {
             user.bots.reverse(); //to display most recent bots at top of list
           }
-          console.log(user.bots)
           storeUser.set(JSON.stringify(user));
           loading = false;
           goto("/bots/active");
