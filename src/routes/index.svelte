@@ -114,12 +114,12 @@
         getBots().then((res) => {
           loading = false;
           //assign properties to user
-          let hideIsArchived = []
+          let hideIsArchived = [];
           res.forEach((b) => {
             if (b.IsArchived !== "true") {
-              hideIsArchived.push(b)
+              hideIsArchived.push(b);
             }
-          })
+          });
           user.bots = hideIsArchived;
           if (user.bots !== null) {
             user.bots.reverse(); //to display most recent bots at top of list
@@ -352,11 +352,19 @@
     <div class="col-sm-12 col-lg-6">
       <div class="profile-card">
         <h1>Simon Jeong</h1>
+        <p>
+          Computer science, neuroscience, AI, and bread blending. These are the
+          things that keep Simon going.
+        </p>
       </div>
     </div>
     <div class="col-sm-12 col-lg-6">
       <div class="profile-card">
         <h1>Mika Yeap</h1>
+        <p>
+          Backend engineer at work, designer at heart. Mika spends most of his
+          time cleaning up Simon's mess.
+        </p>
       </div>
     </div>
   </div>
@@ -513,9 +521,11 @@
   }
 
   .profile-card {
-    background-color: red;
     width: 80%;
     margin: auto;
+    background-color: black;
+    border-radius: 10px;
+    padding: 2rem;
   }
 
   // mock bot controls
