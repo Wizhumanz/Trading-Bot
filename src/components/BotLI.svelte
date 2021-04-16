@@ -162,10 +162,8 @@
         let storeBots = [];
         user.bots.forEach((b) => {
           if (b.AggregateID === bot.AggregateID) {
-            console.log(bot.IsActive)
             storeBots.push(bot);
           } else {
-            console.log(b.IsActive)
             storeBots.push(b);
           }
         });
