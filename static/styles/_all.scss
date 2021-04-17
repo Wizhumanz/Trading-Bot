@@ -237,3 +237,11 @@ hr {
   color: $cream;
   margin-right: 1rem;
 }
+
+ul.inline {
+  text-decoration: none;
+
+  li {
+    display: inline;
+  }
+}
