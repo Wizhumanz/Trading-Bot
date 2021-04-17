@@ -11,9 +11,11 @@
   });
 
   var email = storeUser ? storeUser.email : null;
+  var userID = storeUser ? storeUser.id : null;
   storeUser.subscribe((newValue) => {
     if (newValue) {
       email = JSON.parse(newValue) ? JSON.parse(newValue).email : null;
+      userID = JSON.parse(newValue) ? JSON.parse(newValue).id : null;
     }
   });
 
@@ -53,11 +55,13 @@
   }
 
   function connectWs() {
-    try {
-      socket = new WebSocket("ws://localhost:8000/ws");
-      console.log("Attempting Connection...");
-    } catch (err) {
-      console.log(err);
+    if (userID) {
+      try {
+        socket = new WebSocket("ws://localhost:8000/ws/" + userID);
+        console.log("Attempting Connection...");
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     if (socket) {
