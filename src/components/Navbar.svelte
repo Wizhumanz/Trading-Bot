@@ -2,6 +2,7 @@
   import { goto } from "@sapper/app";
   import { onMount } from "svelte";
   import { storeUser, storeAppTheme } from "../../store.js";
+  import axios from "axios";
 
   //global vars
 
@@ -10,12 +11,14 @@
     appThemeIsDark = newVal === "dark";
   });
 
+  let user = {}
   var email = storeUser ? storeUser.email : null;
   var userID = storeUser ? storeUser.id : null;
   storeUser.subscribe((newValue) => {
     if (newValue) {
       email = JSON.parse(newValue) ? JSON.parse(newValue).email : null;
       userID = JSON.parse(newValue) ? JSON.parse(newValue).id : null;
+      user = JSON.parse(newValue);
     }
   });
 
@@ -70,6 +73,26 @@
         console.log("Successfully Connected");
         socket.send("Client connected");
         displaySocketIsClosed = false;
+
+        //get request for TradeAction/trade histories
+        const hds = {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+          Authorization: user.password,
+        };
+        axios
+          .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
+            headers: hds,
+            mode: "cors",
+          })
+          .then((res) => {
+            user.trades = res.data;
+            // console.log(res.status + " -- " + JSON.stringify(res.data));
+          })
+          .catch((error) => {
+            console.log(error.response);
+          });
       };
 
       socket.onclose = (event) => {
@@ -86,6 +109,16 @@
         console.log("WS server msg: " + msg.data);
         displaySocketIsClosed = false;
         //TODO: getting stringified trade action object, parse and put in store.js
+        if (msg.data.includes("{")){
+          if (user.trades) {
+            user.trades.push(JSON.parse(msg.data))
+            user.trades = user.trades
+            storeUser.set(JSON.stringify(user));
+
+            console.log(user.trades)
+
+          }
+        }
       };
     }
   }

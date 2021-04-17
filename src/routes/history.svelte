@@ -1,6 +1,5 @@
 <script>
   import { storeUser, storeAppTheme } from "../../store.js";
-  import axios from "axios";
 
   let view = "grouped";
   let groupedView = {};
@@ -19,6 +18,11 @@
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
+      console.log("user changed in history");
+      if (user.trades) {
+        viewOptionsHandler()
+        console.log("working")
+      }
     }
   });
 
@@ -57,7 +61,6 @@
       return "Around " + Math.round(diff / ms_Yr) + " years ago";
     }
   }
-
   function viewOptionsHandler() {
     //logic for grouped view
     user.trades.forEach((v) => {
@@ -80,6 +83,8 @@
       timestampTA[key] = dict;
     }
   }
+
+ 
 
   // Number of trade actions for each view options
   //&& ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))
@@ -114,30 +119,6 @@
       whichKey = [...whichKey, aggID];
     }
   }
-
-  //need this for some reason. Otherwise it gives an error
-  user.trades = [];
-
-  //get request for TradeAction/trade histories
-  const hds = {
-    "Cache-Control": "no-cache",
-    Pragma: "no-cache",
-    Expires: "0",
-    Authorization: user.password,
-  };
-  axios
-    .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
-      headers: hds,
-      mode: "cors",
-    })
-    .then((res) => {
-      user.trades = res.data;
-      // console.log(res.status + " -- " + JSON.stringify(res.data));
-      viewOptionsHandler();
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
 </script>
 
 <div id="tradeHistory">
