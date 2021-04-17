@@ -147,6 +147,7 @@
                 <i
                   class="bi bi-plug-fill"
                   class:inactiveIconBtn={displaySocketIsClosed}
+                  class:activeWsIconBtn={!displaySocketIsClosed}
                 />
               {:else}
                 <i class="bi bi-hourglass-split" />
@@ -315,6 +316,28 @@
   }
   .inactiveIconBtn:hover {
     color: orange !important;
+  }
+
+  .activeWsIconBtn {
+    animation: blinkingText 3s infinite;
+  }
+
+  @keyframes blinkingText {
+    0% {
+      color: yellowgreen;
+    }
+    49% {
+      color: yellowgreen;
+    }
+    60% {
+      color: green;
+    }
+    99% {
+      color: green;
+    }
+    100% {
+      color: yellowgreen;
+    }
   }
 
   .nav-link.dropdown-toggle {
