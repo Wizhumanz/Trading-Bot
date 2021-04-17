@@ -8,6 +8,8 @@ variables:
 
 frontend-build:
   stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production" || $CI_COMMIT_BRANCH == "master"'
   image: $IMAGE
   script:
     - npm install
