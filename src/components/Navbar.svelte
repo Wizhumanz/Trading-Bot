@@ -1,6 +1,9 @@
 <script>
   import { goto } from "@sapper/app";
+  import { onMount } from "svelte";
   import { storeUser, storeAppTheme } from "../../store.js";
+
+  //global vars
 
   let appThemeIsDark = false;
   storeAppTheme.subscribe((newVal) => {
@@ -12,6 +15,14 @@
     if (newValue) {
       email = JSON.parse(newValue) ? JSON.parse(newValue).email : null;
     }
+  });
+
+  let socket;
+
+  //functions
+
+  onMount(() => {
+    connectWs();
   });
 
   function logout() {
@@ -33,6 +44,62 @@
   function setDarkTheme() {
     storeAppTheme.set("dark");
     appThemeIsDark = true;
+  }
+
+  let testWsInput;
+
+  function sendTestMsg() {
+    socket.send(testWsInput);
+  }
+
+  function connectWs() {
+    try {
+      socket = new WebSocket("ws://localhost:8000/ws");
+      console.log("Attempting Connection...");
+    } catch (err) {
+      console.log(err);
+    }
+
+    if (socket) {
+      socket.onopen = () => {
+        console.log("Successfully Connected");
+        socket.send("Client connected");
+      };
+
+      socket.onclose = (event) => {
+        console.log("Socket CLOSED Connection: ", event);
+      };
+
+      socket.onerror = (error) => {
+        console.log("Socket Error: ", error);
+      };
+
+      socket.onmessage = (msg) => {
+        console.log("WS server msg: " + msg.data);
+      };
+    }
+  }
+
+  function listenOrderStatusStream(listenKey) {
+    //TODO: use listenKey
+    let socket = new WebSocket("wss://fstream.binance.com/ws/" + listenKey);
+    console.log("Attempting Connection...");
+
+    socket.onopen = () => {
+      console.log("Successfully connected to Binance user_data stream");
+    };
+
+    socket.onclose = (event) => {
+      console.log("Socket Closed Connection: ", event);
+    };
+
+    socket.onerror = (error) => {
+      console.log("Socket Error: ", error);
+    };
+
+    socket.onmessage = (msg) => {
+      console.log("Msg from Binance stream: " + msg.data);
+    };
   }
 </script>
 
@@ -59,6 +126,10 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
+        <input type="text" bind:value={testWsInput} />
+        <button on:click={sendTestMsg}>Send the msg</button>
+        <button on:click={connectWs}>Retry connect</button>
+
         <li class="nav-item">
           <a
             class="nav-link active"

@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte";
   import { stores } from "@sapper/app";
   import { storeUser, currentPage, storeAppTheme } from "../../../store.js";
   import AddBot from "../../components/AddBot.svelte";
@@ -40,52 +39,6 @@
     if (numInactiveBots === user.bots.length) {
       showNoActiveBots = true;
     }
-  }
-
-  onMount(() => {
-    //stream from API to get new listenKeys
-    let socket = new WebSocket("https://ana-api.myika.co/ws");
-    console.log("Attempting Connection...");
-
-    socket.onopen = () => {
-      console.log("Successfully Connected");
-      socket.send("Hi From the Client!");
-    };
-
-    socket.onclose = (event) => {
-      console.log("Socket Closed Connection: ", event);
-      socket.send("Client Closed!");
-    };
-
-    socket.onerror = (error) => {
-      console.log("Socket Error: ", error);
-    };
-
-    socket.onmessage = (msg) => {
-      console.log("Msg from ws server: " + msg.data);
-    };
-  });
-
-  function listenOrderStatusStream() {
-    //TODO: use listenKey
-    let socket = new WebSocket("wss://fstream.binance.com/ws/" + "listenKey");
-    console.log("Attempting Connection...");
-
-    socket.onopen = () => {
-      console.log("Successfully connected to Binance user_data stream");
-    };
-
-    socket.onclose = (event) => {
-      console.log("Socket Closed Connection: ", event);
-    };
-
-    socket.onerror = (error) => {
-      console.log("Socket Error: ", error);
-    };
-
-    socket.onmessage = (msg) => {
-      console.log("Msg from Binance stream: " + msg.data);
-    };
   }
 </script>
 
