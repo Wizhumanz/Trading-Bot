@@ -105,7 +105,9 @@
           (v.Direction === "LONG" && showLong) ||
           (v.Direction === "SHORT" && showShort)
         ) {
-          numOfTradeAction[key] = num += 1;
+          if ((v.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (v.Size == searchSize || searchSize ==  "")) {
+            numOfTradeAction[key] = num += 1;
+          }
         }
       }
     });
@@ -315,9 +317,7 @@
             {/if}
           {/each}
         {:else if view === "grouped"}
-          {#each Object.keys(groupedView).sort(function (a, b) {
-            return b - a;
-          }) as key}
+          {#each Object.keys(groupedView).sort(function (a, b) {return b - a}) as key}
             {#if numOfTradeAction[key] !== 0}
               <tr
                 class:dark={appThemeIsDark}
@@ -338,30 +338,32 @@
             <!-- if the row is expanded -->
             {#each groupedView[key].sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as tradeAction}
               <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-              {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
-                {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
-                  {#if whichKey.includes(key)}
-                    <tr class:dark={appThemeIsDark}>
-                      <td class="expanded-row">{tradeAction.Action}</td>
-                      <td class="expanded-row">{tradeAction.Ticker}</td>
-                      <td class="expanded-row">{tradeAction.Size}</td>
-                      {#if timestampTA[key][tradeAction.Timestamp].includes("Around")}
-                        <td class="expanded-row"
-                          >{tradeAction.Timestamp.substring(
-                            0,
-                            tradeAction.Timestamp.indexOf("+")
-                          ).replaceAll("_", " ")}</td
-                        >
-                      {:else}
-                        <td class="expanded-row"
-                          >{timestampTA[key][tradeAction.Timestamp]}</td
-                        >
-                      {/if}
-                      <td class="expanded-row">{tradeAction.BotID}</td>
-                      <td class="expanded-row">{tradeAction.AggregateID}</td>
-                      <td class="expanded-row">{tradeAction.Exchange}</td>
-                      <td class="expanded-row">{tradeAction.Direction}</td>
-                    </tr>
+              {#if (tradeAction.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (tradeAction.Size == searchSize || searchSize ==  "")}
+                {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
+                  {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
+                    {#if whichKey.includes(key)}
+                      <tr class:dark={appThemeIsDark}>
+                        <td class="expanded-row">{tradeAction.Action}</td>
+                        <td class="expanded-row">{tradeAction.Ticker}</td>
+                        <td class="expanded-row">{tradeAction.Size}</td>
+                        {#if timestampTA[key][tradeAction.Timestamp].includes("Around")}
+                          <td class="expanded-row"
+                            >{tradeAction.Timestamp.substring(
+                              0,
+                              tradeAction.Timestamp.indexOf("+")
+                            ).replaceAll("_", " ")}</td
+                          >
+                        {:else}
+                          <td class="expanded-row"
+                            >{timestampTA[key][tradeAction.Timestamp]}</td
+                          >
+                        {/if}
+                        <td class="expanded-row">{tradeAction.BotID}</td>
+                        <td class="expanded-row">{tradeAction.AggregateID}</td>
+                        <td class="expanded-row">{tradeAction.Exchange}</td>
+                        <td class="expanded-row">{tradeAction.Direction}</td>
+                      </tr>
+                    {/if}
                   {/if}
                 {/if}
               {/if}
