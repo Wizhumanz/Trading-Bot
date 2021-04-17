@@ -346,25 +346,25 @@
         <br />No deposits required.
       </p>
     </div>
-  </div>
 
-  <div class="row display">
-    <div class="col-sm-12 col-lg-6">
-      <div class="profile-card">
-        <h1>Simon Jeong</h1>
-        <p>
-          Computer science, neuroscience, AI, and bread blending. These are the
-          things that keep Simon going.
-        </p>
+    <div class="row display thin">
+      <div class="col-sm-12 col-lg-6">
+        <div class="profile-card">
+          <h1>Simon Jeong</h1>
+          <p>
+            Simon's passions in life include neuroscience, AI, and bread
+            blending.
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="col-sm-12 col-lg-6">
-      <div class="profile-card">
-        <h1>Mika Yeap</h1>
-        <p>
-          Backend engineer at work, designer at heart. Mika spends most of his
-          time cleaning up Simon's mess.
-        </p>
+      <div class="col-sm-12 col-lg-6">
+        <div class="profile-card">
+          <h1>Mika Yeap</h1>
+          <p>
+            Backend engineer at work, designer at heart. Mika spends most of his
+            time cleaning up Simon's code.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -499,6 +499,10 @@
     text-align: left;
   }
 
+  .row.thin {
+    padding-top: 2rem;
+  }
+
   .feature-li {
     margin: 0.5rem;
   }
@@ -527,7 +531,7 @@
     background-color: black;
     color: $ivory;
     border-radius: 10px;
-    padding: 4rem 3rem;
+    padding: 4rem 5rem;
   }
 
   // mock bot controls
