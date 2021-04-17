@@ -22,21 +22,16 @@
   };
 
   //user properties
-  let user = {
-    id: "",
-    email: "",
-    password: "",
-    bots: [],
-    trades: [],
-    exchanges: [],
-    publicWebhookConns: [],
-    privateWebhookConns: [],
-  };
+  let user = {};
+  storeUser.subscribe((newValue) => {
+    if (newValue) {
+      user = JSON.parse(newValue);
+    }
+  });
 
   onMount(() => {
     //if user already logged in, go straight to active bots
-    user = storeUser;
-    if (user.bots && user.bots.length > 0) {
+    if (user && user.id) {
       if (typeof window !== "undefined") {
         goto("/bots/active");
       }
@@ -129,7 +124,7 @@
           loading = false;
           goto("/bots/active");
           getAllWebhookConnections();
-          getTradeAction()
+          getTradeAction();
         });
       })
       .catch((error) => {
@@ -138,31 +133,31 @@
         showAlert = "display: block;";
       });
   }
-function getTradeAction() {
-user.trades = [];
+  function getTradeAction() {
+    user.trades = [];
 
-  //get request for TradeAction/trade histories
-const hds = {
-  "Cache-Control": "no-cache",
-  Pragma: "no-cache",
-  Expires: "0",
-  Authorization: user.password,
-};
-axios
-  .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
-    headers: hds,
-    mode: "cors",
-  })
-  .then((res) => {
-    user.trades = res.data;
-    storeUser.set(JSON.stringify(user));
-    
-    // console.log(res.status + " -- " + JSON.stringify(res.data));
-  })
-  .catch((error) => {
-    console.log(error.response);
-  });
-}
+    //get request for TradeAction/trade histories
+    const hds = {
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+      Authorization: user.password,
+    };
+    axios
+      .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
+        headers: hds,
+        mode: "cors",
+      })
+      .then((res) => {
+        user.trades = res.data;
+        storeUser.set(JSON.stringify(user));
+
+        // console.log(res.status + " -- " + JSON.stringify(res.data));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
 </script>
 
 <main>
