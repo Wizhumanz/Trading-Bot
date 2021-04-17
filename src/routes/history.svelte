@@ -13,6 +13,8 @@
   let showOpen = true;
   let showClose = true;
   let showUpdate = true;
+  let searchTicker = ""
+  let searchSize = ""
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -165,6 +167,7 @@
                 placeholder="Search ticker"
                 class:dark={appThemeIsDark}
                 aria-label="Search ticker"
+                bind:value={searchTicker}
               />
             </div>
             <div class="col-4">
@@ -173,6 +176,7 @@
                 placeholder="Search order size"
                 class:dark={appThemeIsDark}
                 aria-label="Search order size"
+                bind:value={searchSize}
               />
             </div>
           </div>
@@ -303,27 +307,29 @@
             <!--
           {#if (!t.Action.toLowerCase().includes("enter") || !t.Action.toLowerCase().includes("exit") && showUpdate)}
           -->
-            {#if (t.Action.toLowerCase().includes("enter") && showOpen) || (t.Action.toLowerCase().includes("exit") && showClose) || (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
-              {#if (t.Direction === "LONG" && showLong) || (t.Direction === "SHORT" && showShort)}
-                <tr class:dark={appThemeIsDark}>
-                  <td>{t.Action}</td>
-                  <td>{t.Ticker}</td>
-                  <td>{t.Size}</td>
-                  {#if timestampTA[t.AggregateID][t.Timestamp].includes("Around")}
-                    <td
-                      >{t.Timestamp.substring(
-                        0,
-                        t.Timestamp.indexOf("+")
-                      ).replaceAll("_", " ")}</td
-                    >
-                  {:else}
-                    <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
-                  {/if}
-                  <td>{t.BotID}</td>
-                  <td>{t.AggregateID}</td>
-                  <td>{t.Exchange}</td>
-                  <td>{t.Direction}</td>
-                </tr>
+            {#if (t.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (t.Size == searchSize || searchSize ==  "")}
+              {#if (t.Action.toLowerCase().includes("enter") && showOpen) || (t.Action.toLowerCase().includes("exit") && showClose) || (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
+                {#if (t.Direction === "LONG" && showLong) || (t.Direction === "SHORT" && showShort)}
+                  <tr class:dark={appThemeIsDark}>
+                    <td>{t.Action}</td>
+                    <td>{t.Ticker}</td>
+                    <td>{t.Size}</td>
+                    {#if timestampTA[t.AggregateID][t.Timestamp].includes("Around")}
+                      <td
+                        >{t.Timestamp.substring(
+                          0,
+                          t.Timestamp.indexOf("+")
+                        ).replaceAll("_", " ")}</td
+                      >
+                    {:else}
+                      <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
+                    {/if}
+                    <td>{t.BotID}</td>
+                    <td>{t.AggregateID}</td>
+                    <td>{t.Exchange}</td>
+                    <td>{t.Direction}</td>
+                  </tr>
+                {/if}
               {/if}
             {/if}
           {/each}
