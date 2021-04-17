@@ -11,7 +11,7 @@
     appThemeIsDark = newVal === "dark";
   });
 
-  let user = {}
+  let user = {};
   var email = storeUser ? storeUser.email : null;
   var userID = storeUser ? storeUser.id : null;
   storeUser.subscribe((newValue) => {
@@ -110,14 +110,13 @@
         console.log("WS server msg: " + msg.data);
         displaySocketIsClosed = false;
         //TODO: getting stringified trade action object, parse and put in store.js
-        if (msg.data.includes("{")){
+        if (msg.data.includes("{")) {
           if (user.trades) {
-            user.trades.push(JSON.parse(msg.data))
-            user.trades = user.trades
+            user.trades.push(JSON.parse(msg.data));
+            user.trades = user.trades;
             storeUser.set(JSON.stringify(user));
 
-            console.log(user.trades)
-
+            console.log(user.trades);
           }
         }
       };
@@ -154,9 +153,7 @@
   id="the-nav"
 >
   <div class="container-fluid">
-    <a class="navbar-brand {appThemeIsDark === true ? 'dark' : ''}" href="/"
-      >Anastasia.</a
-    >
+    <a href="/" class="navbar-brand" class:dark={appThemeIsDark}>Anastasia.</a>
     <button
       class="navbar-toggler"
       type="button"
