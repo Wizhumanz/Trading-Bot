@@ -423,8 +423,11 @@
             bind:checked={displayPricePeriodToggle}
           />
           <label class="form-check-label" for="flexSwitchCheckChecked"
-            ><h4>Biannual billing</h4></label
+            ><h5>Biannual billing</h5></label
           >
+        </div>
+        <div class="center">
+          <button>I want this deal.</button>
         </div>
       </div>
       <div class="col-sm-1 col-md-4" />
@@ -652,19 +655,19 @@
   }
 
   .form-switch {
-    margin: 1.5rem auto;
+    margin: 1.5rem 0;
     width: 270px;
     vertical-align: middle;
 
     input {
       height: 25px;
       width: 40px;
-      margin-top: 0.1rem;
-      margin-right: 0.25rem;
+      margin-top: 0;
+      margin-right: 0;
     }
 
     label {
-      h4 {
+      h5 {
         font-family: $body-font;
       }
     }
@@ -676,7 +679,7 @@
   }
 
   #pricePeriodToggle:checked {
-    background-color: $blood;
+    background-color: $blue;
   }
 
   // mock bot controls
