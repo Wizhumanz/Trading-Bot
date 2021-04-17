@@ -107,8 +107,7 @@
   function latestTradeAction() {
     user.trades.forEach((v) => {
       if (v.BotID in groupedView) {
-        groupedView[v.BotID] = [...groupedView[v.BotID], v]
-        //groupedView[v.BotID].push(v);
+        groupedView[v.BotID].push(v);
       } else {
         groupedView[v.BotID] = [v];
       }
@@ -276,7 +275,6 @@
         });
     });
   }
-  console.log(groupedView)
 </script>
 
 {#if loading}
@@ -290,11 +288,9 @@
       <div class="row">
         <div class="col-sm-12 col-lg-4">
           <h4>{bot.Name}</h4>
-          <!--
-          {#if Object.keys(groupedView).length > 0}
+          {#if Object.keys(groupedView).length > 0 && Object.keys(groupedView).includes(bot.KEY)}
             <h5>{groupedView[bot.KEY][0].Action}</h5>
           {/if}
-          -->
           <div class="statusDiv" class:dark={appThemeIsDark}>
             {#if bot.IsActive === "true" || bot.IsActive === true}
               <h4>ACTIVE</h4>
