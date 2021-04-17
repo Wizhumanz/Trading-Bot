@@ -290,9 +290,11 @@
       <div class="row">
         <div class="col-sm-12 col-lg-4">
           <h4>{bot.Name}</h4>
+          <!--
           {#if Object.keys(groupedView).length > 0}
             <h5>{groupedView[bot.KEY][0].Action}</h5>
           {/if}
+          -->
           <div class="statusDiv" class:dark={appThemeIsDark}>
             {#if bot.IsActive === "true" || bot.IsActive === true}
               <h4>ACTIVE</h4>
