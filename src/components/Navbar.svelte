@@ -20,6 +20,7 @@
   });
 
   let socket;
+  let displaySocketIsClosed = true;
 
   //functions
 
@@ -68,18 +69,22 @@
       socket.onopen = () => {
         console.log("Successfully Connected");
         socket.send("Client connected");
+        displaySocketIsClosed = false;
       };
 
       socket.onclose = (event) => {
         console.log("Socket CLOSED Connection: ", event);
+        displaySocketIsClosed = true;
       };
 
       socket.onerror = (error) => {
         console.log("Socket Error: ", error);
+        displaySocketIsClosed = true;
       };
 
       socket.onmessage = (msg) => {
         console.log("WS server msg: " + msg.data);
+        displaySocketIsClosed = false;
       };
     }
   }
@@ -130,10 +135,25 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
-        <input type="text" bind:value={testWsInput} />
-        <button on:click={sendTestMsg}>Send the msg</button>
-        <button on:click={connectWs}>Retry connect</button>
-
+        {#if email}
+          <li class="nav-item">
+            <!-- svelte-ignore a11y-missing-attribute -->
+            <a
+              class="nav-link active"
+              class:dark={appThemeIsDark}
+              on:click={connectWs}
+            >
+              {#if true}
+                <i
+                  class="bi bi-plug-fill"
+                  class:inactiveIconBtn={displaySocketIsClosed}
+                />
+              {:else}
+                <!-- <i class="bi bi-plug-fill" /> -->
+              {/if}
+            </a>
+          </li>
+        {/if}
         <li class="nav-item">
           <a
             class="nav-link active"
@@ -272,6 +292,12 @@
     margin-top: 0;
   }
 
+  .nav-link {
+    i {
+      color: $cream;
+    }
+  }
+
   .nav-link.active {
     color: black;
     position: relative;
@@ -282,6 +308,13 @@
     color: $cream;
     position: relative;
     z-index: 100;
+  }
+
+  .inactiveIconBtn {
+    color: lightslategray !important;
+  }
+  .inactiveIconBtn:hover {
+    color: orange !important;
   }
 
   .nav-link.dropdown-toggle {
