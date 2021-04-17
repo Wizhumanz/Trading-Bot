@@ -205,8 +205,7 @@
         <h1>The best trading bot platform<br />in the world.</h1>
         <button>Sign Me Up</button>
         <p>
-          <s>$229</s>
-          <span />
+          <span class="strikethrough">$229</span>
           <!-- svelte-ignore a11y-missing-attribute -->
           <a class="pricingLink" class:dark={appThemeIsDark}> $99 </a>
           /month
