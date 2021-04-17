@@ -12,7 +12,7 @@ frontend-build:
     - if: '$CI_COMMIT_BRANCH == "production" || $CI_COMMIT_BRANCH == "master"'
   image: $IMAGE
   script:
-    - npm install
+    - npm ci
     - npm run-script build
 
 deploy:
