@@ -24,7 +24,7 @@
   let updateErrorAlert = "display: none;";
   let showConfirm = false;
   let showConfirmBtn;
-
+  let groupedView ={}
 
   $: if (showConfirm) {
     showConfirmBtn = "display: block;";
@@ -35,6 +35,9 @@
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
+      if (user.trades) {
+        latestTradeAction()
+      }
       //display names for public webhookConns, display URL for private webhookConns
       if (user !== undefined && user.publicWebhookConns !== undefined) {
         let found = user.publicWebhookConns.find(
@@ -100,6 +103,19 @@
     newLeverage = bot.Leverage;
     active = bot.IsActive;
   });
+
+  function latestTradeAction() {
+    user.trades.forEach((v) => {
+      if (v.BotID in groupedView) {
+        groupedView[v.BotID].push(v);
+      } else {
+        groupedView[v.BotID] = [v];
+      }
+    })
+    for (let key in groupedView) {
+      groupedView[key].sort((a, b) => new Date(b.Timestamp.replaceAll("_"," ")).getTime() - new Date(a.Timestamp.replaceAll("_"," ")).getTime())
+    }
+  }
 
   //post request for Bot
   function toggleBotStatus() {
@@ -272,6 +288,9 @@
       <div class="row">
         <div class="col-sm-12 col-lg-4">
           <h4>{bot.Name}</h4>
+          {#if Object.keys(groupedView).length > 0 && Object.keys(groupedView).includes(bot.KEY)}
+            <h5>{groupedView[bot.KEY][0].Action}</h5>
+          {/if}
           <div class="statusDiv" class:dark={appThemeIsDark}>
             {#if bot.IsActive === "true" || bot.IsActive === true}
               <h4>ACTIVE</h4>

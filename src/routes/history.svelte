@@ -1,6 +1,5 @@
 <script>
   import { storeUser, storeAppTheme } from "../../store.js";
-  import axios from "axios";
 
   let view = "grouped";
   let groupedView = {};
@@ -13,10 +12,16 @@
   let showOpen = true;
   let showClose = true;
   let showUpdate = true;
+  let searchTicker = ""
+  let searchSize = ""
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
+      if (user.trades) {
+        viewOptionsHandler()
+        console.log("working")
+      }
     }
   });
 
@@ -55,7 +60,6 @@
       return "Around " + Math.round(diff / ms_Yr) + " years ago";
     }
   }
-
   function viewOptionsHandler() {
     //logic for grouped view
     user.trades.forEach((v) => {
@@ -79,6 +83,8 @@
     }
   }
 
+ 
+
   // Number of trade actions for each view options
   //&& ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))
   $: for (let key in groupedView) {
@@ -98,7 +104,9 @@
           (v.Direction === "LONG" && showLong) ||
           (v.Direction === "SHORT" && showShort)
         ) {
-          numOfTradeAction[key] = num += 1;
+          if ((v.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (v.Size == searchSize || searchSize ==  "")) {
+            numOfTradeAction[key] = num += 1;
+          }
         }
       }
     });
@@ -112,30 +120,6 @@
       whichKey = [...whichKey, aggID];
     }
   }
-
-  //need this for some reason. Otherwise it gives an error
-  user.trades = [];
-
-  //get request for TradeAction/trade histories
-  const hds = {
-    "Cache-Control": "no-cache",
-    Pragma: "no-cache",
-    Expires: "0",
-    Authorization: user.password,
-  };
-  axios
-    .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
-      headers: hds,
-      mode: "cors",
-    })
-    .then((res) => {
-      user.trades = res.data;
-      // console.log(res.status + " -- " + JSON.stringify(res.data));
-      viewOptionsHandler();
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
 </script>
 
 <div id="tradeHistory">
@@ -165,6 +149,7 @@
                 placeholder="Search ticker"
                 class:dark={appThemeIsDark}
                 aria-label="Search ticker"
+                bind:value={searchTicker}
               />
             </div>
             <div class="col-4">
@@ -173,6 +158,7 @@
                 placeholder="Search order size"
                 class:dark={appThemeIsDark}
                 aria-label="Search order size"
+                bind:value={searchSize}
               />
             </div>
           </div>
@@ -303,34 +289,34 @@
             <!--
           {#if (!t.Action.toLowerCase().includes("enter") || !t.Action.toLowerCase().includes("exit") && showUpdate)}
           -->
-            {#if (t.Action.toLowerCase().includes("enter") && showOpen) || (t.Action.toLowerCase().includes("exit") && showClose) || (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
-              {#if (t.Direction === "LONG" && showLong) || (t.Direction === "SHORT" && showShort)}
-                <tr class:dark={appThemeIsDark}>
-                  <td>{t.Action}</td>
-                  <td>{t.Ticker}</td>
-                  <td>{t.Size}</td>
-                  {#if timestampTA[t.AggregateID][t.Timestamp].includes("Around")}
-                    <td
-                      >{t.Timestamp.substring(
-                        0,
-                        t.Timestamp.indexOf("+")
-                      ).replaceAll("_", " ")}</td
-                    >
-                  {:else}
-                    <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
-                  {/if}
-                  <td>{t.BotID}</td>
-                  <td>{t.AggregateID}</td>
-                  <td>{t.Exchange}</td>
-                  <td>{t.Direction}</td>
-                </tr>
+            {#if (t.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (t.Size == searchSize || searchSize ==  "")}
+              {#if (t.Action.toLowerCase().includes("enter") && showOpen) || (t.Action.toLowerCase().includes("exit") && showClose) || (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
+                {#if (t.Direction === "LONG" && showLong) || (t.Direction === "SHORT" && showShort)}
+                  <tr class:dark={appThemeIsDark}>
+                    <td>{t.Action}</td>
+                    <td>{t.Ticker}</td>
+                    <td>{t.Size}</td>
+                    {#if timestampTA[t.AggregateID][t.Timestamp].includes("Around")}
+                      <td
+                        >{t.Timestamp.substring(
+                          0,
+                          t.Timestamp.indexOf("+")
+                        ).replaceAll("_", " ")}</td
+                      >
+                    {:else}
+                      <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
+                    {/if}
+                    <td>{t.BotID}</td>
+                    <td>{t.AggregateID}</td>
+                    <td>{t.Exchange}</td>
+                    <td>{t.Direction}</td>
+                  </tr>
+                {/if}
               {/if}
             {/if}
           {/each}
         {:else if view === "grouped"}
-          {#each Object.keys(groupedView).sort(function (a, b) {
-            return b - a;
-          }) as key}
+          {#each Object.keys(groupedView).sort(function (a, b) {return b - a}) as key}
             {#if numOfTradeAction[key] !== 0}
               <tr
                 class:dark={appThemeIsDark}
@@ -351,30 +337,32 @@
             <!-- if the row is expanded -->
             {#each groupedView[key].sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as tradeAction}
               <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-              {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
-                {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
-                  {#if whichKey.includes(key)}
-                    <tr class:dark={appThemeIsDark}>
-                      <td class="expanded-row">{tradeAction.Action}</td>
-                      <td class="expanded-row">{tradeAction.Ticker}</td>
-                      <td class="expanded-row">{tradeAction.Size}</td>
-                      {#if timestampTA[key][tradeAction.Timestamp].includes("Around")}
-                        <td class="expanded-row"
-                          >{tradeAction.Timestamp.substring(
-                            0,
-                            tradeAction.Timestamp.indexOf("+")
-                          ).replaceAll("_", " ")}</td
-                        >
-                      {:else}
-                        <td class="expanded-row"
-                          >{timestampTA[key][tradeAction.Timestamp]}</td
-                        >
-                      {/if}
-                      <td class="expanded-row">{tradeAction.BotID}</td>
-                      <td class="expanded-row">{tradeAction.AggregateID}</td>
-                      <td class="expanded-row">{tradeAction.Exchange}</td>
-                      <td class="expanded-row">{tradeAction.Direction}</td>
-                    </tr>
+              {#if (tradeAction.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (tradeAction.Size == searchSize || searchSize ==  "")}
+                {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
+                  {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
+                    {#if whichKey.includes(key)}
+                      <tr class:dark={appThemeIsDark}>
+                        <td class="expanded-row">{tradeAction.Action}</td>
+                        <td class="expanded-row">{tradeAction.Ticker}</td>
+                        <td class="expanded-row">{tradeAction.Size}</td>
+                        {#if timestampTA[key][tradeAction.Timestamp].includes("Around")}
+                          <td class="expanded-row"
+                            >{tradeAction.Timestamp.substring(
+                              0,
+                              tradeAction.Timestamp.indexOf("+")
+                            ).replaceAll("_", " ")}</td
+                          >
+                        {:else}
+                          <td class="expanded-row"
+                            >{timestampTA[key][tradeAction.Timestamp]}</td
+                          >
+                        {/if}
+                        <td class="expanded-row">{tradeAction.BotID}</td>
+                        <td class="expanded-row">{tradeAction.AggregateID}</td>
+                        <td class="expanded-row">{tradeAction.Exchange}</td>
+                        <td class="expanded-row">{tradeAction.Direction}</td>
+                      </tr>
+                    {/if}
                   {/if}
                 {/if}
               {/if}
