@@ -85,6 +85,7 @@
       socket.onmessage = (msg) => {
         console.log("WS server msg: " + msg.data);
         displaySocketIsClosed = false;
+        //TODO: getting stringified trade action object, parse and put in store.js
       };
     }
   }
