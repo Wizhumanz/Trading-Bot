@@ -18,7 +18,6 @@
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
-      console.log("user changed in history");
       if (user.trades) {
         viewOptionsHandler()
         console.log("working")

@@ -15,7 +15,6 @@
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
-      console.log("user changed in slug");
     }
   });
 
@@ -40,7 +39,6 @@
       showNoActiveBots = true;
     }
   }
-  console.log(user.bots)
 </script>
 
 <!--Loading Sign-->
@@ -80,7 +78,7 @@
   <div class="botList">
     {#if user.bots && user.bots.length > 0}
       {#each user.bots.sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as b}
-        {#if b.IsActive === "true" || (b.IsActive === true && route === "active")}
+        {#if (b.IsActive === "true" || b.IsActive === true) && route === "active"}
           <BotLI bot={b} />
         {:else if route === "all"}
           <BotLI bot={b} />
