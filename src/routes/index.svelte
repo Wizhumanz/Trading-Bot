@@ -13,6 +13,7 @@
 
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
+  let displayPricePeriodToggle = true;
 
   //only for user login
   let userLogin = {
@@ -206,9 +207,8 @@
         <p>
           <s>$229</s>
           <span />
-          <a href="/pricing" class="pricingLink" class:dark={appThemeIsDark}>
-            $99
-          </a>
+          <!-- svelte-ignore a11y-missing-attribute -->
+          <a class="pricingLink" class:dark={appThemeIsDark}> $99 </a>
           /month
           <br />Pre-launch offer!
         </p>
@@ -233,7 +233,7 @@
           <!-- mock bot controls -->
           <div class="row">
             <div class="col-sm-12 col-lg-4 mockStatusCol">
-              <h4>EMA Bounce Scalper</h4>
+              <h4>EMA Scalp Bot</h4>
               <div class="statusDiv">
                 <h4>ACTIVE</h4>
                 <button> Abort </button>
@@ -366,6 +366,53 @@
           </p>
         </div>
       </div>
+    </div>
+    <div class="row display black">
+      <div class="col-sm-1 col-md-4" />
+      <div class="col-sm-10 col-md-4">
+        <!-- svelte-ignore a11y-missing-attribute -->
+        <a class="pricingLink" class:dark={appThemeIsDark}> Pre-launch deal! </a>
+        <div class="center card">
+          <div class="priceTag">
+            <h4 class="dollarSign">$</h4>
+            <h1>{displayPricePeriodToggle ? "99" : "149"}</h1>
+            <h4>/mo</h4>
+          </div>
+          <div class="feature-list">
+            <div class="feature-li display-li">
+              <h3><i class="bi bi-check2" /><span />No code required</h3>
+            </div>
+            <div class="feature-li">
+              <h3>
+                <i class="bi bi-check2" /><span />Custom TradingView webhooks
+              </h3>
+            </div>
+            <div class="feature-li">
+              <h3><i class="bi bi-check2" /><span />Fully autonomous</h3>
+            </div>
+            <div class="feature-li">
+              <h3>
+                <i class="bi bi-check2" /><span />Realtime dashboard
+              </h3>
+            </div>
+            <div class="feature-li">
+              <h3><i class="bi bi-check2" /><span />No trading fees</h3>
+            </div>
+          </div>
+        </div>
+        <div class="form-check form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="pricePeriodToggle"
+            bind:checked={displayPricePeriodToggle}
+          />
+          <label class="form-check-label" for="flexSwitchCheckChecked"
+            ><h4>Biannual billing</h4></label
+          >
+        </div>
+      </div>
+      <div class="col-sm-1 col-md-4" />
     </div>
   </div>
 </main>
@@ -503,7 +550,16 @@
     padding-top: 2rem;
   }
 
+  .row.black {
+    background-color: black;
+    color: $ivory;
+  }
+
   .feature-li {
+    margin: 0.75rem;
+  }
+
+  .feature-li.display {
     margin: 0.5rem;
   }
 
@@ -532,6 +588,75 @@
     color: $ivory;
     border-radius: 10px;
     padding: 4rem 5rem;
+  }
+
+  .center.card {
+    margin-top: 0.5rem;
+    padding: 2rem 4.5rem 5.5rem 4.5rem;
+    border-radius: 15px;
+
+    background: rgb(138, 0, 0);
+    background: linear-gradient(
+      142deg,
+      rgba(138, 0, 0, 1) 0%,
+      rgba(0, 27, 107, 1) 100%
+    );
+  }
+
+  .priceTag {
+    margin-bottom: 0.75rem;
+
+    h1,
+    h4 {
+      display: inline;
+    }
+    .dollarSign {
+      height: fit-content;
+      vertical-align: top;
+      font-size: 3rem;
+    }
+    h1 {
+      font-size: 7rem;
+    }
+  }
+
+  .feature-list {
+    text-align: left;
+    width: fit-content;
+    margin: auto;
+
+    //spacer
+    span {
+      margin: auto 0.4rem;
+    }
+  }
+
+  .form-switch {
+    margin: 1.5rem auto;
+    width: 270px;
+    vertical-align: middle;
+
+    input {
+      height: 25px;
+      width: 40px;
+      margin-top: 0.1rem;
+      margin-right: 0.25rem;
+    }
+
+    label {
+      h4 {
+        font-family: $body-font;
+      }
+    }
+  }
+
+  #pricePeriodToggle {
+    background-color: gray;
+    border: none;
+  }
+
+  #pricePeriodToggle:checked {
+    background-color: $blood;
   }
 
   // mock bot controls
