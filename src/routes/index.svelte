@@ -371,11 +371,26 @@
       <div class="col-sm-1 col-md-4" />
       <div class="col-sm-10 col-md-4">
         <!-- svelte-ignore a11y-missing-attribute -->
-        <a class="pricingLink" class:dark={appThemeIsDark}> Pre-launch deal! </a>
+        <a class="pricingLink" class:dark={appThemeIsDark}>
+          Pre-launch deal!
+        </a>
         <div class="center card">
           <div class="priceTag">
-            <h4 class="dollarSign">$</h4>
-            <h1>{displayPricePeriodToggle ? "99" : "149"}</h1>
+            <h4 class="dollarSign">
+              $
+              {#if displayPricePeriodToggle}
+                <span class="strikethrough">169</span>
+              {:else}
+                <span class="strikethrough">229</span>
+              {/if}
+            </h4>
+            <h1>
+              {#if displayPricePeriodToggle}
+                99
+              {:else}
+                149
+              {/if}
+            </h1>
             <h4>/mo</h4>
           </div>
           <div class="feature-list">
@@ -617,6 +632,11 @@
     }
     h1 {
       font-size: 7rem;
+    }
+
+    span {
+      color: gold;
+      border-color: red;
     }
   }
 
