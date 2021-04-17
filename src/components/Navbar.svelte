@@ -21,6 +21,7 @@
 
   let socket;
   let displaySocketIsClosed = true;
+  let wsConnLoading = false;
 
   //functions
 
@@ -49,20 +50,19 @@
     appThemeIsDark = true;
   }
 
-  let testWsInput;
-
-  function sendTestMsg() {
-    socket.send(testWsInput);
-  }
-
   function connectWs() {
+    wsConnLoading = true;
     if (userID) {
       try {
         socket = new WebSocket("ws://localhost:8000/ws/" + userID);
         console.log("Attempting Connection...");
+        setTimeout(() => (wsConnLoading = false), 1000);
       } catch (err) {
         console.log(err);
+        setTimeout(() => (wsConnLoading = false), 1000);
       }
+    } else {
+      setTimeout(() => (wsConnLoading = false), 1000);
     }
 
     if (socket) {
@@ -143,13 +143,13 @@
               class:dark={appThemeIsDark}
               on:click={connectWs}
             >
-              {#if true}
+              {#if !wsConnLoading}
                 <i
                   class="bi bi-plug-fill"
                   class:inactiveIconBtn={displaySocketIsClosed}
                 />
               {:else}
-                <!-- <i class="bi bi-plug-fill" /> -->
+                <i class="bi bi-hourglass-split" />
               {/if}
             </a>
           </li>
