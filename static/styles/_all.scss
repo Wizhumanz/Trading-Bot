@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Alata&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap");
+
 @import url("https://fonts.googleapis.com/css2?family=Volkhov&display=swap");
 
 //vars
@@ -8,8 +10,11 @@ $cream: #fffdd0;
 $blood: #8a0000;
 $blue: #001b6b;
 
-$title-font: "Alata", sans-serif;
-$body-font: "Volkhov", serif;
+// $title-font: "Alata", sans-serif;
+// $body-font: "Volkhov", serif;
+
+$title-font: "DM Serif Display", serif;
+$body-font: "Alata", sans-serif;
 
 // BS5
 $grid-breakpoints: (
@@ -87,7 +92,7 @@ input,
 button,
 select,
 textarea {
-  font-family: $title-font;
+  font-family: $body-font;
   font-size: inherit;
   -webkit-padding: 0.4em 0;
   padding: 0.6em;
@@ -131,6 +136,7 @@ input.dark:focus {
 }
 
 button {
+  cursor: pointer;
   font-size: larger;
   padding: 0.5rem 1rem 0.5rem 1rem;
   margin-top: 0.5rem;
@@ -200,4 +206,34 @@ button.dark:hover {
 
 hr {
   color: $blue;
+}
+
+.pricingLink {
+  color: $blue;
+  text-decoration: none;
+}
+
+.pricingLink:hover {
+  text-decoration: underline;
+}
+
+.pricingLink.dark {
+  color: gold;
+  -webkit-animation: glow 2s ease-out infinite alternate;
+  -moz-animation: glow 2s ease-out infinite alternate;
+  animation: glow 2s ease-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 1px #ffeb7f, 0 0 3px #ffeb7f, 0 0 2px gold, 0 0 5px gold, 0 0 7px gold, 0 0 8px gold, 0 0 3px gold;
+  }
+  to {
+    text-shadow: 0 0 2x #ffeb7f, 0 0 4px #ffeb7f, 0 0 3px gold, 0 0 5px gold, 0 0 4px gold, 0 0 3px gold, 0 0 1px gold;
+  }
+}
+
+.pageNav {
+  color: $cream;
+  margin-right: 1rem;
 }

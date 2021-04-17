@@ -25,6 +25,7 @@
   let showConfirm = false;
   let showConfirmBtn;
 
+
   $: if (showConfirm) {
     showConfirmBtn = "display: block;";
   } else {
@@ -103,6 +104,11 @@
   //post request for Bot
   function toggleBotStatus() {
     loading = true;
+    console.log(typeof(bot.IsActive))
+
+    if (typeof(bot.IsActive) == "string"){
+      bot.IsActive = (bot.IsActive === "true")? true : false
+    }
     bot.IsActive = !bot.IsActive;
     updateBot();
   }
@@ -479,8 +485,9 @@
     background-color: $blue;
     color: $ivory;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 2rem 3rem 1rem 3rem;
+    margin-bottom: 1rem;
 
     background: linear-gradient(40deg, $blue 50%, black 50%);
   }
@@ -488,7 +495,6 @@
   .main-box.dark {
     background-color: black;
     border: $blood 3px dashed;
-    border-radius: 5px;
 
     background: linear-gradient(40deg, #0d0000 50%, black 50%);
   }

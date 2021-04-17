@@ -44,7 +44,7 @@
 >
   <div class="container-fluid">
     <a class="navbar-brand {appThemeIsDark === true ? 'dark' : ''}" href="/"
-      >Anastasia</a
+      >Anastasia.</a
     >
     <button
       class="navbar-toggler"
@@ -60,9 +60,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <!-- svelte-ignore a11y-missing-attribute -->
-          <a class="nav-link disabled loggedInID" disabled
-            >{email ? email : ""}</a
+          <a
+            class="nav-link active"
+            class:dark={appThemeIsDark}
+            href="/strategy">Strategies</a
           >
         </li>
         {#if !email}
@@ -70,24 +71,64 @@
             <a class="nav-link active" href="/">About</a>
           </li> -->
           <li class="nav-item">
-            <a class="nav-link active" href="/pricing">Pricing</a>
+            <a
+              class="nav-link active"
+              class:dark={appThemeIsDark}
+              href="/pricing">Pricing</a
+            >
           </li>
         {:else}
-          <li class="nav-item">
-            <a class="nav-link active" href="/bots/active">Active</a>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              class:dark={appThemeIsDark}
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Bots
+            </a>
+            <ul
+              class="dropdown-menu"
+              class:dark={appThemeIsDark}
+              aria-labelledby="navbarDropdown"
+            >
+              <li><a class="dropdown-item" href="/bots/active">Active</a></li>
+              <li><a class="dropdown-item" href="/bots/all">All</a></li>
+            </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/bots/all">All</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/history">History</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/exchanges">Exchanges</a>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              class:dark={appThemeIsDark}
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-gear-wide-connected" />
+            </a>
+            <ul
+              class="dropdown-menu"
+              class:dark={appThemeIsDark}
+              aria-labelledby="navbarDropdown"
+            >
+              <li><a class="dropdown-item" href="/history">History</a></li>
+              <li><a class="dropdown-item" href="/exchanges">Exchanges</a></li>
+              <li>
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <a class="dropdown-item loggedInID">{email ? email : ""}</a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <!-- svelte-ignore a11y-missing-attribute -->
-            <a class="nav-link active" on:click={logout}>Log Out</a>
+            <a
+              class="nav-link active"
+              class:dark={appThemeIsDark}
+              on:click={logout}><i class="bi bi-box-arrow-in-left" /></a
+            >
           </li>
         {/if}
         <li class="nav-tem">
@@ -124,15 +165,11 @@
 
   nav {
     font-family: $title-font;
-    background-color: white;
+    background-color: transparent;
     color: black;
 
     // margin-bottom: 1rem;
     padding: 0;
-
-    @media only screen and (max-width: 767px) {
-      margin-bottom: 0.5rem;
-    }
   }
 
   nav.dark {
@@ -161,9 +198,58 @@
   }
 
   .nav-link.active {
-    color: inherit;
+    color: black;
     position: relative;
     z-index: 100;
+  }
+
+  .nav-link.active.dark {
+    color: $cream;
+    position: relative;
+    z-index: 100;
+  }
+
+  .nav-link.dropdown-toggle {
+    color: black;
+  }
+  .nav-link.dropdown-toggle.dark {
+    color: $cream;
+  }
+
+  .dropdown-menu {
+    background-color: white;
+    li {
+      a {
+        color: black;
+      }
+      a:hover {
+        background-color: white;
+      }
+      .loggedInID {
+        color: $blue;
+      }
+      .loggedInID:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .dropdown-menu.dark {
+    background-color: $blood;
+    li {
+      a {
+        color: $ivory;
+      }
+      a:hover {
+        background-color: $blood;
+      }
+      .loggedInID {
+        color: $cream;
+      }
+      .loggedInID:hover {
+        text-decoration: none;
+      }
+    }
   }
 
   button.navbar-toggler {
@@ -171,7 +257,7 @@
 
     i {
       opacity: 100;
-      color: $cream;
+      color: $ivory;
     }
   }
 
@@ -195,12 +281,8 @@
     text-decoration: none;
   }
 
-  .loggedInID {
-    color: gray !important;
-  }
-
   #themeSelector {
-    margin: 0.1rem -0.5rem auto -2.5rem;
+    margin: auto -0.5rem auto -2.5rem;
     padding: auto -2rem auto 0;
     position: relative;
     z-index: 1;
@@ -215,10 +297,10 @@
         padding: auto 0;
       }
       i.light:hover {
-        color: $blood;
+        color: orangered;
       }
       i.dark:hover {
-        color: blue;
+        color: blueviolet;
       }
     }
   }

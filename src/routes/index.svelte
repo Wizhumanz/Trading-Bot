@@ -114,11 +114,16 @@
         getBots().then((res) => {
           loading = false;
           //assign properties to user
-          user.bots = res;
+          let hideIsArchived = [];
+          res.forEach((b) => {
+            if (b.IsArchived !== "true") {
+              hideIsArchived.push(b);
+            }
+          });
+          user.bots = hideIsArchived;
           if (user.bots !== null) {
             user.bots.reverse(); //to display most recent bots at top of list
           }
-
           storeUser.set(JSON.stringify(user));
           loading = false;
           goto("/bots/active");
@@ -138,44 +143,221 @@
     <LoadingIndicator />
   {/if}
 
+  <a
+    id="hiddenSignIn"
+    data-bs-toggle="collapse"
+    href="#signInCollapse"
+    role="button"
+    aria-expanded="false"
+    aria-controls="signInCollapse"
+  >
+    войти
+  </a>
+
   <div class="container-fluid" class:dark={appThemeIsDark}>
-    <div class="row signIn">
-      <div class="col-2" />
-      <div class="col-8">
-        <!-- Sign In tab -->
-        <div style={showAlert}>
-          <p>Incorrect Login Details</p>
+    <div class="collapse" id="signInCollapse">
+      <div class="row signIn">
+        <div class="col-sm-2 col-md-3 col-lg-4" />
+        <div class="col-sm-8 col-md-6 col-lg-4">
+          <!-- Sign In tab -->
+          <div style={showAlert}>
+            <p>Incorrect Login Details</p>
+          </div>
+          <form class="form" on:submit|preventDefault={signIn}>
+            <div class="mb-3">
+              <label for="emailLogin" class="form-label"> Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="emailLogin"
+                placeholder="ana@myika.co"
+                class:dark={appThemeIsDark}
+                bind:value={userLogin.email}
+              />
+            </div>
+            <div class="mb-3">
+              <label for="passwordLogin" class="form-label"> Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="passwordLogin"
+                placeholder="g@iN$z"
+                class:dark={appThemeIsDark}
+                bind:value={userLogin.password}
+              />
+            </div>
+            <button type="submit" class:dark={appThemeIsDark}>Sign In</button>
+            <a class="register" href="/register" class:dark={appThemeIsDark}
+              >Register</a
+            >
+          </form>
         </div>
-        <form class="form" on:submit|preventDefault={signIn}>
-          <div class="mb-3">
-            <label for="emailLogin" class="form-label"> Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="emailLogin"
-              placeholder="ana@myika.co"
-              class:dark={appThemeIsDark}
-              bind:value={userLogin.email}
-            />
-          </div>
-          <div class="mb-3">
-            <label for="passwordLogin" class="form-label"> Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="passwordLogin"
-              placeholder="g@iN$z"
-              class:dark={appThemeIsDark}
-              bind:value={userLogin.password}
-            />
-          </div>
-          <button type="submit" class:dark={appThemeIsDark}>Sign In</button>
-          <a class="register" href="/register" class:dark={appThemeIsDark}
-            >Register</a
-          >
-        </form>
+        <div class="col-sm-2 col-md-3 col-lg-4" />
       </div>
-      <div class="col-2" />
+    </div>
+  </div>
+
+  <!-- landing page -->
+  <div class="container-fluid">
+    <div class="row banner">
+      <div class="center">
+        <h1>The best trading bot platform<br />in the world.</h1>
+        <button>Sign Me Up</button>
+        <p>
+          <s>$229</s>
+          <span />
+          <a href="/pricing" class="pricingLink" class:dark={appThemeIsDark}>
+            $99
+          </a>
+          /month
+          <br />Pre-launch offer!
+        </p>
+      </div>
+      <h2><i class="bi bi-chevron-double-down" /></h2>
+    </div>
+
+    <!-- main feature -->
+    <div class="row clean display">
+      <div class="col-sm-12 col-md-5">
+        <div class="feature">
+          <h1>What makes us so good?</h1>
+          <p>
+            Risk management: Fine bot controls for deploying world-class
+            strategies.
+            <br />
+          </p>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <div class="main-box">
+          <!-- mock bot controls -->
+          <div class="row">
+            <div class="col-sm-12 col-lg-4 mockStatusCol">
+              <h4>EMA Bounce Scalper</h4>
+              <div class="statusDiv">
+                <h4>ACTIVE</h4>
+                <button> Abort </button>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-8 settings-col">
+              <div class="settingsDisplayBox">
+                <div class="row">
+                  <div class="col-7">Ticker</div>
+                  <div class="col-5 val-col">BTC/USDT</div>
+                </div>
+                <div class="row">
+                  <div class="col-7">Account % used</div>
+                  <div class="col-5 val-col">35%</div>
+                </div>
+                <div class="row">
+                  <div class="col-7">Account % risked per trade</div>
+                  <div class="col-5 val-col">1.5%</div>
+                </div>
+                <div class="row">
+                  <div class="col-7">Leverage</div>
+                  <div class="col-5 val-col">12x</div>
+                </div>
+                <div class="displayOnlyFields">
+                  <!-- display-only fields -->
+                  <div class="display-fields">
+                    <div class="row">
+                      <div class="col-7">Exchange</div>
+                      <div class="col-5 lowkey-val-col">Binance 3</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-7">Webhook</div>
+                      <div class="col-5 lowkey-val-col urlDisplay">
+                        <!-- svelte-ignore a11y-missing-attribute -->
+                        <a>A65-45m EMA Cross</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-1" />
+    </div>
+
+    <!-- text features -->
+    <div class="row display colored">
+      <!-- one column of features -->
+      <div class="col-6">
+        <!-- one feature -->
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1 class="highlight">No code required</h1>
+          </div>
+        </div>
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1>Plug n' play strategies</h1>
+          </div>
+        </div>
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1>Pro risk management</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1>Fully autonomous</h1>
+          </div>
+        </div>
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1 class="highlight">No custodianship</h1>
+          </div>
+        </div>
+        <div class="row feature-li">
+          <div class="col-3 icon-col">
+            <h1><i class="bi bi-check" /></h1>
+          </div>
+          <div class="col-9">
+            <h1>Built + tested by pro traders</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row display red">
+      <h1>We don't hold your money.</h1>
+      <p>
+        Trade with bots from your own exchange account.
+        <br />No deposits required.
+      </p>
+    </div>
+  </div>
+
+  <div class="row display">
+    <div class="col-sm-12 col-lg-6">
+      <div class="profile-card">
+        <h1>Simon Jeong</h1>
+      </div>
+    </div>
+    <div class="col-sm-12 col-lg-6">
+      <div class="profile-card">
+        <h1>Mika Yeap</h1>
+      </div>
     </div>
   </div>
 </main>
@@ -183,10 +365,28 @@
 <style type="text/scss">
   @import "../../static/styles/_all";
 
+  #hiddenSignIn {
+    z-index: 100;
+    font-family: $body-font;
+    font-size: xx-small;
+    position: absolute;
+    right: 1%;
+    top: 20%;
+    color: $blue;
+  }
+
+  #hiddenSignIn:hover {
+    color: $cream;
+  }
+
   .container-fluid {
-    height: 100%;
-    position: fixed;
     background-color: white;
+    padding: 0;
+    overflow-x: hidden;
+
+    .row {
+      padding: 0;
+    }
   }
 
   .container-fluid.dark {
@@ -194,7 +394,8 @@
   }
 
   div.row.signIn {
-    margin-top: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 
   a.register {
@@ -206,5 +407,211 @@
 
   a.register.dark {
     color: $cream;
+  }
+
+  .banner {
+    z-index: 1;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    height: 700px;
+    width: 100%;
+    vertical-align: middle;
+    background-color: black;
+
+    h2 {
+      position: absolute;
+      bottom: 1%;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .center {
+    text-align: center;
+    width: fit-content;
+    margin: auto;
+
+    h1 {
+      font-size: 3.5rem;
+      color: $ivory;
+    }
+
+    button {
+      all: initial;
+      all: unset;
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      font-family: $body-font;
+      font-size: 1.5rem;
+      border-radius: 7px;
+      // border: $ivory 1px solid;
+      background-color: $blood;
+      color: $ivory;
+      cursor: pointer;
+    }
+
+    p {
+      margin-top: 0.75rem;
+      span {
+        margin-left: 0.2rem;
+      }
+    }
+  }
+
+  .row.display {
+    padding: 5rem 2rem 4rem 2rem;
+    text-align: center;
+    background-color: white;
+    color: black;
+
+    p {
+      font-size: x-large;
+    }
+  }
+
+  .row.clean {
+    padding: 5rem 2rem 4rem 4rem;
+    background-color: white;
+
+    .feature {
+      width: 70%;
+      margin: auto;
+      text-align: left;
+
+      h1 {
+        color: $blue;
+      }
+    }
+  }
+
+  .row.colored {
+    background-color: $blue;
+    color: $ivory;
+    text-align: left;
+  }
+
+  .feature-li {
+    margin: 0.5rem;
+  }
+
+  .icon-col {
+    text-align: right;
+  }
+
+  .highlight {
+    width: fit-content;
+    background-color: $blood;
+  }
+
+  .row.red {
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 3rem;
+      color: $blood;
+    }
+  }
+
+  .profile-card {
+    background-color: red;
+    width: 80%;
+    margin: auto;
+  }
+
+  // mock bot controls
+
+  .main-box {
+    text-align: left;
+    background-color: $blue;
+    color: $ivory;
+    border: none;
+    border-radius: 10px;
+    padding: 2.5rem 3.5rem 2rem 3rem;
+    margin-bottom: 1rem;
+
+    background: linear-gradient(40deg, $blue 50%, black 50%);
+  }
+
+  .mockStatusCol {
+    text-align: left;
+  }
+
+  div.statusDiv {
+    background-color: $cream;
+    color: black;
+    border-radius: 7px;
+
+    text-align: center;
+    margin: 0.75rem auto 1.5rem auto;
+    padding: 1.25rem 1rem;
+
+    button {
+      font-size: larger;
+      padding: 0.5rem 1rem;
+      margin-top: 0;
+      border-radius: 3px;
+      border: none;
+      color: $ivory;
+      background-color: black;
+
+      background-size: 100% 200%;
+      background-image: linear-gradient(to bottom, black 50%, $blood 50%);
+      -webkit-transition: background-position 0.5s;
+      -moz-transition: background-position 0.5s;
+      transition: background-position 0.5s;
+    }
+
+    button:hover {
+      background-position: 0 -100%;
+      color: $ivory;
+    }
+  }
+
+  div.settings-col {
+    hr {
+      color: $cream;
+    }
+  }
+
+  .settingsDisplayBox {
+    font-family: $body-font;
+    font-size: 1.3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .displayOnlyFields {
+    margin-top: 1rem;
+  }
+
+  .val-col {
+    font-family: $body-font;
+    font-size: 1.3rem;
+  }
+
+  .lowkey-val-col {
+    font-family: $body-font;
+    font-size: 1rem;
+  }
+
+  .display-fields {
+    font-size: 1rem;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  .urlDisplay {
+    overflow: hidden;
+
+    a {
+      color: $ivory;
+    }
+    a:hover {
+      color: $cream;
+      text-decoration: underline;
+    }
   }
 </style>

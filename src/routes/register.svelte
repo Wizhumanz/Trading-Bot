@@ -1,11 +1,16 @@
 <script>
   import { onMount } from "svelte";
   import { goto } from "@sapper/app";
-  import { storeUser } from "../../store.js";
+  import { storeUser, storeAppTheme } from "../../store.js";
   import axios from "axios";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
 
   //global variables
+  let appThemeIsDark;
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
+
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
 
@@ -104,14 +109,17 @@
     <LoadingIndicator />
   {/if}
 
-  <div class="container-fluid">
-    <h1>Register Now</h1>
+  <div class="container-fluid" class:dark={appThemeIsDark}>
+    <h1>
+      <a href="/" class="pageNav"
+        ><i class="bi bi-arrow-left-circle pageNav" /></a
+      >Register Now
+    </h1>
     <div class="row signIn">
-      <div class="col-2" />
-      <div class="col-8">
-        <!-- Sign In tab -->
+      <div class="col-sm-2 col-md-3 col-lg-4" />
+      <div class="col-sm-8 col-md-6 col-lg-4">
         <div style={showAlert}>
-          <p>Incorrect Login Details</p>
+          <p>An error occured.</p>
         </div>
         <form class="form" on:submit|preventDefault={registerUser}>
           <div class="mb-3">
@@ -119,6 +127,7 @@
             <input
               type="text"
               class="form-control"
+              class:dark={appThemeIsDark}
               id="nameInput"
               placeholder="Trader Joe"
               bind:value={userRegister.name}
@@ -129,6 +138,7 @@
             <input
               type="email"
               class="form-control"
+              class:dark={appThemeIsDark}
               id="emailInput"
               placeholder="mika@stonks.com"
               bind:value={userRegister.email}
@@ -139,17 +149,18 @@
             <input
               type="password"
               class="form-control"
+              class:dark={appThemeIsDark}
               id="passInput"
               placeholder="$$$$$$"
               bind:value={userRegister.password}
             />
           </div>
           <div class="mb-3">
-            <button type="submit">Register</button>
+            <button type="submit" class:dark={appThemeIsDark}>Register</button>
           </div>
         </form>
       </div>
-      <div class="col-2" />
+      <div class="col-sm-2 col-md-3 col-lg-4" />
     </div>
   </div>
 </main>
@@ -158,11 +169,20 @@
   @import "../../static/styles/_all";
 
   .container-fluid {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    height: 100%;
+    position: fixed;
+    background-color: white;
     text-align: center;
 
     h1 {
       margin-top: 0.75rem;
     }
+  }
+
+  .container-fluid.dark {
+    background-color: black;
   }
 
   .mb-3 {
