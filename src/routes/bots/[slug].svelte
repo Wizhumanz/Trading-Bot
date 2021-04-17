@@ -37,8 +37,8 @@
     });
 
     if (numInactiveBots === user.bots.length) {
-    showNoActiveBots = true;
-  }
+      showNoActiveBots = true;
+    }
   }
 </script>
 
@@ -70,10 +70,11 @@
   {:else if route == "all"}
     <h1>All Bots</h1>
   {/if}
-
-  <div class="collapse" id="collapseExample">
-    <AddBot />
-  </div>
+  {#if route == "active"}
+    <div class="collapse" id="collapseExample">
+      <AddBot/>
+    </div>
+  {/if}
 
   <div class="botList">
     {#if user.bots && user.bots.length > 0}

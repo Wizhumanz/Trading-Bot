@@ -34,25 +34,25 @@
     var diff = curr - prev; //difference between dates.
     // If the diff is less then milliseconds in a minute
     if (diff < ms_Min) {
-        return Math.round(diff / 1000) + ' seconds ago';
+      return Math.round(diff / 1000) + " seconds ago";
 
-        // If the diff is less then milliseconds in a Hour
+      // If the diff is less then milliseconds in a Hour
     } else if (diff < ms_Hour) {
-        return Math.round(diff / ms_Min) + ' minutes ago';
+      return Math.round(diff / ms_Min) + " minutes ago";
 
-        // If the diff is less then milliseconds in a day
+      // If the diff is less then milliseconds in a day
     } else if (diff < ms_Day) {
-        return Math.round(diff / ms_Hour) + ' hours ago';
+      return Math.round(diff / ms_Hour) + " hours ago";
 
-        // If the diff is less then milliseconds in a Month
+      // If the diff is less then milliseconds in a Month
     } else if (diff < ms_Mon) {
-        return 'Around ' + Math.round(diff / ms_Day) + ' days ago';
+      return "Around " + Math.round(diff / ms_Day) + " days ago";
 
-        // If the diff is less then milliseconds in a year
+      // If the diff is less then milliseconds in a year
     } else if (diff < ms_Yr) {
-        return 'Around ' + Math.round(diff / ms_Mon) + ' months ago';
+      return "Around " + Math.round(diff / ms_Mon) + " months ago";
     } else {
-        return 'Around ' + Math.round(diff / ms_Yr) + ' years ago';
+      return "Around " + Math.round(diff / ms_Yr) + " years ago";
     }
   }
 
@@ -64,15 +64,18 @@
       } else {
         groupedView[v.AggregateID] = [v];
       }
-    })
+    });
 
     //logic for timestamp
     for (let key in groupedView) {
-      let dict = {}
+      let dict = {};
       groupedView[key].forEach((v) => {
-        dict[v.Timestamp] = timeDiff(new Date(), new Date(v.Timestamp.replaceAll("_"," ")))
-      })
-      timestampTA[key] = dict
+        dict[v.Timestamp] = timeDiff(
+          new Date(),
+          new Date(v.Timestamp.replaceAll("_", " "))
+        );
+      });
+      timestampTA[key] = dict;
     }
   }
 
@@ -139,82 +142,123 @@
   <div class="container-fluid">
     <h1>Trade History</h1>
     <div class="row options">
-      <div class="col-1 col-md-1">
+      <div class="col-sm-7 col-md-4">
         <div id="filterMenu">
-          <!-- svelte-ignore a11y-missing-attribute -->
-          <a
-            class:dark={appThemeIsDark}
-            class="viewOptionsToggle"
-            data-bs-toggle="collapse"
-            href="#displayOptionsCollapse"
-            role="button"
-            aria-expanded="false"
-            aria-controls="displayOptionsCollapse"
-          >
-            View Options...
-          </a>
+          <div class="row controls">
+            <div class="col-4">
+              <!-- svelte-ignore a11y-missing-attribute -->
+              <a
+                class:dark={appThemeIsDark}
+                class="viewOptionsToggle"
+                data-bs-toggle="collapse"
+                href="#displayOptionsCollapse"
+                role="button"
+                aria-expanded="false"
+                aria-controls="displayOptionsCollapse"
+              >
+                ▼ Options...
+              </a>
+            </div>
+            <div class="col-4">
+              <input
+                type="search"
+                placeholder="Search ticker"
+                class:dark={appThemeIsDark}
+                aria-label="Search ticker"
+              />
+            </div>
+            <div class="col-4">
+              <input
+                type="search"
+                placeholder="Search order size"
+                class:dark={appThemeIsDark}
+                aria-label="Search order size"
+              />
+            </div>
+          </div>
           <div class="collapse" id="displayOptionsCollapse">
-            <p>Trade Direction</p>
-            <div class="checkbox-row row">
-              <div class="col-4">
-                <input type="checkbox" id="longCheck" bind:checked={showLong} />
+            <div class="row">
+              <div class="col-5">
+                <p>Direction</p>
+                <div class="checkbox-row row">
+                  <div class="col-4">
+                    <input
+                      type="checkbox"
+                      id="longCheck"
+                      bind:checked={showLong}
+                    />
+                  </div>
+                  <div class="col-8">
+                    <label class="form-check-label" for="longCheck">
+                      Long
+                    </label>
+                  </div>
+                </div>
+                <div class="checkbox-row row">
+                  <div class="col-4">
+                    <input
+                      type="checkbox"
+                      id="shortCheck"
+                      bind:checked={showShort}
+                    />
+                  </div>
+                  <div class="col-8">
+                    <label class="form-check-label" for="shortCheck">
+                      Short
+                    </label>
+                  </div>
+                </div>
+                <p>Action Type</p>
+                <div class="checkbox-row row">
+                  <div class="col-4">
+                    <input
+                      type="checkbox"
+                      id="showOpen"
+                      bind:checked={showOpen}
+                    />
+                  </div>
+                  <div class="col-8">
+                    <label class="form-check-label" for="showOpen">
+                      Open
+                    </label>
+                  </div>
+                </div>
+                <div class="checkbox-row row">
+                  <div class="col-4">
+                    <input
+                      type="checkbox"
+                      id="showClose"
+                      bind:checked={showClose}
+                    />
+                  </div>
+                  <div class="col-8">
+                    <label class="form-check-label" for="showClose">
+                      Close
+                    </label>
+                  </div>
+                </div>
+                <div class="checkbox-row row">
+                  <div class="col-4">
+                    <input
+                      type="checkbox"
+                      id="showUpdate"
+                      bind:checked={showUpdate}
+                    />
+                  </div>
+                  <div class="col-8">
+                    <label class="form-check-label" for="showUpdate">
+                      Update
+                    </label>
+                  </div>
+                </div>
               </div>
-              <div class="col-8">
-                <label class="form-check-label" for="longCheck"> Long </label>
-              </div>
-            </div>
-            <div class="checkbox-row row">
-              <div class="col-4">
-                <input
-                  type="checkbox"
-                  id="shortCheck"
-                  bind:checked={showShort}
-                />
-              </div>
-              <div class="col-8">
-                <label class="form-check-label" for="shortCheck"> Short </label>
-              </div>
-            </div>
-            <p>Action Type</p>
-            <div class="checkbox-row row">
-              <div class="col-4">
-                <input type="checkbox" id="showOpen" bind:checked={showOpen} />
-              </div>
-              <div class="col-8">
-                <label class="form-check-label" for="showOpen"> Open </label>
-              </div>
-            </div>
-            <div class="checkbox-row row">
-              <div class="col-4">
-                <input
-                  type="checkbox"
-                  id="showClose"
-                  bind:checked={showClose}
-                />
-              </div>
-              <div class="col-8">
-                <label class="form-check-label" for="showClose"> Close </label>
-              </div>
-            </div>
-            <div class="checkbox-row row">
-              <div class="col-4">
-                <input
-                  type="checkbox"
-                  id="showUpdate"
-                  bind:checked={showUpdate}
-                />
-              </div>
-              <div class="col-8">
-                <label class="form-check-label" for="showUpdate">
-                  Update
-                </label>
-              </div>
+              <div class="col-7" />
             </div>
           </div>
         </div>
       </div>
-      <div class="col-7 col-md-8" />
-      <div class="col-4 col-md-3">
+      <div class="col-sm-12 col-md-4" />
+      <div class="col-sm-5 col-md-4">
         <ul id="viewOptions">
           <!-- svelte-ignore a11y-missing-attribute -->
 
@@ -227,9 +271,7 @@
             >
           </li>
           <li>/</li>
-
           <!-- svelte-ignore a11y-missing-attribute -->
-
           <li>
             <a
               on:click={() => {
@@ -257,7 +299,7 @@
       </thead>
       <tbody>
         {#if view === "log"}
-          {#each user.trades.sort((a, b) => new Date(b.Timestamp.replaceAll("_"," ")).getTime() - new Date(a.Timestamp.replaceAll("_"," ")).getTime()) as t}
+          {#each user.trades.sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as t}
             <!--
           {#if (!t.Action.toLowerCase().includes("enter") || !t.Action.toLowerCase().includes("exit") && showUpdate)}
           -->
@@ -268,9 +310,14 @@
                   <td>{t.Ticker}</td>
                   <td>{t.Size}</td>
                   {#if timestampTA[t.AggregateID][t.Timestamp].includes("Around")}
-                  <td>{t.Timestamp.substring(0, t.Timestamp.indexOf("+")).replaceAll("_"," ")}</td>
+                    <td
+                      >{t.Timestamp.substring(
+                        0,
+                        t.Timestamp.indexOf("+")
+                      ).replaceAll("_", " ")}</td
+                    >
                   {:else}
-                  <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
+                    <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
                   {/if}
                   <td>{t.BotID}</td>
                   <td>{t.AggregateID}</td>
@@ -281,7 +328,9 @@
             {/if}
           {/each}
         {:else if view === "grouped"}
-          {#each Object.keys(groupedView).sort(function(a,b){return b-a}) as key}
+          {#each Object.keys(groupedView).sort(function (a, b) {
+            return b - a;
+          }) as key}
             {#if numOfTradeAction[key] !== 0}
               <tr
                 class:dark={appThemeIsDark}
@@ -300,7 +349,7 @@
               </tr>
             {/if}
             <!-- if the row is expanded -->
-            {#each groupedView[key].sort((a, b) => new Date(b.Timestamp.replaceAll("_"," ")).getTime() - new Date(a.Timestamp.replaceAll("_"," ")).getTime()) as tradeAction}
+            {#each groupedView[key].sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as tradeAction}
               <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
               {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
                 {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
@@ -310,9 +359,16 @@
                       <td class="expanded-row">{tradeAction.Ticker}</td>
                       <td class="expanded-row">{tradeAction.Size}</td>
                       {#if timestampTA[key][tradeAction.Timestamp].includes("Around")}
-                      <td class="expanded-row">{tradeAction.Timestamp.substring(0, tradeAction.Timestamp.indexOf("+")).replaceAll("_"," ")}</td>
+                        <td class="expanded-row"
+                          >{tradeAction.Timestamp.substring(
+                            0,
+                            tradeAction.Timestamp.indexOf("+")
+                          ).replaceAll("_", " ")}</td
+                        >
                       {:else}
-                      <td class="expanded-row">{timestampTA[key][tradeAction.Timestamp]}</td>
+                        <td class="expanded-row"
+                          >{timestampTA[key][tradeAction.Timestamp]}</td
+                        >
                       {/if}
                       <td class="expanded-row">{tradeAction.BotID}</td>
                       <td class="expanded-row">{tradeAction.AggregateID}</td>
@@ -385,7 +441,7 @@
   }
 
   #displayOptionsCollapse {
-    width: 150px;
+    width: 300px;
     text-align: left;
     padding: 0.75rem;
     padding-top: 0;
@@ -410,6 +466,16 @@
         background-color: $blood;
       }
     }
+  }
+
+  .row.controls {
+    align-items: flex-start;
+  }
+
+  input.dark {
+    border-radius: 5px;
+    font-size: smaller;
+    padding: 0.3rem;
   }
 
   input[type="checkbox"] {

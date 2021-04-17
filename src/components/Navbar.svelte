@@ -1,6 +1,9 @@
 <script>
   import { goto } from "@sapper/app";
+  import { onMount } from "svelte";
   import { storeUser, storeAppTheme } from "../../store.js";
+
+  //global vars
 
   let appThemeIsDark = false;
   storeAppTheme.subscribe((newVal) => {
@@ -8,10 +11,22 @@
   });
 
   var email = storeUser ? storeUser.email : null;
+  var userID = storeUser ? storeUser.id : null;
   storeUser.subscribe((newValue) => {
     if (newValue) {
       email = JSON.parse(newValue) ? JSON.parse(newValue).email : null;
+      userID = JSON.parse(newValue) ? JSON.parse(newValue).id : null;
     }
+  });
+
+  let socket;
+  let displaySocketIsClosed = true;
+  let wsConnLoading = false;
+
+  //functions
+
+  onMount(() => {
+    connectWs();
   });
 
   function logout() {
@@ -33,6 +48,68 @@
   function setDarkTheme() {
     storeAppTheme.set("dark");
     appThemeIsDark = true;
+  }
+
+  function connectWs() {
+    wsConnLoading = true;
+    if (userID) {
+      try {
+        socket = new WebSocket("ws://localhost:8000/ws/" + userID);
+        console.log("Attempting Connection...");
+        setTimeout(() => (wsConnLoading = false), 1000);
+      } catch (err) {
+        console.log(err);
+        setTimeout(() => (wsConnLoading = false), 1000);
+      }
+    } else {
+      setTimeout(() => (wsConnLoading = false), 1000);
+    }
+
+    if (socket) {
+      socket.onopen = () => {
+        console.log("Successfully Connected");
+        socket.send("Client connected");
+        displaySocketIsClosed = false;
+      };
+
+      socket.onclose = (event) => {
+        console.log("Socket CLOSED Connection: ", event);
+        displaySocketIsClosed = true;
+      };
+
+      socket.onerror = (error) => {
+        console.log("Socket Error: ", error);
+        displaySocketIsClosed = true;
+      };
+
+      socket.onmessage = (msg) => {
+        console.log("WS server msg: " + msg.data);
+        displaySocketIsClosed = false;
+        //TODO: getting stringified trade action object, parse and put in store.js
+      };
+    }
+  }
+
+  function listenOrderStatusStream(listenKey) {
+    //TODO: use listenKey
+    let socket = new WebSocket("wss://fstream.binance.com/ws/" + listenKey);
+    console.log("Attempting Connection...");
+
+    socket.onopen = () => {
+      console.log("Successfully connected to Binance user_data stream");
+    };
+
+    socket.onclose = (event) => {
+      console.log("Socket Closed Connection: ", event);
+    };
+
+    socket.onerror = (error) => {
+      console.log("Socket Error: ", error);
+    };
+
+    socket.onmessage = (msg) => {
+      console.log("Msg from Binance stream: " + msg.data);
+    };
   }
 </script>
 
@@ -59,6 +136,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
+        {#if email}
+          <li class="nav-item">
+            <!-- svelte-ignore a11y-missing-attribute -->
+            <a
+              class="nav-link active"
+              class:dark={appThemeIsDark}
+              on:click={connectWs}
+            >
+              {#if !wsConnLoading}
+                <i
+                  class="bi bi-plug-fill"
+                  class:inactiveIconBtn={displaySocketIsClosed}
+                  class:activeWsIconBtn={!displaySocketIsClosed}
+                />
+              {:else}
+                <i class="bi bi-hourglass-split" />
+              {/if}
+            </a>
+          </li>
+        {/if}
         <li class="nav-item">
           <a
             class="nav-link active"
@@ -197,6 +294,12 @@
     margin-top: 0;
   }
 
+  .nav-link {
+    i {
+      color: $cream;
+    }
+  }
+
   .nav-link.active {
     color: black;
     position: relative;
@@ -207,6 +310,35 @@
     color: $cream;
     position: relative;
     z-index: 100;
+  }
+
+  .inactiveIconBtn {
+    color: lightslategray !important;
+  }
+  .inactiveIconBtn:hover {
+    color: orange !important;
+  }
+
+  .activeWsIconBtn {
+    animation: blinkingText 3s infinite;
+  }
+
+  @keyframes blinkingText {
+    0% {
+      color: yellowgreen;
+    }
+    49% {
+      color: yellowgreen;
+    }
+    60% {
+      color: green;
+    }
+    99% {
+      color: green;
+    }
+    100% {
+      color: yellowgreen;
+    }
   }
 
   .nav-link.dropdown-toggle {
