@@ -157,6 +157,7 @@
     data.AccountRiskPercPerTrade = data.AccountRiskPercPerTrade.toString();
     data.AccountSizePercToTrade = data.AccountSizePercToTrade.toString();
     data.Leverage = data.Leverage.toString();
+    data.CreationDate = data.Timestamp;
 
     const hds = {
       "Cache-Control": "no-cache",
