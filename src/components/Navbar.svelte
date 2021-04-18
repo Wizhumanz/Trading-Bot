@@ -57,7 +57,7 @@
     wsConnLoading = true;
     if (userID) {
       try {
-        socket = new WebSocket("ws://localhost:8000/ws/" + userID);
+        socket = new WebSocket("ws://ana-api.myika.co/ws/" + userID);
         console.log("Attempting Connection...");
         setTimeout(() => (wsConnLoading = false), 1000);
       } catch (err) {
