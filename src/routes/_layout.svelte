@@ -1,6 +1,7 @@
 <script>
   import { storeAppTheme } from "../../store.js";
   import Navbar from "../components/Navbar.svelte";
+  import Footer from "../components/Footer.svelte";
 
   let appThemeIsDark = false;
 
@@ -13,6 +14,8 @@
   <Navbar />
 
   <slot />
+
+  <Footer />
 </main>
 
 <style type="text/scss">
