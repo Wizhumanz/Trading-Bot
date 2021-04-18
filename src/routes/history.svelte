@@ -382,7 +382,7 @@
                         <td class="expanded-row">{tradeAction.AggregateID}</td>
                         {#each user.exchanges as e}
                           {#if e.KEY == tradeAction.Exchange}
-                            <td>{e.Name}</td>
+                            <td class="expanded-row">{e.Name}</td>
                           {/if}
                         {/each}
                         <td class="expanded-row">{tradeAction.Direction}</td>
