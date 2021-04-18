@@ -278,7 +278,7 @@
           <th scope="col">Ticker</th>
           <th scope="col">Size</th>
           <th scope="col">Timestamp</th>
-          <th scope="col">BotID</th>
+          <th scope="col">Bot</th>
           <th scope="col">AggregateID</th>
           <th scope="col">Exchange</th>
           <th scope="col">Trade Direction</th>
@@ -307,9 +307,17 @@
                     {:else}
                       <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
                     {/if}
-                    <td>{t.BotID}</td>
+                    {#each user.bots as b}
+                      {#if b.KEY == t.BotID}
+                        <td>{b.Name}</td>
+                      {/if}
+                    {/each}
                     <td>{t.AggregateID}</td>
-                    <td>{t.Exchange}</td>
+                    {#each user.exchanges as e}
+                      {#if e.KEY == t.Exchange}
+                        <td>{e.Name}</td>
+                      {/if}
+                    {/each}  
                     <td>{t.Direction}</td>
                   </tr>
                 {/if}
@@ -329,9 +337,17 @@
                 <td>{groupedView[key][0].Ticker}</td>
                 <td>-</td>
                 <td>-</td>
-                <td>{groupedView[key][0].BotID}</td>
+                {#each user.bots as b}
+                  {#if b.KEY == groupedView[key][0].BotID}
+                    <td>{b.Name}</td>
+                  {/if}
+                {/each}
                 <td>{groupedView[key][0].AggregateID}</td>
-                <td>{groupedView[key][0].Exchange}</td>
+                {#each user.exchanges as e}
+                  {#if e.KEY == groupedView[key][0].Exchange}
+                    <td>{e.Name}</td>
+                  {/if}
+                {/each}
                 <td>{groupedView[key][0].Direction}</td>
               </tr>
             {/if}
@@ -358,9 +374,17 @@
                             >{timestampTA[key][tradeAction.Timestamp]}</td
                           >
                         {/if}
-                        <td class="expanded-row">{tradeAction.BotID}</td>
+                        {#each user.bots as b}
+                          {#if b.KEY == tradeAction.BotID}
+                            <td class="expanded-row">{b.Name}</td>
+                          {/if}
+                        {/each}
                         <td class="expanded-row">{tradeAction.AggregateID}</td>
-                        <td class="expanded-row">{tradeAction.Exchange}</td>
+                        {#each user.exchanges as e}
+                          {#if e.KEY == tradeAction.Exchange}
+                            <td>{e.Name}</td>
+                          {/if}
+                        {/each}
                         <td class="expanded-row">{tradeAction.Direction}</td>
                       </tr>
                     {/if}
