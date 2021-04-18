@@ -157,6 +157,8 @@
     data.AccountRiskPercPerTrade = data.AccountRiskPercPerTrade.toString();
     data.AccountSizePercToTrade = data.AccountSizePercToTrade.toString();
     data.Leverage = data.Leverage.toString();
+    data.CreationDate = data.Timestamp;
+    console.log(data.CreationDate)
 
     const hds = {
       "Cache-Control": "no-cache",
@@ -175,6 +177,7 @@
       )
       .then((res) => {
         //updating the local state
+        console.log(res)
         let storeBots = [];
         user.bots.forEach((b) => {
           if (b.AggregateID === bot.AggregateID) {

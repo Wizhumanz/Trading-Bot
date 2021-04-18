@@ -63,6 +63,32 @@
     });
   }
 
+  function getBots() {
+    return new Promise((resolve, reject) => {
+      //auth header
+      const hds = {
+        // "Content-Type": "application/json",
+        Authorization: user.password,
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      };
+
+      //MUST replace all '+' with '%2B'
+      // let GETUrl = basicURL.split("+").join("%2B");
+      axios
+        .get("https://ana-api.myika.co/bots" + "?user=" + user.id, {
+          headers: hds,
+          mode: "cors",
+        })
+        .then((res) => {
+          console.log(res.data)
+          resolve(res.data);
+        })
+        .catch((error) => console.log(error));
+    });
+  }
+
   //post request for Bot
   function addBotHandler() {
     loading = true;
@@ -85,7 +111,7 @@
       IsArchived: "false",
       Leverage: leverage.toString(),
       Ticker: newTicker,
-      WebhookConnectionID: strategySelect,
+      WebhookConnectionID: strategySelect
     };
 
     if (strategySelect !== "custom") {
@@ -97,14 +123,25 @@
         .then(() => {
           loading = false;
           addedAlert = "display: block;";
-          if (user.bots === null || user.bots === undefined) {
-            user.bots = [data];
-          } else {
-            user.bots.push(data);
-          }
+          // if (user.bots === null || user.bots === undefined) {
+          //   user.bots = [data];
+          // } else {
+          //   user.bots.push(data);
+          // }
 
-          storeUser.set(JSON.stringify(user));
-
+          getBots().then((res) => {
+            let hideIsArchived = [];
+            res.forEach((b) => {
+              if (b.IsArchived !== "true") {
+                hideIsArchived.push(b);
+              }
+            });
+            user.bots = hideIsArchived;
+            if (user.bots !== null) {
+              user.bots.reverse(); //to display most recent bots at top of list
+            }
+            storeUser.set(JSON.stringify(user));
+          });
           reassignProperties();
 
           setTimeout(() => {

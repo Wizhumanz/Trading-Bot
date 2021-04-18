@@ -77,7 +77,7 @@
 
   <div class="botList">
     {#if user.bots && user.bots.length > 0}
-      {#each user.bots.sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as b}
+      {#each user.bots.sort((a, b) => new Date(b.CreationDate.replaceAll("_", " ")).getTime() - new Date(a.CreationDate.replaceAll("_", " ")).getTime()) as b}
         {#if (b.IsActive === "true" || b.IsActive === true) && route === "active"}
           <BotLI bot={b} />
         {:else if route === "all"}

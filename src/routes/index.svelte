@@ -62,6 +62,7 @@
           mode: "cors",
         })
         .then((res) => {
+          console.log(res.data)
           resolve(res.data);
         })
         .catch((error) => console.log(error));
@@ -127,7 +128,7 @@
           storeUser.set(JSON.stringify(user));
           loading = false;
           goto("/bots/active");
-          getAllWebhookConnections();
+          getAllWebhookConnections()
           getTradeAction()
         });
       })
