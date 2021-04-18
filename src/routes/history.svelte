@@ -13,7 +13,7 @@
   let showClose = true;
   let showUpdate = true;
   let searchTicker = ""
-  let searchSize = ""
+  let searchSize = null
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -104,7 +104,7 @@
           (v.Direction === "LONG" && showLong) ||
           (v.Direction === "SHORT" && showShort)
         ) {
-          if ((v.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (v.Size == searchSize || searchSize ==  "")) {
+          if ((v.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (v.Size == searchSize || searchSize ===  null)) {
             numOfTradeAction[key] = num += 1;
           }
         }
@@ -120,6 +120,7 @@
       whichKey = [...whichKey, aggID];
     }
   }
+
 </script>
 
 <div id="tradeHistory">
@@ -154,7 +155,7 @@
             </div>
             <div class="col-4">
               <input
-                type="search"
+                type="number"
                 placeholder="Search order size"
                 class:dark={appThemeIsDark}
                 aria-label="Search order size"
@@ -289,7 +290,7 @@
             <!--
           {#if (!t.Action.toLowerCase().includes("enter") || !t.Action.toLowerCase().includes("exit") && showUpdate)}
           -->
-            {#if (t.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (t.Size == searchSize || searchSize ==  "")}
+            {#if (t.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (t.Size == searchSize || searchSize ===  null)}
               {#if (t.Action.toLowerCase().includes("enter") && showOpen) || (t.Action.toLowerCase().includes("exit") && showClose) || (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
                 {#if (t.Direction === "LONG" && showLong) || (t.Direction === "SHORT" && showShort)}
                   <tr class:dark={appThemeIsDark}>
@@ -337,7 +338,7 @@
             <!-- if the row is expanded -->
             {#each groupedView[key].sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as tradeAction}
               <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-              {#if (tradeAction.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (tradeAction.Size == searchSize || searchSize ==  "")}
+              {#if (tradeAction.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (tradeAction.Size == searchSize || searchSize ===  null)}
                 {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
                   {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
                     {#if whichKey.includes(key)}
