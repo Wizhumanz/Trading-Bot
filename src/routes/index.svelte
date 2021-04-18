@@ -58,7 +58,6 @@
           mode: "cors",
         })
         .then((res) => {
-          console.log(res.data)
           resolve(res.data);
         })
         .catch((error) => console.log(error));
