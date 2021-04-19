@@ -1,19 +1,12 @@
 <script>
   import { storeUser, storeAppTheme } from "../../store.js";
 
-  let view = "grouped";
-  let groupedView = {};
-  let numOfTradeAction = {};
+  let appThemeIsDark = false;
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
+
   let user = {};
-  let timestampTA = {};
-  let whichKey = [];
-  let showLong = true;
-  let showShort = true;
-  let showOpen = true;
-  let showClose = true;
-  let showUpdate = true;
-  let searchTicker = ""
-  let searchSize = null
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -25,10 +18,18 @@
     }
   });
 
-  let appThemeIsDark = false;
-  storeAppTheme.subscribe((newVal) => {
-    appThemeIsDark = newVal === "dark";
-  });
+  let view = "grouped";
+  let groupedView = {};
+  let numOfTradeAction = {};
+  let timestampTA = {};
+  let whichKey = [];
+  let showLong = true;
+  let showShort = true;
+  let showOpen = true;
+  let showClose = true;
+  let showUpdate = true;
+  let searchTicker = ""
+  let searchSize = null
 
   function timeDiff(curr, prev) {
     var ms_Min = 60 * 1000; // milliseconds in Minute
@@ -60,6 +61,7 @@
       return "Around " + Math.round(diff / ms_Yr) + " years ago";
     }
   }
+
   function viewOptionsHandler() {
     //logic for grouped view
     user.trades.forEach((v) => {
@@ -82,8 +84,6 @@
       timestampTA[key] = dict;
     }
   }
-
- 
 
   // Number of trade actions for each view options
   //&& ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))
