@@ -7,26 +7,22 @@
 
   //global variables
   let appThemeIsDark;
-  storeAppTheme.subscribe((newVal) => {
-    appThemeIsDark = newVal === "dark";
-  });
-
+  let user = {};
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
   let displayPricePeriodToggle = true;
-
-  //only for user login
-  let userLogin = {
-    email: "",
-    password: "",
-  };
+  let userLogin = {email: "", password: ""};
+  let url = "https://ana-api.myika.co"
 
   //user properties
-  let user = {};
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
     }
+  });
+
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
   });
 
   onMount(() => {
@@ -38,23 +34,33 @@
     }
   });
 
-  //helper functions
-  function getBots() {
-    return new Promise((resolve, reject) => {
-      //auth header
-      const hds = {
+  function header(auth) {
+    if (auth) {
+      return {
         // "Content-Type": "application/json",
-        Authorization: userLogin.password,
+        Authorization: user.password,
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      }
+    } else {
+      return {
+        // "Content-Type": "application/json",
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
         Expires: "0",
       };
+    }
+  }
 
+  //helper functions
+  function getBots() {
+    return new Promise((resolve, reject) => {
       //MUST replace all '+' with '%2B'
       // let GETUrl = basicURL.split("+").join("%2B");
       axios
-        .get("https://ana-api.myika.co/bots" + "?user=" + user.id, {
-          headers: hds,
+        .get(url + "/bots?user=" + user.id, {
+          headers: header(true),
           mode: "cors",
         })
         .then((res) => {
@@ -65,16 +71,9 @@
   }
 
   function getAllWebhookConnections() {
-    // get all webhook connections
-    const hds = {
-      //"Content-Type": "application/json",
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-    };
     axios
-      .get("https://ana-api.myika.co/webhooks", {
-        headers: hds,
+      .get(url + "/webhooks", {
+        headers: header(false),
         mode: "cors",
       })
       .then((res) => {
@@ -86,18 +85,42 @@
       });
   }
 
+  function getTradeAction() {
+    axios
+      .get(url + "/trades?user=" + user.id, {
+        headers: header(true),
+        mode: "cors",
+      })
+      .then((res) => {
+        user.trades = res.data;
+        storeUser.set(JSON.stringify(user));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+
+  function getExchangeConnection() {
+    axios
+      .get(url + "/exchanges?user=" + user.id, {
+        headers: header(true),
+        mode: "cors",
+      })
+      .then((res) => {
+        user.exchanges = res.data;
+        storeUser.set(JSON.stringify(user));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+
   //handler functions
   function signIn(e) {
     loading = true;
-
-    const hds = {
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-    };
     axios
-      .post("https://ana-api.myika.co/login", {
-        headers: hds,
+      .post(url + "/login", {
+        headers: header(false),
         email: userLogin.email,
         password: userLogin.password,
         mode: "cors",
@@ -109,78 +132,22 @@
         //wait for fetch to complete before needed page reload
         getBots().then((res) => {
           loading = false;
-          //assign properties to user
-          let hideIsArchived = [];
-          res.forEach((b) => {
-            if (b.IsArchived !== "true") {
-              hideIsArchived.push(b);
-            }
-          });
-          user.bots = hideIsArchived;
+          user.allBots = res
+          user.bots = res.filter(b => {return b.IsArchived !== "true"});
           if (user.bots !== null) {
             user.bots.reverse(); //to display most recent bots at top of list
           }
           storeUser.set(JSON.stringify(user));
-          loading = false;
-          goto("/bots/active");
           getAllWebhookConnections();
           getTradeAction();
           getExchangeConnection()
+          goto("/bots/active");
         });
       })
       .catch((error) => {
         console.log(error.response);
         loading = false;
         showAlert = "display: block;";
-      });
-  }
-  function getTradeAction() {
-    user.trades = [];
-
-    //get request for TradeAction/trade histories
-    const hds = {
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-      Authorization: user.password,
-    };
-    axios
-      .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
-        headers: hds,
-        mode: "cors",
-      })
-      .then((res) => {
-        user.trades = res.data;
-        storeUser.set(JSON.stringify(user));
-
-        // console.log(res.status + " -- " + JSON.stringify(res.data));
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  }
-
-  function getExchangeConnection() {
-    //get request for ExchangeConnection
-    const hds = {
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-      Authorization: user.password,
-    };
-    axios
-      .get("https://ana-api.myika.co/exchanges" + "?user=" + user.id, {
-        headers: hds,
-        mode: "cors",
-      })
-      .then((res) => {
-        user.exchanges = res.data;
-        storeUser.set(JSON.stringify(user));
-
-        //console.log(res.status + " -- " + JSON.stringify(res.data));
-      })
-      .catch((error) => {
-        console.log(error.response);
       });
   }
 </script>

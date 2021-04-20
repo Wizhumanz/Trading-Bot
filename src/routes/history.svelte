@@ -2,10 +2,6 @@
   import { storeUser, storeAppTheme } from "../../store.js";
 
   let appThemeIsDark = false;
-  storeAppTheme.subscribe((newVal) => {
-    appThemeIsDark = newVal === "dark";
-  });
-
   let view = "grouped";
   let groupedView = {};
   let numOfTradeAction = {};
@@ -19,6 +15,20 @@
   let searchTicker = ""
   let searchSize = null
   let user = {};
+
+  storeUser.subscribe((newValue) => {
+    if (newValue) {
+      user = JSON.parse(newValue);
+      if (user.trades) {
+        viewOptionsHandler(groupedView)
+        console.log("working")
+      }
+    }
+  });
+
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -71,7 +81,10 @@
       }
     });
 
-    //logic for timestamp
+    timestampLogic()
+  }
+
+  function timestampLogic() {
     for (let key in groupedView) {
       let dict = {};
       groupedView[key].forEach((v) => {
@@ -81,6 +94,15 @@
         );
       });
       timestampTA[key] = dict;
+    }
+  }
+
+  function showHideHistoryHandler(aggID) {
+    if (whichKey.includes(aggID)) {
+      delete whichKey[whichKey.indexOf(aggID)];
+      whichKey = whichKey;
+    } else {
+      whichKey = [...whichKey, aggID];
     }
   }
 
@@ -110,16 +132,6 @@
       }
     });
   }
-
-  function showHideHistoryHandler(aggID) {
-    if (whichKey.includes(aggID)) {
-      delete whichKey[whichKey.indexOf(aggID)];
-      whichKey = whichKey;
-    } else {
-      whichKey = [...whichKey, aggID];
-    }
-  }
-
 </script>
 
 <div id="tradeHistory">

@@ -5,7 +5,6 @@
   import axios from "axios";
 
   //global vars
-
   let appThemeIsDark = false;
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
@@ -14,6 +13,10 @@
   let user = {};
   var email = storeUser ? storeUser.email : null;
   var userID = storeUser ? storeUser.id : null;
+  let socket;
+  let displaySocketIsClosed = true;
+  let wsConnLoading = false;
+
   storeUser.subscribe((newValue) => {
     if (newValue) {
       email = JSON.parse(newValue) ? JSON.parse(newValue).email : null;
@@ -21,10 +24,6 @@
       user = JSON.parse(newValue);
     }
   });
-
-  let socket;
-  let displaySocketIsClosed = true;
-  let wsConnLoading = false;
 
   //functions
 

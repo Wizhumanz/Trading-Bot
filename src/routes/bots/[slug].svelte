@@ -7,27 +7,28 @@
 
   //global variables
   let appThemeIsDark = false;
+  let user = {};
+  const { page } = stores();
+  var route;
+  let loading = false;
+  let numInactiveBots = 0;
+  let showNoActiveBots = false;
+  
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
   });
 
-  let user = {};
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
     }
   });
 
-  const { page } = stores();
-  var route;
   page.subscribe(({ path, params, query }) => {
     route = params.slug;
     currentPage.set(route);
   });
 
-  let loading = false;
-  let numInactiveBots = 0;
-  let showNoActiveBots = false;
   if (user.bots) {
     Array.from(user.bots).forEach((b) => {
       if (b.IsActive === "false") {
