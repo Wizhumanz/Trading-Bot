@@ -38,7 +38,7 @@
     if (auth) {
       return {
         // "Content-Type": "application/json",
-        Authorization: userLogin.password,
+        Authorization: user.password,
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
         Expires: "0",
@@ -132,6 +132,7 @@
         //wait for fetch to complete before needed page reload
         getBots().then((res) => {
           loading = false;
+          user.allBots = res
           user.bots = res.filter(b => {return b.IsArchived !== "true"});
           if (user.bots !== null) {
             user.bots.reverse(); //to display most recent bots at top of list
