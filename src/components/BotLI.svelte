@@ -101,7 +101,7 @@
     if (auth) {
       return {
         // "Content-Type": "application/json",
-        Authorization: userLogin.password,
+        Authorization: user.password,
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
         Expires: "0",
