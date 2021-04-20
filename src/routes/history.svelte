@@ -6,18 +6,7 @@
     appThemeIsDark = newVal === "dark";
   });
 
-  let user = {};
-
-  storeUser.subscribe((newValue) => {
-    if (newValue) {
-      user = JSON.parse(newValue);
-      if (user.trades) {
-        viewOptionsHandler()
-        console.log("working")
-      }
-    }
-  });
-
+  
   let view = "grouped";
   let groupedView = {};
   let numOfTradeAction = {};
@@ -30,6 +19,17 @@
   let showUpdate = true;
   let searchTicker = ""
   let searchSize = null
+  let user = {};
+
+  storeUser.subscribe((newValue) => {
+    if (newValue) {
+      user = JSON.parse(newValue);
+      if (user.trades) {
+        viewOptionsHandler()
+        console.log("working")
+      }
+    }
+  });
 
   function timeDiff(curr, prev) {
     var ms_Min = 60 * 1000; // milliseconds in Minute
