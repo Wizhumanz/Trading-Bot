@@ -7,26 +7,22 @@
 
   //global variables
   let appThemeIsDark;
-  storeAppTheme.subscribe((newVal) => {
-    appThemeIsDark = newVal === "dark";
-  });
-
+  let user = {};
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
   let displayPricePeriodToggle = true;
-
-  //only for user login
-  let userLogin = {
-    email: "",
-    password: "",
-  };
+  let userLogin = {email: "", password: ""};
+  let url = "https://ana-api.myika.co"
 
   //user properties
-  let user = {};
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
     }
+  });
+
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
   });
 
   onMount(() => {
@@ -63,7 +59,7 @@
       //MUST replace all '+' with '%2B'
       // let GETUrl = basicURL.split("+").join("%2B");
       axios
-        .get("https://ana-api.myika.co/bots" + "?user=" + user.id, {
+        .get(url + "/bots?user=" + user.id, {
           headers: header(true),
           mode: "cors",
         })
@@ -76,7 +72,7 @@
 
   function getAllWebhookConnections() {
     axios
-      .get("https://ana-api.myika.co/webhooks", {
+      .get(url + "/webhooks", {
         headers: header(false),
         mode: "cors",
       })
@@ -90,9 +86,8 @@
   }
 
   function getTradeAction() {
-    user.trades = [];
     axios
-      .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
+      .get(url + "/trades?user=" + user.id, {
         headers: header(true),
         mode: "cors",
       })
@@ -107,7 +102,7 @@
 
   function getExchangeConnection() {
     axios
-      .get("https://ana-api.myika.co/exchanges" + "?user=" + user.id, {
+      .get(url + "/exchanges?user=" + user.id, {
         headers: header(true),
         mode: "cors",
       })
@@ -124,7 +119,7 @@
   function signIn(e) {
     loading = true;
     axios
-      .post("https://ana-api.myika.co/login", {
+      .post(url + "/login", {
         headers: header(false),
         email: userLogin.email,
         password: userLogin.password,
@@ -137,7 +132,6 @@
         //wait for fetch to complete before needed page reload
         getBots().then((res) => {
           loading = false;
-          //assign properties to user
           user.bots = res.filter(b => {return b.IsArchived !== "true"});
           if (user.bots !== null) {
             user.bots.reverse(); //to display most recent bots at top of list

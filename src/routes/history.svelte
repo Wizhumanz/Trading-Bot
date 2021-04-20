@@ -2,11 +2,6 @@
   import { storeUser, storeAppTheme } from "../../store.js";
 
   let appThemeIsDark = false;
-  storeAppTheme.subscribe((newVal) => {
-    appThemeIsDark = newVal === "dark";
-  });
-
-  
   let view = "grouped";
   let groupedView = {};
   let numOfTradeAction = {};
@@ -25,10 +20,14 @@
     if (newValue) {
       user = JSON.parse(newValue);
       if (user.trades) {
-        viewOptionsHandler()
+        viewOptionsHandler(groupedView)
         console.log("working")
       }
     }
+  });
+
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
   });
 
   function timeDiff(curr, prev) {
@@ -72,7 +71,10 @@
       }
     });
 
-    //logic for timestamp
+    timestampLogic()
+  }
+
+  function timestampLogic() {
     for (let key in groupedView) {
       let dict = {};
       groupedView[key].forEach((v) => {
@@ -82,6 +84,15 @@
         );
       });
       timestampTA[key] = dict;
+    }
+  }
+
+  function showHideHistoryHandler(aggID) {
+    if (whichKey.includes(aggID)) {
+      delete whichKey[whichKey.indexOf(aggID)];
+      whichKey = whichKey;
+    } else {
+      whichKey = [...whichKey, aggID];
     }
   }
 
@@ -111,16 +122,6 @@
       }
     });
   }
-
-  function showHideHistoryHandler(aggID) {
-    if (whichKey.includes(aggID)) {
-      delete whichKey[whichKey.indexOf(aggID)];
-      whichKey = whichKey;
-    } else {
-      whichKey = [...whichKey, aggID];
-    }
-  }
-
 </script>
 
 <div id="tradeHistory">
