@@ -13,11 +13,11 @@
   let showOpen = true;
   let showClose = true;
   let showUpdate = true;
-  let searchTicker = ""
-  let searchSize = null
+  let searchTicker = "";
+  let searchSize = null;
   let user = {};
-  let snapShots = []
-  let url = "https://ana-api.myika.co"
+  let snapShots = [];
+  let url = "https://ana-api.myika.co";
 
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
@@ -27,12 +27,12 @@
     if (newValue) {
       user = JSON.parse(newValue);
       if (user.trades) {
-        viewOptionsHandler()
-        console.log("working")
+        viewOptionsHandler();
+        console.log("working");
       }
     }
   });
-  
+
   function timeDiff(curr, prev) {
     var ms_Min = 60 * 1000; // milliseconds in Minute
     var ms_Hour = ms_Min * 60; // milliseconds in Hour
@@ -74,7 +74,7 @@
       }
     });
 
-    timestampLogic()
+    timestampLogic();
   }
 
   function timestampLogic() {
@@ -99,59 +99,59 @@
     }
   }
 
-  let unoriginalTrades = []
+  let unoriginalTrades = [];
 
   function getAllUserTrades() {
     if (user.trades) {
       user.trades.forEach((x) => {
-        if (!user.bots.map(b => b.KEY).includes(x.BotID) ) {
-          unoriginalTrades.push(x.BotID)
+        if (!user.bots.map((b) => b.KEY).includes(x.BotID)) {
+          unoriginalTrades.push(x.BotID);
         }
-      })
+      });
     }
-    console.log(unoriginalTrades)
+    console.log(unoriginalTrades);
 
     if (unoriginalTrades.length !== 0) {
-      getSnapShotBot()
+      getSnapShotBot();
     }
   }
-  
-  getAllUserTrades()
- 
+
+  getAllUserTrades();
+
   function getSnapShotBot() {
     //return new Promise((resolve, reject) => {
-      //botIDs.forEach((id) => {
-        //build query string with all IDs
-        let snapShotURLSet = new Set(unoriginalTrades)
-        let snapShotURLArr = [...snapShotURLSet]
-        let snapShotURL = snapShotURLArr[0]
+    //botIDs.forEach((id) => {
+    //build query string with all IDs
+    let snapShotURLSet = new Set(unoriginalTrades);
+    let snapShotURLArr = [...snapShotURLSet];
+    let snapShotURL = snapShotURLArr[0];
 
-        snapShotURLArr.forEach((id, index) => {
-          if (index != 0) {
-            snapShotURL = snapShotURL + "+" + id;
-          }
-        });
-        const hds = {
-          // "Content-Type": "application/json",
-          Authorization: user.password,
-          "Cache-Control": "no-cache",
-          Pragma: "no-cache",
-          Expires: "0",
-        }
-        axios
-          .get(url + "/bot?user=" + user.id + "&ids=" + snapShotURL, {
-            headers: hds,
-            mode: "cors",
-          })
-          .then((res) => {
-            snapShots = res.data
-            console.log(snapShots)
-            //console.log(snapShots.map((x) => {return x.KEY}))
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
-      //});
+    snapShotURLArr.forEach((id, index) => {
+      if (index != 0) {
+        snapShotURL = snapShotURL + "+" + id;
+      }
+    });
+    const hds = {
+      // "Content-Type": "application/json",
+      Authorization: user.password,
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
+    axios
+      .get(url + "/bot?user=" + user.id + "&ids=" + snapShotURL, {
+        headers: hds,
+        mode: "cors",
+      })
+      .then((res) => {
+        snapShots = res.data;
+        console.log(snapShots);
+        //console.log(snapShots.map((x) => {return x.KEY}))
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+    //});
     //})
   }
 
@@ -174,22 +174,32 @@
           (v.Direction === "LONG" && showLong) ||
           (v.Direction === "SHORT" && showShort)
         ) {
-          if ((v.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (v.Size == searchSize || searchSize ===  null)) {
+          if (
+            (v.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) ||
+              searchTicker == "") &&
+            (v.Size == searchSize || searchSize === null)
+          ) {
             numOfTradeAction[key] = num += 1;
           }
         }
       }
     });
   }
-  console.log(groupedView)
+  console.log(groupedView);
 </script>
 
 <div id="tradeHistory">
   <div class="container-fluid">
     <h1>Trade History</h1>
-    <div class="tooltip" style="color: white;">Hover over me
-      <span class="tooltiptext">Tooltip text</span>
-    </div>
+    <button
+      type="button"
+      class="tooltipBtn"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="This is a tooltip"
+    >
+      Tooltip on top
+    </button>
     <div class="row options">
       <div class="col-sm-7 col-md-4">
         <div id="filterMenu">
@@ -354,7 +364,7 @@
             <!--
           {#if (!t.Action.toLowerCase().includes("enter") || !t.Action.toLowerCase().includes("exit") && showUpdate)}
           -->
-            {#if (t.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (t.Size == searchSize || searchSize ===  null)}
+            {#if (t.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker == "") && (t.Size == searchSize || searchSize === null)}
               {#if (t.Action.toLowerCase().includes("enter") && showOpen) || (t.Action.toLowerCase().includes("exit") && showClose) || (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
                 {#if (t.Direction === "LONG" && showLong) || (t.Direction === "SHORT" && showShort)}
                   <tr class:dark={appThemeIsDark}>
@@ -371,16 +381,20 @@
                     {:else}
                       <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
                     {/if}
-                    {#if snapShots.map((x) => {return x.KEY}).includes(t.BotID)}
+                    {#if snapShots
+                      .map((x) => {
+                        return x.KEY;
+                      })
+                      .includes(t.BotID)}
                       {#each snapShots as s}
                         {#if t.BotID == s.KEY}
-                          <td>{s.Name}</td>
+                          <td on:mouseenter={() => {console.log("ENTER")}}>{s.Name}</td>
                         {/if}
                       {/each}
                     {:else}
                       {#each user.bots as b}
                         {#if t.BotID == b.KEY}
-                          <td>{b.Name}</td>
+                          <td on:mouseenter={() => {console.log("ENTER")}}>{b.Name}</td>
                         {/if}
                       {/each}
                     {/if}
@@ -389,7 +403,7 @@
                       {#if e.KEY == t.Exchange}
                         <td>{e.Name}</td>
                       {/if}
-                    {/each}  
+                    {/each}
                     <td>{t.Direction}</td>
                   </tr>
                 {/if}
@@ -397,7 +411,9 @@
             {/if}
           {/each}
         {:else if view === "grouped"}
-          {#each Object.keys(groupedView).sort(function (a, b) {return b - a}) as key}
+          {#each Object.keys(groupedView).sort(function (a, b) {
+            return b - a;
+          }) as key}
             {#if numOfTradeAction[key] !== 0}
               <tr
                 class:dark={appThemeIsDark}
@@ -409,16 +425,30 @@
                 <td>{groupedView[key][0].Ticker}</td>
                 <td>-</td>
                 <td>-</td>
-                {#if snapShots.map((x) => {return x.KEY}).includes(groupedView[key][0].BotID)}
+                {#if snapShots
+                  .map((x) => {
+                    return x.KEY;
+                  })
+                  .includes(groupedView[key][0].BotID)}
                   {#each snapShots as s}
                     {#if groupedView[key][0].BotID == s.KEY}
-                      <td>{s.Name}</td>
+                      <td on:mouseenter={() => {console.log("ENTER")}}>
+                        {s.Name}
+                        <div class="hoverInfo">
+                          <p>
+                            Ticker: BTC/USDT <br>
+                            Ticker: BTC/USDT <br>
+                            Ticker: BTC/USDT <br>
+                            Ticker: BTC/USDT <br>
+                          </p>
+                        </div>
+                      </td>
                     {/if}
                   {/each}
                 {:else}
                   {#each user.bots as b}
                     {#if b.KEY == groupedView[key][0].BotID}
-                      <td>{b.Name}</td>
+                      <td on:mouseenter={() => {console.log("ENTER")}}>{b.Name}</td>
                     {/if}
                   {/each}
                 {/if}
@@ -434,7 +464,7 @@
             <!-- if the row is expanded -->
             {#each groupedView[key].sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as tradeAction}
               <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-              {#if (tradeAction.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (tradeAction.Size == searchSize || searchSize ===  null)}
+              {#if (tradeAction.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker == "") && (tradeAction.Size == searchSize || searchSize === null)}
                 {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
                   {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
                     {#if whichKey.includes(key)}
@@ -454,7 +484,11 @@
                             >{timestampTA[key][tradeAction.Timestamp]}</td
                           >
                         {/if}
-                        {#if snapShots.map((x) => {return x.KEY}).includes(tradeAction.BotID)}
+                        {#if snapShots
+                          .map((x) => {
+                            return x.KEY;
+                          })
+                          .includes(tradeAction.BotID)}
                           {#each snapShots as s}
                             {#if tradeAction.BotID == s.KEY}
                               <td class="expanded-row">{s.Name}</td>
@@ -615,41 +649,20 @@
   .expanded-row {
     background-color: $blue;
   }
-  
-  //hovering effect
-  .tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
-  }
 
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
+  .hoverInfo {
     position: absolute;
-    z-index: 1;
-    bottom: 150%;
-    left: 50%;
-    margin-left: -60px;
-  }
+    margin-top: -5rem;
+    margin-left: 6rem;
+    width: fit-content;
+    border-radius: 7px;
+    background-color: $blood;
+    opacity: 0.75;
+    color: $cream;
 
-  .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: black transparent transparent transparent;
-  }
-
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
+    p {
+      font-size: 0.75rem;
+      margin: 0.75rem;
+    }
   }
 </style>
