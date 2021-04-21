@@ -17,6 +17,8 @@
   let searchSize = null;
   let user = {};
   let snapShots = [];
+  let showBotDetailMod = "display: none;"
+  let showBotDetail = "display: none;"
   let url = "https://ana-api.myika.co";
 
   storeAppTheme.subscribe((newVal) => {
@@ -185,7 +187,6 @@
       }
     });
   }
-  console.log(groupedView);
 </script>
 
 <div id="tradeHistory">
@@ -372,20 +373,36 @@
                     {:else}
                       <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
                     {/if}
-                    {#if snapShots
-                      .map((x) => {
-                        return x.KEY;
-                      })
-                      .includes(t.BotID)}
+                    {#if snapShots.map((x) => {return x.KEY;}).includes(t.BotID)}
                       {#each snapShots as s}
                         {#if t.BotID == s.KEY}
-                          <td on:mouseenter={() => {console.log("ENTER")}}>{s.Name}</td>
+                          <td class="botDetailHover">
+                            {s.Name}
+                            <div class="hoverInfo">
+                              <p>
+                                Ticker: {s.Ticker} <br>
+                                Size: {s.AccountSizePercToTrade} <br>
+                                Risk: {s.AccountRiskPercPerTrade}<br>
+                                Leverage: {s.Leverage} <br>
+                              </p>
+                            </div>
+                          </td>
                         {/if}
                       {/each}
                     {:else}
                       {#each user.bots as b}
                         {#if t.BotID == b.KEY}
-                          <td on:mouseenter={() => {console.log("ENTER")}}>{b.Name}</td>
+                          <td class="botDetailHover">
+                            {b.Name}
+                            <div class="hoverInfo">
+                              <p>
+                                Ticker: {b.Ticker} <br>
+                                Size: {b.AccountSizePercToTrade} <br>
+                                Risk: {b.AccountRiskPercPerTrade}<br>
+                                Leverage: {b.Leverage} <br>
+                              </p>
+                            </div>
+                          </td>
                         {/if}
                       {/each}
                     {/if}
@@ -416,21 +433,17 @@
                 <td>{groupedView[key][0].Ticker}</td>
                 <td>-</td>
                 <td>-</td>
-                {#if snapShots
-                  .map((x) => {
-                    return x.KEY;
-                  })
-                  .includes(groupedView[key][0].BotID)}
+                {#if snapShots.map((x) => {return x.KEY;}).includes(groupedView[key][0].BotID)}
                   {#each snapShots as s}
                     {#if groupedView[key][0].BotID == s.KEY}
-                      <td on:mouseenter={() => {console.log("ENTER")}}>
+                      <td class="botDetailHover">
                         {s.Name}
                         <div class="hoverInfo">
                           <p>
-                            Ticker: BTC/USDT <br>
-                            Ticker: BTC/USDT <br>
-                            Ticker: BTC/USDT <br>
-                            Ticker: BTC/USDT <br>
+                            Ticker: {s.Ticker} <br>
+                            Size: {s.AccountSizePercToTrade} <br>
+                            Risk: {s.AccountRiskPercPerTrade}<br>
+                            Leverage: {s.Leverage} <br>
                           </p>
                         </div>
                       </td>
@@ -439,7 +452,17 @@
                 {:else}
                   {#each user.bots as b}
                     {#if b.KEY == groupedView[key][0].BotID}
-                      <td on:mouseenter={() => {console.log("ENTER")}}>{b.Name}</td>
+                      <td class="botDetailHover">
+                        {b.Name}
+                        <div class="hoverInfo">
+                          <p>
+                            Ticker: {b.Ticker} <br>
+                            Size: {b.AccountSizePercToTrade} <br>
+                            Risk: {b.AccountRiskPercPerTrade}<br>
+                            Leverage: {b.Leverage} <br>
+                          </p>
+                        </div>
+                      </td>
                     {/if}
                   {/each}
                 {/if}
@@ -642,18 +665,25 @@
   }
 
   .hoverInfo {
-    position: absolute;
-    margin-top: -5rem;
-    margin-left: 6rem;
-    width: fit-content;
-    border-radius: 7px;
-    background-color: $blood;
-    opacity: 0.75;
-    color: $cream;
+      display: none;
+  }
+  
+  .botDetailHover:hover {
+    .hoverInfo {
+      display: block;
+      position: absolute;
+      margin-top: -5rem;
+      margin-left: 6rem;
+      width: fit-content;
+      border-radius: 7px;
+      background-color: $blood;
+      opacity: 0.75;
+      color: $cream;
 
-    p {
-      font-size: 0.75rem;
-      margin: 0.75rem;
+      p {
+        font-size: 0.75rem;
+        margin: 0.75rem;
+      }
     }
   }
 </style>
