@@ -191,15 +191,6 @@
 <div id="tradeHistory">
   <div class="container-fluid">
     <h1>Trade History</h1>
-    <button
-      type="button"
-      class="tooltipBtn"
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="This is a tooltip"
-    >
-      Tooltip on top
-    </button>
     <div class="row options">
       <div class="col-sm-7 col-md-4">
         <div id="filterMenu">
