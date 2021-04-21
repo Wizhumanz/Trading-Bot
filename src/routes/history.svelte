@@ -1,5 +1,6 @@
 <script>
   import { storeUser, storeAppTheme } from "../../store.js";
+  import axios from "axios";
 
   let appThemeIsDark = false;
   let view = "grouped";
@@ -15,6 +16,8 @@
   let searchTicker = ""
   let searchSize = null
   let user = {};
+  let snapShots = []
+  let url = "https://ana-api.myika.co"
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -106,6 +109,62 @@
     }
   }
 
+  let unoriginalTrades = []
+
+  function getAllUserTrades() {
+    if (user.trades) {
+      user.trades.forEach((x) => {
+        if (!user.bots.map(b => b.KEY).includes(x.BotID) ) {
+          unoriginalTrades.push(x.BotID)
+        }
+      })
+    }
+    console.log(unoriginalTrades)
+
+    if (unoriginalTrades.length !== 0) {
+      getSnapShotBot()
+    }
+  }
+  
+  getAllUserTrades()
+ 
+  function getSnapShotBot() {
+    //return new Promise((resolve, reject) => {
+      //botIDs.forEach((id) => {
+        //build query string with all IDs
+        let snapShotURLSet = new Set(unoriginalTrades)
+        let snapShotURLArr = [...snapShotURLSet]
+        let snapShotURL = snapShotURLArr[0]
+
+        snapShotURLArr.forEach((id, index) => {
+          if (index != 0) {
+            snapShotURL = snapShotURL + "+" + id;
+          }
+        });
+        const hds = {
+          // "Content-Type": "application/json",
+          Authorization: user.password,
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        }
+        axios
+          .get(url + "/bot?user=" + user.id + "&ids=" + snapShotURL, {
+            headers: hds,
+            mode: "cors",
+          })
+          .then((res) => {
+            snapShots = res.data
+            console.log(snapShots)
+            //console.log(snapShots.map((x) => {return x.KEY}))
+          })
+          .catch((error) => {
+            console.log(error.response);
+          });
+      //});
+    //})
+  }
+
   // Number of trade actions for each view options
   //&& ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))
   $: for (let key in groupedView) {
@@ -132,6 +191,7 @@
       }
     });
   }
+  console.log(groupedView)
 </script>
 
 <div id="tradeHistory">
@@ -318,11 +378,19 @@
                     {:else}
                       <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
                     {/if}
-                    {#each user.bots as b}
-                      {#if b.KEY == t.BotID}
-                        <td>{b.Name}</td>
-                      {/if}
-                    {/each}
+                    {#if snapShots.map((x) => {return x.KEY}).includes(t.BotID)}
+                      {#each snapShots as s}
+                        {#if t.BotID == s.KEY}
+                          <td>{s.Name}</td>
+                        {/if}
+                      {/each}
+                    {:else}
+                      {#each user.bots as b}
+                        {#if t.BotID == b.KEY}
+                          <td>{b.Name}</td>
+                        {/if}
+                      {/each}
+                    {/if}
                     <td>{t.AggregateID}</td>
                     {#each user.exchanges as e}
                       {#if e.KEY == t.Exchange}
@@ -348,11 +416,19 @@
                 <td>{groupedView[key][0].Ticker}</td>
                 <td>-</td>
                 <td>-</td>
-                {#each user.bots as b}
-                  {#if b.KEY == groupedView[key][0].BotID}
-                    <td>{b.Name}</td>
-                  {/if}
-                {/each}
+                <!-- {#if snapShots.map((x) => {return x.KEY}).includes(groupedView[key][0].BotID)}
+                  {#each snapShots as s}
+                    {#if groupedView[key][0].BotID == s.KEY}
+                      <td>{s.Name}</td>
+                    {/if}
+                  {/each}
+                {:else} -->
+                  {#each user.bots as b}
+                    {#if b.KEY == groupedView[key][0].BotID}
+                      <td>{b.Name}</td>
+                    {/if}
+                  {/each}
+                <!-- {/if} -->
                 <td>{groupedView[key][0].AggregateID}</td>
                 {#each user.exchanges as e}
                   {#if e.KEY == groupedView[key][0].Exchange}
@@ -385,11 +461,19 @@
                             >{timestampTA[key][tradeAction.Timestamp]}</td
                           >
                         {/if}
-                        {#each user.bots as b}
-                          {#if b.KEY == tradeAction.BotID}
-                            <td class="expanded-row">{b.Name}</td>
-                          {/if}
-                        {/each}
+                        {#if snapShots.map((x) => {return x.KEY}).includes(tradeAction.BotID)}
+                          {#each snapShots as s}
+                            {#if tradeAction.BotID == s.KEY}
+                              <td class="expanded-row">{s.Name}</td>
+                            {/if}
+                          {/each}
+                        {:else}
+                          {#each user.bots as b}
+                            {#if b.KEY == tradeAction.BotID}
+                              <td class="expanded-row">{b.Name}</td>
+                            {/if}
+                          {/each}
+                        {/if}
                         <td class="expanded-row">{tradeAction.AggregateID}</td>
                         {#each user.exchanges as e}
                           {#if e.KEY == tradeAction.Exchange}
