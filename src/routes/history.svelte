@@ -187,6 +187,9 @@
 <div id="tradeHistory">
   <div class="container-fluid">
     <h1>Trade History</h1>
+    <div class="tooltip" style="color: white;">Hover over me
+      <span class="tooltiptext">Tooltip text</span>
+    </div>
     <div class="row options">
       <div class="col-sm-7 col-md-4">
         <div id="filterMenu">
@@ -611,5 +614,42 @@
 
   .expanded-row {
     background-color: $blue;
+  }
+  
+  //hovering effect
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+  }
+
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
   }
 </style>
