@@ -19,16 +19,6 @@
   let snapShots = []
   let url = "https://ana-api.myika.co"
 
-  storeUser.subscribe((newValue) => {
-    if (newValue) {
-      user = JSON.parse(newValue);
-      if (user.trades) {
-        viewOptionsHandler(groupedView)
-        console.log("working")
-      }
-    }
-  });
-
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
   });
