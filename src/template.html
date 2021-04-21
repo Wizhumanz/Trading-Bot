@@ -60,48 +60,17 @@
 </body>
 
 <script type="text/javascript">
-  import axios from "axios";
 
   // Create an instance of the Stripe object with your publishable API key
   var stripe = Stripe("pk_test_51IDiEqIjS4SHzVxyZaFe4Dbi2W8pJqwETi9uwGwzhSjfRHQxQDGlFjTPuD67Ua6ehBn37helHRPNKtNRRDhuI9yR00AoEQ3IM1");
   var checkoutButton = document.getElementById("checkout-button");
 
   checkoutButton.addEventListener("click", function () {
-    // fetch("http://localhost:8000/create-checkout-session", {
-    //   method: "POST",
-    //   mode: "cors",
-    //   headers: {Authorization: "sk_test_51IDiEqIjS4SHzVxyreZ8FjYJLU9DkBhK0ilRjCDJ9q4pTzHNJZ3rE79E0RY8rZzAJVsqMzhaki83AbHO4zOYvtFB00FxM7Tid0"}
-    // })
-    //   .then(function (response) {
-    //     return response.json();
-    //   })
-    //   .then(function (session) {
-    //     return stripe.redirectToCheckout({ sessionId: session.id });
-    //   })
-    //   .then(function (result) {
-    //     // If redirectToCheckout fails due to a browser or network
-    //     // error, you should display the localized error message to your
-    //     // customer using error.message.
-    //     if (result.error) {
-    //       alert(result.error.message);
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     console.error("Error:", error);
-    //   });
-
-    const hds = {
-    "Cache-Control": "no-cache",
-    Pragma: "no-cache",
-    Expires: "0",
-    };
-    axios
-      .post("http://localhost:8000/create-checkout-session", {
-        headers: hds,
-        email: userLogin.email,
-        password: userLogin.password,
-        mode: "cors",
-      })
+    console.log("hello")
+    fetch("http://localhost:8000/create-checkout-session", {
+      method: "POST",
+      mode: "cors",
+    })
       .then(function (response) {
         return response.json();
       })
@@ -116,9 +85,37 @@
           alert(result.error.message);
         }
       })
-      .catch((error) => {
+      .catch(function (error) {
         console.error("Error:", error);
       });
+
+    // const hds = {
+    // "Cache-Control": "no-cache",
+    // Pragma: "no-cache",
+    // Expires: "0",
+    // };
+    // axios
+    //   .post("http://localhost:8000/create-checkout-session", {
+    //     headers: hds,
+    //     mode: "cors",
+    //   })
+    //   .then(function (response) {
+    //     return response.json();
+    //   })
+    //   .then(function (session) {
+    //     return stripe.redirectToCheckout({ sessionId: session.id });
+    //   })
+    //   .then(function (result) {
+    //     // If redirectToCheckout fails due to a browser or network
+    //     // error, you should display the localized error message to your
+    //     // customer using error.message.
+    //     if (result.error) {
+    //       alert(result.error.message);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //   });
   });
 </script>
 
