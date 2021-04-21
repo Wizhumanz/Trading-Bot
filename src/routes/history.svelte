@@ -406,19 +406,19 @@
                 <td>{groupedView[key][0].Ticker}</td>
                 <td>-</td>
                 <td>-</td>
-                <!-- {#if snapShots.map((x) => {return x.KEY}).includes(groupedView[key][0].BotID)}
+                {#if snapShots.map((x) => {return x.KEY}).includes(groupedView[key][0].BotID)}
                   {#each snapShots as s}
                     {#if groupedView[key][0].BotID == s.KEY}
                       <td>{s.Name}</td>
                     {/if}
                   {/each}
-                {:else} -->
+                {:else}
                   {#each user.bots as b}
                     {#if b.KEY == groupedView[key][0].BotID}
                       <td>{b.Name}</td>
                     {/if}
                   {/each}
-                <!-- {/if} -->
+                {/if}
                 <td>{groupedView[key][0].AggregateID}</td>
                 {#each user.exchanges as e}
                   {#if e.KEY == groupedView[key][0].Exchange}
