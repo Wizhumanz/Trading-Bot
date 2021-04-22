@@ -255,8 +255,8 @@
         }
       });
       axios
-        .get(url + "/webhook?ids=" + webhookURL, {
-          headers: header(false),
+        .get(url + "/webhook?user=" + user.id + "&ids=" + webhookURL, {
+          headers: header(true),
           mode: "cors",
         })
         .then((res) => {
