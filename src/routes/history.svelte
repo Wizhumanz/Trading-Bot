@@ -187,6 +187,7 @@
       }
     });
   }
+  console.log(timestampTA)
 </script>
 
 <div id="tradeHistory">
@@ -364,14 +365,23 @@
                     <td>{t.Ticker}</td>
                     <td>{t.Size}</td>
                     {#if timestampTA[t.AggregateID][t.Timestamp].includes("Around")}
-                      <td
-                        >{t.Timestamp.substring(
-                          0,
-                          t.Timestamp.indexOf("+")
-                        ).replaceAll("_", " ")}</td
-                      >
+                      <td class="timeDetailHover">
+                        {t.Timestamp.substring(0,t.Timestamp.indexOf("+")).replaceAll("_", " ")}
+                        <div class="hoverInfo">
+                          <p>
+                            {timestampTA[t.AggregateID][t.Timestamp]}
+                          </p>
+                        </div>
+                      </td>
                     {:else}
-                      <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
+                      <td class="timeDetailHover">
+                        {timestampTA[t.AggregateID][t.Timestamp]}
+                        <div class="hoverInfo">
+                          <p>
+                            {t.Timestamp.substring(0,t.Timestamp.indexOf("+")).replaceAll("_", " ")}
+                          </p>
+                        </div>
+                      </td>
                     {/if}
                     {#if snapShots.map((x) => {return x.KEY;}).includes(t.BotID)}
                       {#each snapShots as s}
@@ -487,16 +497,23 @@
                         <td class="expanded-row">{tradeAction.Ticker}</td>
                         <td class="expanded-row">{tradeAction.Size}</td>
                         {#if timestampTA[key][tradeAction.Timestamp].includes("Around")}
-                          <td class="expanded-row"
-                            >{tradeAction.Timestamp.substring(
-                              0,
-                              tradeAction.Timestamp.indexOf("+")
-                            ).replaceAll("_", " ")}</td
-                          >
+                          <td class="timeDetailHover expanded-row">
+                            {tradeAction.Timestamp.substring(0,tradeAction.Timestamp.indexOf("+")).replaceAll("_", " ")}
+                            <div class="hoverInfo">
+                              <p>
+                                {timestampTA[tradeAction.AggregateID][tradeAction.Timestamp]}
+                              </p>
+                            </div>
+                          </td>
                         {:else}
-                          <td class="expanded-row"
-                            >{timestampTA[key][tradeAction.Timestamp]}</td
-                          >
+                          <td class="timeDetailHover expanded-row">
+                            {timestampTA[key][tradeAction.Timestamp]}
+                            <div class="hoverInfo">
+                              <p>
+                                {tradeAction.Timestamp.substring(0,tradeAction.Timestamp.indexOf("+")).replaceAll("_", " ")}
+                              </p>
+                            </div>
+                          </td>
                         {/if}
                         {#if snapShots
                           .map((x) => {
@@ -505,13 +522,33 @@
                           .includes(tradeAction.BotID)}
                           {#each snapShots as s}
                             {#if tradeAction.BotID == s.KEY}
-                              <td class="expanded-row">{s.Name}</td>
+                              <td class="botDetailHover expanded-row">
+                                {s.Name}
+                                <div class="hoverInfo">
+                                  <p>
+                                    Ticker: {s.Ticker} <br>
+                                    Size: {s.AccountSizePercToTrade} <br>
+                                    Risk: {s.AccountRiskPercPerTrade}<br>
+                                    Leverage: {s.Leverage} <br>
+                                  </p>
+                                </div>
+                              </td>
                             {/if}
                           {/each}
                         {:else}
                           {#each user.bots as b}
                             {#if b.KEY == tradeAction.BotID}
-                              <td class="expanded-row">{b.Name}</td>
+                              <td class="botDetailHover expanded-row">
+                                {b.Name}
+                                <div class="hoverInfo">
+                                  <p>
+                                    Ticker: {b.Ticker} <br>
+                                    Size: {b.AccountSizePercToTrade} <br>
+                                    Risk: {b.AccountRiskPercPerTrade}<br>
+                                    Leverage: {b.Leverage} <br>
+                                  </p>
+                                </div>
+                              </td>
                             {/if}
                           {/each}
                         {/if}
@@ -669,6 +706,25 @@
   }
   
   .botDetailHover:hover {
+    .hoverInfo {
+      display: block;
+      position: absolute;
+      margin-top: -5rem;
+      margin-left: 6rem;
+      width: fit-content;
+      border-radius: 7px;
+      background-color: $blood;
+      opacity: 0.75;
+      color: $cream;
+
+      p {
+        font-size: 0.75rem;
+        margin: 0.75rem;
+      }
+    }
+  }
+
+  .timeDetailHover:hover {
     .hoverInfo {
       display: block;
       position: absolute;
