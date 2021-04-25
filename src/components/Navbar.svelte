@@ -225,6 +225,15 @@
               <li><a class="dropdown-item" href="/bots/all">All</a></li>
             </ul>
           </li>
+          <li class="nav-item">
+            <!-- svelte-ignore a11y-missing-attribute -->
+            <a
+              class="nav-link active"
+              class:dark={appThemeIsDark}
+              href="/analytics">
+              <i class="bi bi-graph-up"></i>
+            </a>
+          </li>
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
