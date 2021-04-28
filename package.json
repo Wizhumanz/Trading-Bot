@@ -10,8 +10,11 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
+    "@sveltejs/pancake": "0.0.17",
     "axios": "^0.21.1",
     "compression": "^1.7.1",
+    "d3": "^6.7.0",
+    "layercake": "^4.1.0",
     "polka": "next",
     "postcss-scss": "^3.0.5",
     "sirv": "^1.0.0",
