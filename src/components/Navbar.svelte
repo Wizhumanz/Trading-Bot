@@ -166,6 +166,15 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <select
+            class="form-select"
+            class:dark={appThemeIsDark}
+          >
+            <option value="">GMT+8</option>
+            <option value="">GMT+9</option>
+          </select>
+        </li>
         {#if email}
           <li class="nav-item">
             <!-- svelte-ignore a11y-missing-attribute -->
@@ -340,6 +349,11 @@
     color: $cream;
     position: relative;
     z-index: 100;
+  }
+
+  select {
+    all: unset;
+    width: 250px;
   }
 
   .inactiveIconBtn {
