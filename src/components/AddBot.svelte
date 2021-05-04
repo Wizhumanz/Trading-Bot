@@ -39,6 +39,12 @@
     exchange = "";
   }
 
+  function createNewDate() {
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    return today.toISOString().slice(0,today.toISOString().indexOf(".")+1).concat("+0000").replace("T","_").replace(".","_")
+  }
+
   function createNewWebhookConnection() {
     return new Promise((resolve, reject) => {
       const hds = {
@@ -86,6 +92,7 @@
       Leverage: leverage.toString(),
       Ticker: newTicker,
       WebhookConnectionID: strategySelect,
+      CreationDate: createNewDate()
     };
 
     if (strategySelect !== "custom") {
