@@ -369,7 +369,11 @@
                 <div class="row">
                   <div class="col-7">Exchange</div>
                   <div class="col-5 lowkey-val-col">
-                    {bot.ExchangeConnection}
+                    {#each user.exchanges as e}
+                      {#if e.KEY == bot.ExchangeConnection}
+                        {e.Name}
+                      {/if}
+                    {/each}
                   </div>
                 </div>
                 <div class="row">
