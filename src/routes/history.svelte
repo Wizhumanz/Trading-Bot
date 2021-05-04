@@ -1,8 +1,9 @@
 <script>
-  import { storeUser, storeAppTheme } from "../../store.js";
+  import { storeUser, storeAppTheme, selectedGMT } from "../../store.js";
   import axios from "axios";
 
   let appThemeIsDark = false;
+  let timezone
   let view = "grouped";
   let groupedView = {};
   let numOfTradeAction = {};
@@ -24,18 +25,20 @@
     appThemeIsDark = newVal === "dark";
   });
 
+  selectedGMT.subscribe((newVal) => {
+    timezone = newVal
+  })
+
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
-      console.log(user.trades)
       if (user.trades) {
         if (user.trades.length > 0) {
           viewOptionsHandler();
-          console.log("working")
+
           noTA = false
         } else {
           noTA = true
-          console.log("kms")
         }
       }
     }
@@ -71,7 +74,6 @@
       return "Around " + Math.round(diff / ms_Yr) + " years ago";
     }
   }
-
   function viewOptionsHandler() {
     //logic for grouped view
     user.trades.forEach((v) => {
@@ -85,6 +87,7 @@
     timestampLogic();
   }
 
+
   function timestampLogic() {
     for (let key in groupedView) {
       let dict = {};
@@ -96,6 +99,13 @@
       });
       timestampTA[key] = dict;
     }
+  }
+
+  function convertGMT(timestamp,timezone) {
+    let convertTime = Date.parse(timestamp.replaceAll("_", " "))
+    let changeTime = new Date((convertTime + 3600000*timezone)).toUTCString()
+    let cleanTime = changeTime.substring(0,changeTime.indexOf("G")-1)
+    return cleanTime
   }
 
   function showHideHistoryHandler(aggID) {
@@ -117,7 +127,6 @@
         }
       });
     }
-    console.log(unoriginalTrades);
 
     if (unoriginalTrades.length !== 0) {
       getSnapShotBot();
@@ -193,7 +202,6 @@
       }
     });
   }
-  console.log(timestampTA)
 </script>
 
 <div id="tradeHistory">
@@ -375,7 +383,7 @@
                       <td>{t.Size}</td>
                       {#if timestampTA[t.AggregateID][t.Timestamp].includes("Around")}
                         <td class="timeDetailHover">
-                          {t.Timestamp.substring(0,t.Timestamp.indexOf("+")).replaceAll("_", " ")}
+                          {convertGMT(t.Timestamp,timezone)}
                           <div class="hoverInfo">
                             <p>
                               {timestampTA[t.AggregateID][t.Timestamp]}
@@ -387,7 +395,7 @@
                           {timestampTA[t.AggregateID][t.Timestamp]}
                           <div class="hoverInfo">
                             <p>
-                              {t.Timestamp.substring(0,t.Timestamp.indexOf("+")).replaceAll("_", " ")}
+                              {convertGMT(t.Timestamp,timezone)}
                             </p>
                           </div>
                         </td>
@@ -507,7 +515,7 @@
                           <td class="expanded-row">{tradeAction.Size}</td>
                           {#if timestampTA[key][tradeAction.Timestamp].includes("Around")}
                             <td class="timeDetailHover expanded-row">
-                              {tradeAction.Timestamp.substring(0,tradeAction.Timestamp.indexOf("+")).replaceAll("_", " ")}
+                              {convertGMT(tradeAction.Timestamp,timezone)}
                               <div class="hoverInfo">
                                 <p>
                                   {timestampTA[tradeAction.AggregateID][tradeAction.Timestamp]}
@@ -519,7 +527,7 @@
                               {timestampTA[key][tradeAction.Timestamp]}
                               <div class="hoverInfo">
                                 <p>
-                                  {tradeAction.Timestamp.substring(0,tradeAction.Timestamp.indexOf("+")).replaceAll("_", " ")}
+                                  {convertGMT(tradeAction.Timestamp,timezone)}
                                 </p>
                               </div>
                             </td>
