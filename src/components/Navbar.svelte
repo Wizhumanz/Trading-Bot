@@ -1,21 +1,23 @@
 <script>
   import { goto } from "@sapper/app";
   import { onMount } from "svelte";
-  import { storeUser, storeAppTheme } from "../../store.js";
+  import { storeUser, storeAppTheme, selectedGMT } from "../../store.js";
   import axios from "axios";
+  import { each } from "svelte/internal";
 
   //global vars
   let appThemeIsDark = false;
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
   });
-
+  let selected = 0
   let user = {};
   var email = storeUser ? storeUser.email : null;
   var userID = storeUser ? storeUser.id : null;
   let socket;
   let displaySocketIsClosed = true;
   let wsConnLoading = false;
+  $: selectedGMT.set(JSON.stringify(selected));
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -143,6 +145,14 @@
       console.log("Msg from Binance stream: " + msg.data);
     };
   }
+
+  function range(start, end) {
+    var ans = [];
+    for (let i = start; i <= end; i++) {
+        ans.push(i);
+    }
+    return ans;
+  }
 </script>
 
 <nav
@@ -167,12 +177,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <select
-            class="form-select"
-            class:dark={appThemeIsDark}
-          >
-            <option value="">GMT+8</option>
-            <option value="">GMT+9</option>
+          <select bind:value={selected} class="form-select" class:dark={appThemeIsDark}>
+            {#each range(-12,12) as gmt}
+              <option value={gmt}>GMT{gmt}</option>
+            {/each}
           </select>
         </li>
         {#if email}

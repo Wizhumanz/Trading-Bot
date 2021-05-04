@@ -21,3 +21,13 @@ storeAppTheme.subscribe(value => {
     localStorage.setItem("theme", value);
   }
 });
+
+var gmt = (typeof window !== 'undefined') && (localStorage.getItem("gmt"))
+  ? localStorage.getItem("gmt")
+  : "";
+export var selectedGMT = writable(gmt)
+storeAppTheme.subscribe(value => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem("gmt", value);
+  }
+});
