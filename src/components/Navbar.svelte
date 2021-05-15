@@ -27,6 +27,8 @@
     }
   });
 
+  let chartmasterURL = `http://127.0.0.1:5500/index.html?user=${userID}`
+
   //functions
 
   onMount(() => {
@@ -203,6 +205,13 @@
             </a>
           </li>
         {/if}
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            class:dark={appThemeIsDark}
+            href={chartmasterURL}>Chartmaster</a
+          >
+        </li>
         <li class="nav-item">
           <a
             class="nav-link active"
