@@ -10,7 +10,7 @@
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
   });
-  let selected = 0
+  let selected = 0;
   let user = {};
   var email = storeUser ? storeUser.email : null;
   var userID = storeUser ? storeUser.id : null;
@@ -18,6 +18,33 @@
   let displaySocketIsClosed = true;
   let wsConnLoading = false;
   $: selectedGMT.set(JSON.stringify(selected));
+  let gmtLocales = {
+    "-12": "Eniwetok, Kwaialein",
+    "-11": "Midway Island, Samoa, New Zealand",
+    "-10": "Hawaii, Honolulue",
+    "-9": "Alaska",
+    "-8": "Anchorage, San Francisco, Vancouver",
+    "-7": "Alberta, Denver, Edmonton, Salt Lake City",
+    "-6": "Chicago, Mexico City, Winnipeg",
+    "-5": "Boston, Montreal, New York",
+    "-4": "Caracas, Labrador",
+    "-3": "Buenos Aires, Rio de Janeiro",
+    "-2": "Mid-Atlantic",
+    "-1": "Azores, Cape Verde",
+    "0": "London",
+    "1": "Amsterdam, Berlin, Warsaw",
+    "2": "Cairo, Cape Town",
+    "3": "Moscow, St. Petersburg, Riyadh",
+    "4": "Abu Dhabi, Volgograd",
+    "5": "New Delhi",
+    "6": "Kathmandu, Sri Lanka",
+    "7": "Bangkok, Hanoi, Jakarta",
+    "8": "Penang, Singapore, Beijing, Perth",
+    "9": "광주시 (경기도), Seoul, Yakutsk",
+    "10": "Хабаровск, Melbourne, Vladivostok",
+    "11": "Magadan, New Caledonia",
+    "12": "Auckland, Samoa, Fiji",
+  };
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
@@ -27,7 +54,7 @@
     }
   });
 
-  let chartmasterURL = `http://127.0.0.1:5500/index.html?user=${userID}`
+  let chartmasterURL = `http://127.0.0.1:5500/index.html?user=${userID}`;
 
   //functions
 
@@ -151,7 +178,7 @@
   function range(start, end) {
     var ans = [];
     for (let i = start; i <= end; i++) {
-        ans.push(i);
+      ans.push(i);
     }
     return ans;
   }
@@ -179,9 +206,17 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <select bind:value={selected} class="form-select" class:dark={appThemeIsDark}>
-            {#each range(-12,12) as gmt}
-              <option value={gmt}>GMT{gmt}</option>
+          <select
+            bind:value={selected}
+            class="form-select"
+            class:dark={appThemeIsDark}
+          >
+            {#each range(-12, 12) as gmtNum}
+              <option value={gmtNum}
+                >GMT{gmtNum.toString()[0] === "-"
+                  ? gmtNum
+                  : "+" + gmtNum} {gmtLocales[gmtNum.toString()]}</option
+              >
             {/each}
           </select>
         </li>
