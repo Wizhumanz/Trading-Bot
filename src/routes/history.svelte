@@ -1,10 +1,12 @@
 <script>
-  import { storeUser, storeAppTheme } from "../../store.js";
+  import { storeUser, storeAppTheme, selectedGMT } from "../../store.js";
+  import axios from "axios";
 
+  let appThemeIsDark = false;
+  let timezone
   let view = "grouped";
   let groupedView = {};
   let numOfTradeAction = {};
-  let user = {};
   let timestampTA = {};
   let whichKey = [];
   let showLong = true;
@@ -12,22 +14,34 @@
   let showOpen = true;
   let showClose = true;
   let showUpdate = true;
-  let searchTicker = ""
-  let searchSize = ""
+  let searchTicker = "";
+  let searchSize = null;
+  let user = {};
+  let snapShots = [];
+  let noTA = false
+  let url = "https://ana-api.myika.co";
+
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
+
+  selectedGMT.subscribe((newVal) => {
+    timezone = newVal
+  })
 
   storeUser.subscribe((newValue) => {
     if (newValue) {
       user = JSON.parse(newValue);
       if (user.trades) {
-        viewOptionsHandler()
-        console.log("working")
+        if (user.trades.length > 0) {
+          viewOptionsHandler();
+
+          noTA = false
+        } else {
+          noTA = true
+        }
       }
     }
-  });
-
-  let appThemeIsDark = false;
-  storeAppTheme.subscribe((newVal) => {
-    appThemeIsDark = newVal === "dark";
   });
 
   function timeDiff(curr, prev) {
@@ -70,7 +84,11 @@
       }
     });
 
-    //logic for timestamp
+    timestampLogic();
+  }
+
+
+  function timestampLogic() {
     for (let key in groupedView) {
       let dict = {};
       groupedView[key].forEach((v) => {
@@ -83,7 +101,76 @@
     }
   }
 
- 
+  function convertGMT(timestamp,timezone) {
+    let convertTime = Date.parse(timestamp.replaceAll("_", " "))
+    let changeTime = new Date((convertTime + 3600000*timezone)).toUTCString()
+    let cleanTime = changeTime.substring(0,changeTime.indexOf("G")-1)
+    return cleanTime
+  }
+
+  function showHideHistoryHandler(aggID) {
+    if (whichKey.includes(aggID)) {
+      delete whichKey[whichKey.indexOf(aggID)];
+      whichKey = whichKey;
+    } else {
+      whichKey = [...whichKey, aggID];
+    }
+  }
+
+  let unoriginalTrades = [];
+
+  function getAllUserTrades() {
+    if (user.trades) {
+      user.trades.forEach((x) => {
+        if (!user.bots.map((b) => b.KEY).includes(x.BotID)) {
+          unoriginalTrades.push(x.BotID);
+        }
+      });
+    }
+
+    if (unoriginalTrades.length !== 0) {
+      getSnapShotBot();
+    }
+  }
+
+  getAllUserTrades();
+
+  function getSnapShotBot() {
+    //return new Promise((resolve, reject) => {
+    //botIDs.forEach((id) => {
+    //build query string with all IDs
+    let snapShotURLSet = new Set(unoriginalTrades);
+    let snapShotURLArr = [...snapShotURLSet];
+    let snapShotURL = snapShotURLArr[0];
+
+    snapShotURLArr.forEach((id, index) => {
+      if (index != 0) {
+        snapShotURL = snapShotURL + "+" + id;
+      }
+    });
+    const hds = {
+      // "Content-Type": "application/json",
+      Authorization: user.password,
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    };
+    axios
+      .get(url + "/bot?user=" + user.id + "&ids=" + snapShotURL, {
+        headers: hds,
+        mode: "cors",
+      })
+      .then((res) => {
+        snapShots = res.data;
+        console.log(snapShots);
+        //console.log(snapShots.map((x) => {return x.KEY}))
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+    //});
+    //})
+  }
 
   // Number of trade actions for each view options
   //&& ((v.Direction === "LONG" && showLong) || (v.Direction === "SHORT" && showShort))
@@ -104,21 +191,16 @@
           (v.Direction === "LONG" && showLong) ||
           (v.Direction === "SHORT" && showShort)
         ) {
-          if ((v.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (v.Size == searchSize || searchSize ==  "")) {
+          if (
+            (v.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) ||
+              searchTicker == "") &&
+            (v.Size == searchSize || searchSize === null)
+          ) {
             numOfTradeAction[key] = num += 1;
           }
         }
       }
     });
-  }
-
-  function showHideHistoryHandler(aggID) {
-    if (whichKey.includes(aggID)) {
-      delete whichKey[whichKey.indexOf(aggID)];
-      whichKey = whichKey;
-    } else {
-      whichKey = [...whichKey, aggID];
-    }
   }
 </script>
 
@@ -154,7 +236,7 @@
             </div>
             <div class="col-4">
               <input
-                type="search"
+                type="number"
                 placeholder="Search order size"
                 class:dark={appThemeIsDark}
                 aria-label="Search order size"
@@ -277,97 +359,231 @@
           <th scope="col">Ticker</th>
           <th scope="col">Size</th>
           <th scope="col">Timestamp</th>
-          <th scope="col">BotID</th>
+          <th scope="col">Bot</th>
           <th scope="col">AggregateID</th>
           <th scope="col">Exchange</th>
           <th scope="col">Trade Direction</th>
         </tr>
       </thead>
       <tbody>
-        {#if view === "log"}
-          {#each user.trades.sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as t}
-            <!--
-          {#if (!t.Action.toLowerCase().includes("enter") || !t.Action.toLowerCase().includes("exit") && showUpdate)}
-          -->
-            {#if (t.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (t.Size == searchSize || searchSize ==  "")}
-              {#if (t.Action.toLowerCase().includes("enter") && showOpen) || (t.Action.toLowerCase().includes("exit") && showClose) || (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
-                {#if (t.Direction === "LONG" && showLong) || (t.Direction === "SHORT" && showShort)}
-                  <tr class:dark={appThemeIsDark}>
-                    <td>{t.Action}</td>
-                    <td>{t.Ticker}</td>
-                    <td>{t.Size}</td>
-                    {#if timestampTA[t.AggregateID][t.Timestamp].includes("Around")}
-                      <td
-                        >{t.Timestamp.substring(
-                          0,
-                          t.Timestamp.indexOf("+")
-                        ).replaceAll("_", " ")}</td
-                      >
-                    {:else}
-                      <td>{timestampTA[t.AggregateID][t.Timestamp]}</td>
-                    {/if}
-                    <td>{t.BotID}</td>
-                    <td>{t.AggregateID}</td>
-                    <td>{t.Exchange}</td>
-                    <td>{t.Direction}</td>
-                  </tr>
-                {/if}
-              {/if}
-            {/if}
-          {/each}
-        {:else if view === "grouped"}
-          {#each Object.keys(groupedView).sort(function (a, b) {return b - a}) as key}
-            {#if numOfTradeAction[key] !== 0}
-              <tr
-                class:dark={appThemeIsDark}
-                on:click={showHideHistoryHandler(
-                  groupedView[key][0].AggregateID
-                )}
-              >
-                <td>({groupedView[key].length}) {numOfTradeAction[key]}</td>
-                <td>{groupedView[key][0].Ticker}</td>
-                <td>-</td>
-                <td>-</td>
-                <td>{groupedView[key][0].BotID}</td>
-                <td>{groupedView[key][0].AggregateID}</td>
-                <td>{groupedView[key][0].Exchange}</td>
-                <td>{groupedView[key][0].Direction}</td>
-              </tr>
-            {/if}
-            <!-- if the row is expanded -->
-            {#each groupedView[key].sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as tradeAction}
-              <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
-              {#if (tradeAction.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker ==  "") && (tradeAction.Size == searchSize || searchSize ==  "")}
-                {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
-                  {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
-                    {#if whichKey.includes(key)}
-                      <tr class:dark={appThemeIsDark}>
-                        <td class="expanded-row">{tradeAction.Action}</td>
-                        <td class="expanded-row">{tradeAction.Ticker}</td>
-                        <td class="expanded-row">{tradeAction.Size}</td>
-                        {#if timestampTA[key][tradeAction.Timestamp].includes("Around")}
-                          <td class="expanded-row"
-                            >{tradeAction.Timestamp.substring(
-                              0,
-                              tradeAction.Timestamp.indexOf("+")
-                            ).replaceAll("_", " ")}</td
-                          >
-                        {:else}
-                          <td class="expanded-row"
-                            >{timestampTA[key][tradeAction.Timestamp]}</td
-                          >
+        {#if noTA}
+        <h2 style="color:white;" class="container-fluid">No Trade Action Exists.</h2>
+        {:else}
+          {#if view === "log"}
+            {#each user.trades.sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as t}
+              <!--
+            {#if (!t.Action.toLowerCase().includes("enter") || !t.Action.toLowerCase().includes("exit") && showUpdate)}
+            -->
+              {#if (t.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker == "") && (t.Size == searchSize || searchSize === null)}
+                {#if (t.Action.toLowerCase().includes("enter") && showOpen) || (t.Action.toLowerCase().includes("exit") && showClose) || (!t.Action.toLowerCase().includes("enter") && !t.Action.toLowerCase().includes("exit") && showUpdate)}
+                  {#if (t.Direction === "LONG" && showLong) || (t.Direction === "SHORT" && showShort)}
+                    <tr class:dark={appThemeIsDark}>
+                      <td>{t.Action}</td>
+                      <td>{t.Ticker}</td>
+                      <td>{t.Size}</td>
+                      {#if timestampTA[t.AggregateID][t.Timestamp].includes("Around")}
+                        <td class="timeDetailHover">
+                          {convertGMT(t.Timestamp,timezone)}
+                          <div class="hoverInfo">
+                            <p>
+                              {timestampTA[t.AggregateID][t.Timestamp]}
+                            </p>
+                          </div>
+                        </td>
+                      {:else}
+                        <td class="timeDetailHover">
+                          {timestampTA[t.AggregateID][t.Timestamp]}
+                          <div class="hoverInfo">
+                            <p>
+                              {convertGMT(t.Timestamp,timezone)}
+                            </p>
+                          </div>
+                        </td>
+                      {/if}
+                      {#if snapShots.map((x) => {return x.KEY;}).includes(t.BotID)}
+                        {#each snapShots as s}
+                          {#if t.BotID == s.KEY}
+                            <td class="botDetailHover">
+                              {s.Name}
+                              <div class="hoverInfo">
+                                <p>
+                                  Ticker: {s.Ticker} <br>
+                                  Size: {s.AccountSizePercToTrade} <br>
+                                  Risk: {s.AccountRiskPercPerTrade}<br>
+                                  Leverage: {s.Leverage} <br>
+                                </p>
+                              </div>
+                            </td>
+                          {/if}
+                        {/each}
+                      {:else}
+                        {#each user.bots as b}
+                          {#if t.BotID == b.KEY}
+                            <td class="botDetailHover">
+                              {b.Name}
+                              <div class="hoverInfo">
+                                <p>
+                                  Ticker: {b.Ticker} <br>
+                                  Size: {b.AccountSizePercToTrade} <br>
+                                  Risk: {b.AccountRiskPercPerTrade}<br>
+                                  Leverage: {b.Leverage} <br>
+                                </p>
+                              </div>
+                            </td>
+                          {/if}
+                        {/each}
+                      {/if}
+                      <td>{t.AggregateID}</td>
+                      {#each user.exchanges as e}
+                        {#if e.KEY == t.Exchange}
+                          <td>{e.Name}</td>
                         {/if}
-                        <td class="expanded-row">{tradeAction.BotID}</td>
-                        <td class="expanded-row">{tradeAction.AggregateID}</td>
-                        <td class="expanded-row">{tradeAction.Exchange}</td>
-                        <td class="expanded-row">{tradeAction.Direction}</td>
-                      </tr>
-                    {/if}
+                      {/each}
+                      <td>{t.Direction}</td>
+                    </tr>
                   {/if}
                 {/if}
               {/if}
             {/each}
-          {/each}
+          {:else if view === "grouped"}
+            {#each Object.keys(groupedView).sort(function (a, b) {
+              return b - a;
+            }) as key}
+              {#if numOfTradeAction[key] !== 0}
+                <tr
+                  class:dark={appThemeIsDark}
+                  on:click={showHideHistoryHandler(
+                    groupedView[key][0].AggregateID
+                  )}
+                >
+                  <td>({groupedView[key].length}) {numOfTradeAction[key]}</td>
+                  <td>{groupedView[key][0].Ticker}</td>
+                  <td>-</td>
+                  <td>-</td>
+                  {#if snapShots.map((x) => {return x.KEY;}).includes(groupedView[key][0].BotID)}
+                    {#each snapShots as s}
+                      {#if groupedView[key][0].BotID == s.KEY}
+                        <td class="botDetailHover">
+                          {s.Name}
+                          <div class="hoverInfo">
+                            <p>
+                              Ticker: {s.Ticker} <br>
+                              Size: {s.AccountSizePercToTrade} <br>
+                              Risk: {s.AccountRiskPercPerTrade}<br>
+                              Leverage: {s.Leverage} <br>
+                            </p>
+                          </div>
+                        </td>
+                      {/if}
+                    {/each}
+                  {:else}
+                    {#each user.bots as b}
+                      {#if b.KEY == groupedView[key][0].BotID}
+                        <td class="botDetailHover">
+                          {b.Name}
+                          <div class="hoverInfo">
+                            <p>
+                              Ticker: {b.Ticker} <br>
+                              Size: {b.AccountSizePercToTrade} <br>
+                              Risk: {b.AccountRiskPercPerTrade}<br>
+                              Leverage: {b.Leverage} <br>
+                            </p>
+                          </div>
+                        </td>
+                      {/if}
+                    {/each}
+                  {/if}
+                  <td>{groupedView[key][0].AggregateID}</td>
+                  {#each user.exchanges as e}
+                    {#if e.KEY == groupedView[key][0].Exchange}
+                      <td>{e.Name}</td>
+                    {/if}
+                  {/each}
+                  <td>{groupedView[key][0].Direction}</td>
+                </tr>
+              {/if}
+              <!-- if the row is expanded -->
+              {#each groupedView[key].sort((a, b) => new Date(b.Timestamp.replaceAll("_", " ")).getTime() - new Date(a.Timestamp.replaceAll("_", " ")).getTime()) as tradeAction}
+                <!-- <tr style={showHistory} class:dark={appThemeIsDark}> -->
+                {#if (tradeAction.Ticker.toLowerCase().includes(searchTicker.toLowerCase()) || searchTicker == "") && (tradeAction.Size == searchSize || searchSize === null)}
+                  {#if (tradeAction.Action.toLowerCase().includes("enter") && showOpen) || (tradeAction.Action.toLowerCase().includes("exit") && showClose) || (!tradeAction.Action.toLowerCase().includes("enter") && !tradeAction.Action.toLowerCase().includes("exit") && showUpdate)}
+                    {#if (tradeAction.Direction === "LONG" && showLong) || (tradeAction.Direction === "SHORT" && showShort)}
+                      {#if whichKey.includes(key)}
+                        <tr class:dark={appThemeIsDark}>
+                          <td class="expanded-row">{tradeAction.Action}</td>
+                          <td class="expanded-row">{tradeAction.Ticker}</td>
+                          <td class="expanded-row">{tradeAction.Size}</td>
+                          {#if timestampTA[key][tradeAction.Timestamp].includes("Around")}
+                            <td class="timeDetailHover expanded-row">
+                              {convertGMT(tradeAction.Timestamp,timezone)}
+                              <div class="hoverInfo">
+                                <p>
+                                  {timestampTA[tradeAction.AggregateID][tradeAction.Timestamp]}
+                                </p>
+                              </div>
+                            </td>
+                          {:else}
+                            <td class="timeDetailHover expanded-row">
+                              {timestampTA[key][tradeAction.Timestamp]}
+                              <div class="hoverInfo">
+                                <p>
+                                  {convertGMT(tradeAction.Timestamp,timezone)}
+                                </p>
+                              </div>
+                            </td>
+                          {/if}
+                          {#if snapShots
+                            .map((x) => {
+                              return x.KEY;
+                            })
+                            .includes(tradeAction.BotID)}
+                            {#each snapShots as s}
+                              {#if tradeAction.BotID == s.KEY}
+                                <td class="botDetailHover expanded-row">
+                                  {s.Name}
+                                  <div class="hoverInfo">
+                                    <p>
+                                      Ticker: {s.Ticker} <br>
+                                      Size: {s.AccountSizePercToTrade} <br>
+                                      Risk: {s.AccountRiskPercPerTrade}<br>
+                                      Leverage: {s.Leverage} <br>
+                                    </p>
+                                  </div>
+                                </td>
+                              {/if}
+                            {/each}
+                          {:else}
+                            {#each user.bots as b}
+                              {#if b.KEY == tradeAction.BotID}
+                                <td class="botDetailHover expanded-row">
+                                  {b.Name}
+                                  <div class="hoverInfo">
+                                    <p>
+                                      Ticker: {b.Ticker} <br>
+                                      Size: {b.AccountSizePercToTrade} <br>
+                                      Risk: {b.AccountRiskPercPerTrade}<br>
+                                      Leverage: {b.Leverage} <br>
+                                    </p>
+                                  </div>
+                                </td>
+                              {/if}
+                            {/each}
+                          {/if}
+                          <td class="expanded-row">{tradeAction.AggregateID}</td>
+                          {#each user.exchanges as e}
+                            {#if e.KEY == tradeAction.Exchange}
+                              <td class="expanded-row">{e.Name}</td>
+                            {/if}
+                          {/each}
+                          <td class="expanded-row">{tradeAction.Direction}</td>
+                        </tr>
+                      {/if}
+                    {/if}
+                  {/if}
+                {/if}
+              {/each}
+            {/each}
+          {/if}
         {/if}
       </tbody>
     </table>
@@ -501,5 +717,47 @@
 
   .expanded-row {
     background-color: $blue;
+  }
+
+  .hoverInfo {
+      display: none;
+  }
+  
+  .botDetailHover:hover {
+    .hoverInfo {
+      display: block;
+      position: absolute;
+      margin-top: -5rem;
+      margin-left: 6rem;
+      width: fit-content;
+      border-radius: 7px;
+      background-color: $blood;
+      opacity: 0.75;
+      color: $cream;
+
+      p {
+        font-size: 0.75rem;
+        margin: 0.75rem;
+      }
+    }
+  }
+
+  .timeDetailHover:hover {
+    .hoverInfo {
+      display: block;
+      position: absolute;
+      margin-top: -5rem;
+      margin-left: 6rem;
+      width: fit-content;
+      border-radius: 7px;
+      background-color: $blood;
+      opacity: 0.75;
+      color: $cream;
+
+      p {
+        font-size: 0.75rem;
+        margin: 0.75rem;
+      }
+    }
   }
 </style>

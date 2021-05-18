@@ -8,10 +8,6 @@
 
   // global variables
   let appThemeIsDark = false;
-  storeAppTheme.subscribe((newVal) => {
-    appThemeIsDark = newVal === "dark";
-  });
-
   let user = {};
   let loading = false;
   let newTicker;
@@ -24,7 +20,12 @@
   let updateErrorAlert = "display: none;";
   let showConfirm = false;
   let showConfirmBtn;
-  let groupedView ={}
+  let groupedView = {}
+  let url = "https://ana-api.myika.co"
+
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
 
   $: if (showConfirm) {
     showConfirmBtn = "display: block;";
@@ -96,6 +97,25 @@
     document.execCommand("copy");
   }
 
+  function header(auth) {
+    if (auth) {
+      return {
+        // "Content-Type": "application/json",
+        Authorization: user.password,
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      }
+    } else {
+      return {
+        // "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      };
+    }
+  }
+
   onMount(() => {
     newTicker = bot.Ticker;
     newRiskPerc = bot.AccountRiskPercPerTrade;
@@ -120,8 +140,6 @@
   //post request for Bot
   function toggleBotStatus() {
     loading = true;
-    console.log(typeof(bot.IsActive))
-
     if (typeof(bot.IsActive) == "string"){
       bot.IsActive = (bot.IsActive === "true")? true : false
     }
@@ -149,9 +167,7 @@
     //   loading = false;
     //   return;
     // }
-
     let data = { ...bot };
-    // console.log(data);
     delete data.AggregateID;
     data.IsActive = data.IsActive.toString();
     data.AccountRiskPercPerTrade = data.AccountRiskPercPerTrade.toString();
@@ -159,18 +175,11 @@
     data.Leverage = data.Leverage.toString();
     data.CreationDate = data.Timestamp;
 
-    const hds = {
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-      Authorization: user.password,
-    };
     axios
-      .put(
-        "https://ana-api.myika.co/bot/" + bot.AggregateID + "?user=" + user.id,
+      .put(url + "/bot/" + bot.AggregateID + "?user=" + user.id,
         data,
         {
-          headers: hds,
+          headers: header(true),
           mode: "cors",
         }
       )
@@ -200,16 +209,9 @@
 
   function deleteBot() {
     loading = true;
-    const hds = {
-      //"Content-Type": "application/json",
-      Authorization: user.password,
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-    };
     axios
-      .delete("https://ana-api.myika.co/bot/" + bot.KEY + "?user=" + user.id, {
-        headers: hds,
+      .delete(url + "/bot/" + bot.KEY + "?user=" + user.id, {
+        headers: header(true),
         mode: "cors",
       })
       .then(() => {
@@ -233,13 +235,6 @@
 
   function getPrivateWebhooksInfo() {
     return new Promise((resolve, reject) => {
-      const hds = {
-        //"Content-Type": "application/json",
-        "Cache-Control": "no-cache",
-        Pragma: "no-cache",
-        Expires: "0",
-      };
-
       //get ids of private WebhookConnections
       let privateIDs = [];
       user.bots.forEach((bot) => {
@@ -259,11 +254,9 @@
           webhookURL = webhookURL + "+" + id;
         }
       });
-
-      let reqURL = "https://ana-api.myika.co/webhook?ids=" + webhookURL;
       axios
-        .get(reqURL, {
-          headers: hds,
+        .get(url + "/webhook?user=" + user.id + "&ids=" + webhookURL, {
+          headers: header(true),
           mode: "cors",
         })
         .then((res) => {
@@ -376,7 +369,11 @@
                 <div class="row">
                   <div class="col-7">Exchange</div>
                   <div class="col-5 lowkey-val-col">
-                    {bot.ExchangeConnection}
+                    {#each user.exchanges as e}
+                      {#if e.KEY == bot.ExchangeConnection}
+                        {e.Name}
+                      {/if}
+                    {/each}
                   </div>
                 </div>
                 <div class="row">

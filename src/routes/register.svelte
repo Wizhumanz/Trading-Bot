@@ -7,12 +7,9 @@
 
   //global variables
   let appThemeIsDark;
-  storeAppTheme.subscribe((newVal) => {
-    appThemeIsDark = newVal === "dark";
-  });
-
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
+  let url = "https://ana-api.myika.co"
 
   //only for user login
   let userRegister = {
@@ -31,6 +28,10 @@
     exchanges: [],
   };
 
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
+  
   onMount(() => {
     //if user already logged in, go straight to active bots
     user = storeUser;
@@ -40,32 +41,6 @@
       }
     }
   });
-
-  //helper functions
-  function getBots() {
-    return new Promise((resolve, reject) => {
-      //auth header
-      const hds = {
-        // "Content-Type": "application/json",
-        Authorization: user.password,
-        "Cache-Control": "no-cache",
-        Pragma: "no-cache",
-        Expires: "0",
-      };
-
-      //MUST replace all '+' with '%2B'
-      // let GETUrl = basicURL.split("+").join("%2B");
-      axios
-        .get("https://ana-api.myika.co/bots" + "?user=" + user.id, {
-          headers: hds,
-          mode: "cors",
-        })
-        .then((res) => {
-          resolve(res.data);
-        })
-        .catch((error) => console.log(error));
-    });
-  }
 
   //handler functions
   function registerUser(e) {
@@ -83,7 +58,7 @@
       Expires: "0",
     };
     axios
-      .post("https://ana-api.myika.co/user", newUser, {
+      .post(url + "/user", newUser, {
         headers: hds,
         mode: "cors",
       })

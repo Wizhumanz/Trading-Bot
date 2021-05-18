@@ -1,19 +1,51 @@
 <script>
   import { goto } from "@sapper/app";
   import { onMount } from "svelte";
-  import { storeUser, storeAppTheme } from "../../store.js";
+  import { storeUser, storeAppTheme, selectedGMT } from "../../store.js";
   import axios from "axios";
+  import { each } from "svelte/internal";
 
   //global vars
-
   let appThemeIsDark = false;
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
   });
-
+  let selected = 0;
   let user = {};
   var email = storeUser ? storeUser.email : null;
   var userID = storeUser ? storeUser.id : null;
+  let socket;
+  let displaySocketIsClosed = true;
+  let wsConnLoading = false;
+  $: selectedGMT.set(JSON.stringify(selected));
+  let gmtLocales = {
+    "-12": "Eniwetok, Kwaialein",
+    "-11": "Midway Island, Samoa, New Zealand",
+    "-10": "Hawaii, Honolulue",
+    "-9": "Alaska",
+    "-8": "Anchorage, San Francisco, Vancouver",
+    "-7": "Alberta, Denver, Edmonton, Salt Lake City",
+    "-6": "Chicago, Mexico City, Winnipeg",
+    "-5": "Boston, Montreal, New York",
+    "-4": "Caracas, Labrador",
+    "-3": "Buenos Aires, Rio de Janeiro",
+    "-2": "Mid-Atlantic",
+    "-1": "Azores, Cape Verde",
+    "0": "London",
+    "1": "Amsterdam, Berlin, Warsaw",
+    "2": "Cairo, Cape Town",
+    "3": "Moscow, St. Petersburg, Riyadh",
+    "4": "Abu Dhabi, Volgograd",
+    "5": "New Delhi",
+    "6": "Kathmandu, Sri Lanka",
+    "7": "Bangkok, Hanoi, Jakarta",
+    "8": "Penang, Singapore, Beijing, Perth",
+    "9": "광주시 (경기도), Seoul, Yakutsk",
+    "10": "Хабаровск, Melbourne, Vladivostok",
+    "11": "Magadan, New Caledonia",
+    "12": "Auckland, Samoa, Fiji",
+  };
+
   storeUser.subscribe((newValue) => {
     if (newValue) {
       email = JSON.parse(newValue) ? JSON.parse(newValue).email : null;
@@ -22,9 +54,7 @@
     }
   });
 
-  let socket;
-  let displaySocketIsClosed = true;
-  let wsConnLoading = false;
+  let chartmasterURL = `http://127.0.0.1:5500/index.html?user=${userID}`;
 
   //functions
 
@@ -57,7 +87,7 @@
     wsConnLoading = true;
     if (userID) {
       try {
-        socket = new WebSocket("ws://localhost:8000/ws/" + userID);
+        socket = new WebSocket("wss://ana-api.myika.co/ws/" + userID);
         console.log("Attempting Connection...");
         setTimeout(() => (wsConnLoading = false), 1000);
       } catch (err) {
@@ -144,6 +174,14 @@
       console.log("Msg from Binance stream: " + msg.data);
     };
   }
+
+  function range(start, end) {
+    var ans = [];
+    for (let i = start; i <= end; i++) {
+      ans.push(i);
+    }
+    return ans;
+  }
 </script>
 
 <nav
@@ -167,6 +205,21 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <select
+            bind:value={selected}
+            class="form-select"
+            class:dark={appThemeIsDark}
+          >
+            {#each range(-12, 12) as gmtNum}
+              <option value={gmtNum}
+                >GMT{gmtNum.toString()[0] === "-"
+                  ? gmtNum
+                  : "+" + gmtNum} {gmtLocales[gmtNum.toString()]}</option
+              >
+            {/each}
+          </select>
+        </li>
         {#if email}
           <li class="nav-item">
             <!-- svelte-ignore a11y-missing-attribute -->
@@ -187,6 +240,13 @@
             </a>
           </li>
         {/if}
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            class:dark={appThemeIsDark}
+            href={chartmasterURL}>Chartmaster</a
+          >
+        </li>
         <li class="nav-item">
           <a
             class="nav-link active"
@@ -341,6 +401,11 @@
     color: $cream;
     position: relative;
     z-index: 100;
+  }
+
+  select {
+    all: unset;
+    width: 250px;
   }
 
   .inactiveIconBtn {

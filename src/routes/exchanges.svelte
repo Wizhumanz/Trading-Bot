@@ -23,28 +23,6 @@
       user = JSON.parse(newValue);
     }
   });
-
-  //get request for ExchangeConnection
-  const hds = {
-    "Cache-Control": "no-cache",
-    Pragma: "no-cache",
-    Expires: "0",
-    Authorization: user.password,
-  };
-  axios
-    .get("https://ana-api.myika.co/exchanges" + "?user=" + user.id, {
-      headers: hds,
-      mode: "cors",
-    })
-    .then((res) => {
-      user.exchanges = res.data;
-      storeUser.set(JSON.stringify(user));
-
-      // console.log(res.status + " -- " + JSON.stringify(res.data));
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
 </script>
 
 <!--Loading Sign-->
