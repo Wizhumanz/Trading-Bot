@@ -1,17 +1,25 @@
 <script>
   import { goto } from "@sapper/app";
+  import { stores } from "@sapper/app";
   import { onMount } from "svelte";
   import { storeUser, storeAppTheme, selectedGMT } from "../../store.js";
   import axios from "axios";
-  import { each } from "svelte/internal";
 
   //global vars
+  let user = {};
   let appThemeIsDark = false;
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
   });
+
+  const { page } = stores();
+  page.subscribe(({ path, params, query }) => {
+    if (path === "/") {
+      appThemeIsDark = true
+    }
+  });
+
   let selected = 0;
-  let user = {};
   var email = storeUser ? storeUser.email : null;
   var userID = storeUser ? storeUser.id : null;
   let socket;

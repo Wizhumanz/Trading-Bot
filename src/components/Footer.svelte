@@ -1,7 +1,21 @@
 <script>
+  import { stores } from "@sapper/app";
+  import { storeAppTheme } from "../../store.js";
+
+  let appThemeIsDark = false;
+  storeAppTheme.subscribe((newVal) => {
+    appThemeIsDark = newVal === "dark";
+  });
+
+  const { page } = stores();
+  page.subscribe(({ path, params, query }) => {
+    if (path === "/") {
+      appThemeIsDark = true;
+    }
+  });
 </script>
 
-<div class="container-fluid">
+<div class="container-fluid" class:dark={appThemeIsDark}>
   <div class="row">
     <div class="col-sm-12 col-md-1" />
     <div class="col-sm-12 col-md-5">
@@ -21,8 +35,12 @@
   @import "../../static/styles/_all";
 
   .container-fluid {
-    margin-top: 4rem;
+    padding-top: 4rem;
+    color: black;
+  }
+  .container-fluid.dark {
     color: $cream;
+    background-color: black;
   }
 
   div.row {
