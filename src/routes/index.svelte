@@ -219,19 +219,7 @@
       <div class="center">
         <h1>The best trading bot platform<br />in the world.</h1>
         <button>Sign Me Up</button>
-
-        <div class="product">
-          <img
-            src="https://i.imgur.com/EHyR2nP.png"
-            alt="The cover of Stubborn Attachments"
-          />
-          <div class="description">
-            <h3>Stubborn Attachments</h3>
-            <h5>$20.00</h5>
-          </div>
-        </div>
-        <button type="button" id="checkout-button">Checkout</button>
-        
+      
         <p class="headerP">
           <span class="strikethrough">$229</span>
           <!-- svelte-ignore a11y-missing-attribute -->
