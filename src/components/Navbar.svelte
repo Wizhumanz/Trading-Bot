@@ -14,7 +14,7 @@
 
   const { page } = stores();
   page.subscribe(({ path, params, query }) => {
-    if (path === "/") {
+    if ((path === "/") || (path === "/pricing")) {
       appThemeIsDark = true
     }
   });
