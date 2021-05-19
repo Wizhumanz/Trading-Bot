@@ -217,10 +217,10 @@
       <div class="center">
         <h1>The best trading bot platform<br />in the world.</h1>
         <button>Sign Me Up</button>
-        <p>
+        <p class="headerP">
           <span class="strikethrough">$229</span>
           <!-- svelte-ignore a11y-missing-attribute -->
-          <a class="pricingLink" class:dark={appThemeIsDark}> $99 </a>
+          <a class="pricingLink"> $99 </a>
           /month
           <br />Pre-launch offer!
         </p>
@@ -493,6 +493,7 @@
   a.register.dark {
     color: $cream;
   }
+
 
   .banner {
     z-index: 1;

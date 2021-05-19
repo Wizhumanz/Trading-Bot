@@ -209,19 +209,14 @@ hr {
 }
 
 .pricingLink {
-  color: $blue;
-  text-decoration: none;
-}
-
-.pricingLink:hover {
-  text-decoration: underline;
-}
-
-.pricingLink.dark {
   color: gold;
   -webkit-animation: glow 2s ease-out infinite alternate;
   -moz-animation: glow 2s ease-out infinite alternate;
   animation: glow 2s ease-out infinite alternate;
+}
+
+.pricingLink:hover {
+  text-decoration: underline;
 }
 
 @-webkit-keyframes glow {
