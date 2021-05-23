@@ -85,10 +85,11 @@
   // This is for going to checkout page after clicking the button
   const urlParams = new URLSearchParams(window.location.search);
   const sessionId = urlParams.get("session_id")
-  localStorage.setItem("sessionId", sessionId);
-
+  console.log(sessionId)
   let customerId;
   if (sessionId) {
+    localStorage.setItem("sessionId", sessionId);
+
     fetch("http://localhost:8000/checkout-session?sessionId=" + sessionId, {
       method: "GET",
       mode: "cors",
@@ -116,32 +117,6 @@
       .catch(function(err){
         console.log('Error when fetching Checkout session', err);
       });
-
-    // In production, this should check CSRF, and not pass the session ID.
-    // The customer ID for the portal should be pulled from the 
-    // authenticated user on the server.
-    // For customer portal
-    const manageBillingForm = document.querySelector('#manage-billing-form');
-    manageBillingForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      fetch('http://localhost:8000/customer-portal', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          sessionId: sessionId
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          window.location.href = data.url;
-          console.log(data.url)
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    });
   }
 
   //////////////////////////////
@@ -197,6 +172,21 @@
   //     var stripe = Stripe(publishableKey);
 
     // Setup event handler to create a Checkout Session when button is clicked
+    document
+      .getElementById("first-tier")
+      .addEventListener("click", function(evt) {
+        // You'll have to define PRICE_ID as a price ID before this code block
+        let PRICE_ID = "price_1ItwNIIjS4SHzVxyzdVSgeVa"
+        createCheckoutSession(PRICE_ID).then(function(data) {
+          // Call Stripe.js method to redirect to the new Checkout page
+          stripe
+            .redirectToCheckout({
+              sessionId: data.sessionId
+            })
+            .then(handleResult);
+        });
+      });
+
     document
       .getElementById("second-tier")
       .addEventListener("click", function(evt) {

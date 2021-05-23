@@ -131,14 +131,18 @@
         user.password = userLogin.password;
         //wait for fetch to complete before needed page reload
         getBots().then((res) => {
+          console.log(res)
           loading = false;
           user.allBots = res;
-          user.bots = res.filter((b) => {
-            return b.IsArchived !== "true";
-          });
-          if (user.bots !== null) {
-            user.bots.reverse(); //to display most recent bots at top of list
-          }
+          if (res !== null) {
+            user.bots = res.filter((b) => {
+              return b.IsArchived !== "true";
+            });
+          
+            if (user.bots !== null) {
+              user.bots.reverse(); //to display most recent bots at top of list
+            }
+        }
           storeUser.set(JSON.stringify(user));
           getAllWebhookConnections();
           getTradeAction();

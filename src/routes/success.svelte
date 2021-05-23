@@ -74,9 +74,9 @@
     <button type="submit">Register</button>
   </form>
 
-  <form id="manage-billing-form">
+  <!-- <form id="manage-billing-form">
     <button>Manage Billing</button>
-  </form>
+  </form> -->
 </main>
 
 <style type="text/scss">
