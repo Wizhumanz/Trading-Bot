@@ -6,7 +6,9 @@
   let customerID
 
   onMount(() => {
-    sessionID = localStorage.getItem("sessionId")
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get("session_id")
+    sessionID = sessionId
     customerID = localStorage.getItem("customerId")
   });
   $: console.log(sessionID)
@@ -31,7 +33,6 @@
         email: userRegister.email,
         password: userRegister.password,
         sessionID: sessionID,
-        customerID: customerID,
         mode: "cors",
       })
       .then((res) => {

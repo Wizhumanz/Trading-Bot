@@ -27,7 +27,7 @@
         mode: "cors",
       })
       .then((res) => {
-        sessionID = res.data.sessionID
+        sessionID = res.data[0].sessionID
         console.log(sessionID)
         // goto("/listings/all");
       })
