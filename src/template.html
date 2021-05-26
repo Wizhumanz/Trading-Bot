@@ -88,8 +88,6 @@
   console.log(sessionId)
   let customerId;
   if (sessionId) {
-    localStorage.setItem("sessionId", sessionId);
-
     fetch("http://localhost:8000/checkout-session?sessionId=" + sessionId, {
       method: "GET",
       mode: "cors",
@@ -109,7 +107,8 @@
         // You should use the Stripe Customer ID from the authenticated
         // user on the server.
         customerId = session.customer;
-        localStorage.setItem("customerId", customerId.id);
+        console.log(session)
+        localStorage.setItem("tier", session.amount_total);
 
         // var sessionJSON = JSON.stringify(session, null, 2);
         // document.querySelector("pre").textContent = sessionJSON;

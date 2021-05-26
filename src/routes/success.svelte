@@ -3,16 +3,16 @@
   import axios from "axios";
 
   let sessionID
-  let customerID
+  let tier
 
   onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get("session_id")
     sessionID = sessionId
-    customerID = localStorage.getItem("customerId")
+    tier = localStorage.getItem("tier")
   });
   $: console.log(sessionID)
-  $: console.log(customerID)
+  $: console.log(tier)
   
   let userRegister = {
     name: "",
@@ -33,6 +33,8 @@
         email: userRegister.email,
         password: userRegister.password,
         sessionID: sessionID,
+        cancellation: false,
+        tier: tier,
         mode: "cors",
       })
       .then((res) => {

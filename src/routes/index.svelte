@@ -129,25 +129,32 @@
         user.id = res.data.body;
         user.email = userLogin.email;
         user.password = userLogin.password;
-        //wait for fetch to complete before needed page reload
-        getBots().then((res) => {
-          console.log(res)
-          loading = false;
-          user.allBots = res;
-          if (res !== null) {
-            user.bots = res.filter((b) => {
-              return b.IsArchived !== "true";
-            });
-          
-            if (user.bots !== null) {
-              user.bots.reverse(); //to display most recent bots at top of list
+        getUser().then((res) => {
+          if (res.cancellation === false) {
+            //wait for fetch to complete before needed page reload
+            getBots().then((res) => {
+              console.log(res)
+              loading = false;
+              user.allBots = res;
+              if (res !== null) {
+                user.bots = res.filter((b) => {
+                  return b.IsArchived !== "true";
+                });
+              
+                if (user.bots !== null) {
+                  user.bots.reverse(); //to display most recent bots at top of list
+                }
             }
-        }
-          storeUser.set(JSON.stringify(user));
-          getAllWebhookConnections();
-          getTradeAction();
-          getExchangeConnection();
-          goto("/bots/active");
+              storeUser.set(JSON.stringify(user));
+              getAllWebhookConnections();
+              getTradeAction();
+              getExchangeConnection();
+              goto("/bots/active");
+            });
+          } else {
+            loading = false;
+            showAlert = "display: block;";
+          }
         });
       })
       .catch((error) => {
@@ -155,6 +162,25 @@
         loading = false;
         showAlert = "display: block;";
       });
+  }
+
+  function getUser() {
+    return new Promise((resolve, reject) => {
+    const hds = {
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0"
+    };
+    axios
+      .get("http://localhost:8000/getUser?email=" + user.email, {
+        headers: hds,
+        mode: "cors",
+      })
+      .then((res) => {
+        resolve(res.data[0])
+      })
+      .catch((error) => console.log(error));
+    })
   }
 </script>
 

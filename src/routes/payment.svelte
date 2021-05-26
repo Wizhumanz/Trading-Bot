@@ -14,7 +14,6 @@
     // authenticated user on the server.
     // For customer portal
   let sessionID
-  console.log(user.email)
   function getUser() {
     const hds = {
       "Cache-Control": "no-cache",
