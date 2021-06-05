@@ -14,6 +14,7 @@
   <!-- Stripe Payment -->
   <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
   <script src="https://js.stripe.com/v3/"></script>
+  
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -53,61 +54,168 @@
 
 <script type="text/javascript">
 
-  // Create an instance of the Stripe object with your publishable API key
+  // // Create an instance of the Stripe object with your publishable API key
   var stripe = Stripe("pk_test_51IDiEqIjS4SHzVxyZaFe4Dbi2W8pJqwETi9uwGwzhSjfRHQxQDGlFjTPuD67Ua6ehBn37helHRPNKtNRRDhuI9yR00AoEQ3IM1");
-  var checkoutButton = document.getElementById("checkout-button");
+  // var secondButton = document.getElementById("second-tier");
+  // secondButton.addEventListener("click", function () {
+  //   console.log("Second")
+  //   fetch("http://localhost:8000/payment-second", {
+  //     method: "POST",
+  //     mode: "cors",
+  //   })
+  //     .then(function (response) {
+  //       return response.json();
+  //     })
+  //     .then(function (session) {
+  //       return stripe.redirectToCheckout({ sessionId: session.id });
+  //     })
+  //     .then(function (result) {
+  //       // If redirectToCheckout fails due to a browser or network
+  //       // error, you should display the localized error message to your
+  //       // customer using error.message.
+  //       if (result.error) {
+  //         alert(result.error.message);
+  //       }
+  //     })
+  //     .catch(function (error) {
+  //       console.error("Error:", error);
+  //     });
+  // });
 
-  checkoutButton.addEventListener("click", function () {
-    fetch("http://localhost:8000/create-checkout-session", {
+  // This is for going to checkout page after clicking the button
+  const urlParams = new URLSearchParams(window.location.search);
+  const sessionId = urlParams.get("session_id")
+  console.log(sessionId)
+  let customerId;
+  if (sessionId) {
+    fetch("http://localhost:8000/checkout-session?sessionId=" + sessionId, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+      .then(function(result){
+        return result.json()
+      })
+      .then(function(session){
+        // We store the customer ID here so that we can pass to the
+        // server and redirect to customer portal. Note that, in practice
+        // this ID should be stored in your database when you receive
+        // the checkout.session.completed event. This demo does not have
+        // a database, so this is the workaround. This is *not* secure.
+        // You should use the Stripe Customer ID from the authenticated
+        // user on the server.
+        customerId = session.customer;
+        console.log(session)
+        localStorage.setItem("tier", session.amount_total);
+
+        // var sessionJSON = JSON.stringify(session, null, 2);
+        // document.querySelector("pre").textContent = sessionJSON;
+      })
+      .catch(function(err){
+        console.log('Error when fetching Checkout session', err);
+      });
+  }
+
+  //////////////////////////////
+  // If a fetch error occurs, log it to the console and show it in the UI.
+  var handleFetchResult = function(result) {
+    if (!result.ok) {
+      return result.json().then(function(json) {
+        if (json.error && json.error.message) {
+          throw new Error(result.url + ' ' + result.status + ' ' + json.error.message);
+        }
+      }).catch(function(err) {
+        showErrorMessage(err);
+        throw err;
+      });
+    }
+    return result.json();
+  };
+
+  // Create a Checkout Session with the selected plan ID
+  var createCheckoutSession = function(priceId) {
+    return fetch("http://localhost:8000/create-checkout-session", {
       method: "POST",
       mode: "cors",
-    })
-      .then(function (response) {
-        return response.json();
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        priceId: priceId
       })
-      .then(function (session) {
-        return stripe.redirectToCheckout({ sessionId: session.id });
-      })
-      .then(function (result) {
-        // If redirectToCheckout fails due to a browser or network
-        // error, you should display the localized error message to your
-        // customer using error.message.
-        if (result.error) {
-          alert(result.error.message);
-        }
-      })
-      .catch(function (error) {
-        console.error("Error:", error);
+    }).then(handleFetchResult);
+  };
+
+  // Handle any errors returned from Checkout
+  var handleResult = function(result) {
+    if (result.error) {
+      showErrorMessage(result.error.message);
+    }
+  };
+
+  var showErrorMessage = function(message) {
+    var errorEl = document.getElementById("error-message")
+    errorEl.textContent = message;
+    errorEl.style.display = "block";
+  };
+
+  // /* Get your Stripe publishable key to initialize Stripe.js */
+  // fetch("/setup")
+  //   .then(handleFetchResult)
+  //   .then(function(json) {
+  //     var publishableKey = json.publishableKey;
+  //     var basicPriceId = json.basicPrice;
+  //     var proPriceId = json.proPrice;
+  //     var stripe = Stripe(publishableKey);
+
+    // Setup event handler to create a Checkout Session when button is clicked
+    document
+      .getElementById("first-tier")
+      .addEventListener("click", function(evt) {
+        // You'll have to define PRICE_ID as a price ID before this code block
+        let PRICE_ID = "price_1ItwNIIjS4SHzVxyzdVSgeVa"
+        createCheckoutSession(PRICE_ID).then(function(data) {
+          // Call Stripe.js method to redirect to the new Checkout page
+          stripe
+            .redirectToCheckout({
+              sessionId: data.sessionId
+            })
+            .then(handleResult);
+        });
       });
 
-    // const hds = {
-    // "Cache-Control": "no-cache",
-    // Pragma: "no-cache",
-    // Expires: "0",
-    // };
-    // axios
-    //   .post("http://localhost:8000/create-checkout-session", {
-    //     headers: hds,
-    //     mode: "cors",
-    //   })
-    //   .then(function (response) {
-    //     return response.json();
-    //   })
-    //   .then(function (session) {
-    //     return stripe.redirectToCheckout({ sessionId: session.id });
-    //   })
-    //   .then(function (result) {
-    //     // If redirectToCheckout fails due to a browser or network
-    //     // error, you should display the localized error message to your
-    //     // customer using error.message.
-    //     if (result.error) {
-    //       alert(result.error.message);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
-  });
+    document
+      .getElementById("second-tier")
+      .addEventListener("click", function(evt) {
+        // You'll have to define PRICE_ID as a price ID before this code block
+        let PRICE_ID = "price_1IslFlIjS4SHzVxyBxQhfE2F"
+        createCheckoutSession(PRICE_ID).then(function(data) {
+          // Call Stripe.js method to redirect to the new Checkout page
+          stripe
+            .redirectToCheckout({
+              sessionId: data.sessionId
+            })
+            .then(handleResult);
+        });
+      });
+
+    document
+      .getElementById("third-tier")
+      .addEventListener("click", function(evt) {
+        // You'll have to define PRICE_ID as a price ID before this code block
+        let PRICE_ID = "price_1IsoRCIjS4SHzVxyK8KKgwbB"
+        createCheckoutSession(PRICE_ID).then(function(data) {
+          // Call Stripe.js method to redirect to the new Checkout page
+          stripe
+            .redirectToCheckout({
+              sessionId: data.sessionId
+            })
+            .then(handleResult);
+        });
+      });
+  // });
 </script>
 
 <style>

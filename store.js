@@ -26,8 +26,18 @@ var gmt = (typeof window !== 'undefined') && (localStorage.getItem("gmt"))
   ? localStorage.getItem("gmt")
   : "";
 export var selectedGMT = writable(gmt)
-storeAppTheme.subscribe(value => {
+selectedGMT.subscribe(value => {
   if (typeof window !== 'undefined') {
     localStorage.setItem("gmt", value);
+  }
+});
+
+var payment = (typeof window !== 'undefined') && (localStorage.getItem("payment"))
+  ? localStorage.getItem("payment")
+  : "";
+export var paymentInfo = writable(payment)
+paymentInfo.subscribe(value => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem("payment", value);
   }
 });

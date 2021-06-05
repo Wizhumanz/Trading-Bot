@@ -129,21 +129,32 @@
         user.id = res.data.body;
         user.email = userLogin.email;
         user.password = userLogin.password;
-        //wait for fetch to complete before needed page reload
-        getBots().then((res) => {
-          loading = false;
-          user.allBots = res;
-          user.bots = res.filter((b) => {
-            return b.IsArchived !== "true";
-          });
-          if (user.bots !== null) {
-            user.bots.reverse(); //to display most recent bots at top of list
+        getUser().then((res) => {
+          if (res.cancellation === false) {
+            //wait for fetch to complete before needed page reload
+            getBots().then((res) => {
+              console.log(res)
+              loading = false;
+              user.allBots = res;
+              if (res !== null) {
+                user.bots = res.filter((b) => {
+                  return b.IsArchived !== "true";
+                });
+              
+                if (user.bots !== null) {
+                  user.bots.reverse(); //to display most recent bots at top of list
+                }
+            }
+              storeUser.set(JSON.stringify(user));
+              getAllWebhookConnections();
+              getTradeAction();
+              getExchangeConnection();
+              goto("/bots/active");
+            });
+          } else {
+            loading = false;
+            showAlert = "display: block;";
           }
-          storeUser.set(JSON.stringify(user));
-          getAllWebhookConnections();
-          getTradeAction();
-          getExchangeConnection();
-          goto("/bots/active");
         });
       })
       .catch((error) => {
@@ -151,6 +162,25 @@
         loading = false;
         showAlert = "display: block;";
       });
+  }
+
+  function getUser() {
+    return new Promise((resolve, reject) => {
+    const hds = {
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0"
+    };
+    axios
+      .get("http://localhost:8000/getUser?email=" + user.email, {
+        headers: hds,
+        mode: "cors",
+      })
+      .then((res) => {
+        resolve(res.data[0])
+      })
+      .catch((error) => console.log(error));
+    })
   }
 </script>
 
@@ -219,19 +249,7 @@
       <div class="center">
         <h1>The best trading bot platform<br />in the world.</h1>
         <button>Sign Me Up</button>
-
-        <div class="product">
-          <img
-            src="https://i.imgur.com/EHyR2nP.png"
-            alt="The cover of Stubborn Attachments"
-          />
-          <div class="description">
-            <h3>Stubborn Attachments</h3>
-            <h5>$20.00</h5>
-          </div>
-        </div>
-        <button type="button" id="checkout-button">Checkout</button>
-        
+      
         <p class="headerP">
           <span class="strikethrough">$229</span>
           <!-- svelte-ignore a11y-missing-attribute -->
@@ -808,27 +826,27 @@
 
   //payment process
   /* Variables */
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #242d60;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-      "Helvetica Neue", "Ubuntu", sans-serif;
-    height: 100vh;
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  section {
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-    height: 112px;
-    border-radius: 6px;
-    justify-content: space-between;
-  }
+  // body {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   background: #242d60;
+  //   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+  //     "Helvetica Neue", "Ubuntu", sans-serif;
+  //   height: 100vh;
+  //   margin: 0;
+  //   -webkit-font-smoothing: antialiased;
+  //   -moz-osx-font-smoothing: grayscale;
+  // }
+  // section {
+  //   background: #ffffff;
+  //   display: flex;
+  //   flex-direction: column;
+  //   width: 400px;
+  //   height: 112px;
+  //   border-radius: 6px;
+  //   justify-content: space-between;
+  // }
   .product {
     display: flex;
   }
@@ -837,40 +855,40 @@
     flex-direction: column;
     justify-content: center;
   }
-  p {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: -0.154px;
-    color: #242d60;
-    height: 100%;
-    width: 100%;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-  }
+  // p {
+  //   font-style: normal;
+  //   font-weight: 500;
+  //   font-size: 14px;
+  //   line-height: 20px;
+  //   letter-spacing: -0.154px;
+  //   color: #242d60;
+  //   height: 100%;
+  //   width: 100%;
+  //   padding: 0 20px;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   box-sizing: border-box;
+  // }
   img {
     border-radius: 6px;
     margin: 10px;
     width: 54px;
     height: 57px;
   }
-  h3,
-  h5 {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: -0.154px;
-    color: #242d60;
-    margin: 0;
-  }
-  h5 {
-    opacity: 0.5;
-  }
+  // h3,
+  // h5 {
+  //   font-style: normal;
+  //   font-weight: 500;
+  //   font-size: 14px;
+  //   line-height: 20px;
+  //   letter-spacing: -0.154px;
+  //   color: #242d60;
+  //   margin: 0;
+  // }
+  // h5 {
+  //   opacity: 0.5;
+  // }
   #checkout-button {
     height: 36px;
     background: #556cd6;

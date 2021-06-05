@@ -312,6 +312,7 @@
             >
               <li><a class="dropdown-item" href="/history">History</a></li>
               <li><a class="dropdown-item" href="/exchanges">Exchanges</a></li>
+              <li><a class="dropdown-item" href="/payment">Payment</a></li>
               <li>
                 <!-- svelte-ignore a11y-missing-attribute -->
                 <a class="dropdown-item loggedInID">{email ? email : ""}</a>
