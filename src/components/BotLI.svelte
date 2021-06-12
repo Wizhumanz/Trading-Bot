@@ -249,11 +249,16 @@
 
       //build query string with all IDs
       let webhookURL = privateIDs[0];
+      console.log(privateIDs)
+
       privateIDs.forEach((id, index) => {
-        if (index != 0) {
+        if (index != 0 && id != "") {
           webhookURL = webhookURL + "+" + id;
+        console.log(webhookURL)
         }
       });
+      console.log(webhookURL)
+
       axios
         .get(url + "/webhook?user=" + user.id + "&ids=" + webhookURL, {
           headers: header(true),
