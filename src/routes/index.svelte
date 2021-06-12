@@ -117,6 +117,7 @@
 
   //handler functions
   function signIn(e) {
+    console.log("signed in")
     loading = true;
     axios
       .post(url + "/login", {
