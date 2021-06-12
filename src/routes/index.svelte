@@ -248,7 +248,7 @@
   <div class="container-fluid">
     <div class="row banner">
       <div class="center">
-        <h1>The best trading bot platform<br />in the world.</h1>
+        <h1>World's Best<br />Trading Bot Platform</h1>
         <button>Sign Me Up</button>
       
         <p class="headerP">
@@ -559,7 +559,7 @@
     button {
       all: initial;
       all: unset;
-      margin-top: 1.5rem;
+      margin-top: 2.5rem;
       padding: 0.75rem 1.5rem;
       font-family: $body-font;
       font-size: 1.5rem;

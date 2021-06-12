@@ -14,8 +14,8 @@
 
   const { page } = stores();
   page.subscribe(({ path, params, query }) => {
-    if ((path === "/") || (path === "/pricing")) {
-      appThemeIsDark = true
+    if (path === "/" || path === "/pricing") {
+      appThemeIsDark = true;
     }
   });
 
@@ -213,21 +213,22 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <select
-            bind:value={selected}
-            class="form-select"
-            class:dark={appThemeIsDark}
-          >
-            {#each range(-12, 12) as gmtNum}
-              <option value={gmtNum}
-                >GMT{gmtNum.toString()[0] === "-"
-                  ? gmtNum
-                  : "+" + gmtNum} {gmtLocales[gmtNum.toString()]}</option
-              >
-            {/each}
-          </select>
-        </li>
+        {#if email}
+          <li class="nav-item">
+            <select
+              bind:value={selected}
+              class="form-select"
+              class:dark={appThemeIsDark}
+            >
+              {#each range(-12, 12) as gmtNum}
+                <option value={gmtNum}
+                  >GMT{gmtNum.toString()[0] === "-" ? gmtNum : "+" + gmtNum}
+                  {gmtLocales[gmtNum.toString()]}</option
+                >
+              {/each}
+            </select>
+          </li>
+        {/if}
         {#if email}
           <li class="nav-item">
             <!-- svelte-ignore a11y-missing-attribute -->
