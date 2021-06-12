@@ -198,7 +198,7 @@
     aria-expanded="false"
     aria-controls="signInCollapse"
   >
-    войти
+    Log In
   </a>
 
   <div class="container-fluid" class:dark={appThemeIsDark}>
@@ -266,10 +266,10 @@
     <div class="row clean display">
       <div class="col-sm-12 col-md-5">
         <div class="feature">
-          <h1>What makes us so good?</h1>
+          <h1>Why are we the best?</h1>
           <p>
-            Risk management: Fine bot controls for deploying world-class
-            strategies.
+            Control all the necessary settings you need for serious trading. <br>
+            Risk management: Check. 
             <br />
           </p>
         </div>
@@ -386,9 +386,9 @@
     </div>
 
     <div class="row display red">
-      <h1>We don't hold your money.</h1>
+      <h1>Keep your own money.</h1>
       <p>
-        Trade with bots from your own exchange account.
+        Just input your exchange API keys to connect bots.
         <br />No deposits required.
       </p>
     </div>
@@ -417,9 +417,9 @@
       <div class="col-sm-1 col-md-4" />
       <div class="col-sm-10 col-md-4">
         <!-- svelte-ignore a11y-missing-attribute -->
-        <a class="pricingLink" class:dark={appThemeIsDark}>
+        <!-- <a class="pricingLink" class:dark={appThemeIsDark}>
           Pre-launch deal!
-        </a>
+        </a> -->
         <div class="center card">
           <div class="priceTag">
             <h4 class="dollarSign">
@@ -487,11 +487,9 @@
   #hiddenSignIn {
     z-index: 100;
     font-family: $body-font;
-    font-size: xx-small;
     position: absolute;
     right: 1%;
-    top: 20%;
-    color: $blue;
+    color: $cream;
   }
 
   #hiddenSignIn:hover {
@@ -656,7 +654,8 @@
 
   .center.card {
     margin-top: 0.5rem;
-    padding: 2rem 4.5rem 5.5rem 4.5rem;
+    padding: 2.5rem 4.5rem 6.5rem 4.5rem;
+    border: $cream 3px solid;
     border-radius: 15px;
 
     background: rgb(138, 0, 0);
