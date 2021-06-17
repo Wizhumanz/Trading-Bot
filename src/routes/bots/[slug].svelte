@@ -36,8 +36,10 @@
       }
     });
 
-    if (numInactiveBots === user.bots.length) {
+    if (numInactiveBots === user.bots.length && user.bots.length != 0) {
       showNoActiveBots = true;
+    } else {
+      showNoActiveBots = false;
     }
   }
 </script>
@@ -67,6 +69,9 @@
         </h1>
       </li>
     </ul>
+    {#if showNoActiveBots == true}
+    <p>No active bots to show.</p>
+    {/if}
   {:else if route == "all"}
     <h1>All Bots</h1>
   {/if}
@@ -87,9 +92,6 @@
       {/each}
     {:else}
       <p>Error: No bots to show.</p>
-    {/if}
-    {#if showNoActiveBots == true}
-      <p>No active bots to show.</p>
     {/if}
   </div>
 </div>

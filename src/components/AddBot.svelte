@@ -13,7 +13,7 @@
   let loading = false;
   let addedAlert = "display: none;";
   let tickerData = []
-  let ticker;
+  let ticker = "BINANCEFTS_PERP_BTC_USDT";
   let period;
   let botName;
   let strategySelect;

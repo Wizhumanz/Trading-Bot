@@ -71,7 +71,8 @@
     parseFloat(newAccSizePerc) !== parseFloat(bot.AccountSizePercToTrade) ||
     parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) ||
     parseInt(newLeverage) !== parseInt(bot.Leverage) ||
-    newTicker !== bot.Ticker
+    newTicker !== bot.Ticker ||
+    newPeriod !== bot.Period
   ) {
     showSaveBtnAlert = "display: block;";
   } else {
@@ -85,6 +86,7 @@
     newLeverage = bot.Leverage;
     newTicker = bot.Ticker;
     active = bot.IsActive;
+    newPeriod = bot.Period;
   }
 
   function copyText(e) {
@@ -122,6 +124,7 @@
 
   onMount(() => {
     newTicker = bot.Ticker;
+    newPeriod = bot.Period
     newRiskPerc = bot.AccountRiskPercPerTrade;
     newAccSizePerc = bot.AccountSizePercToTrade;
     newLeverage = bot.Leverage;
@@ -504,7 +507,7 @@ getExchanges()
                   <label for="tickerSelect" class="form-label">Ticker</label>
                   <select class="form-control" class:dark={appThemeIsDark} bind:value={bot.Ticker} name="tickerSelect" id="tickerSelect">
                     {#each tickerData as t}
-                      {#if t.symbol_id === "BINANCEFTS_PERP_BTC_USDT"}
+                      {#if t.symbol_id === bot.Ticker}
                         <option selected="selected" value={t.symbol_id}>{t.symbol_id_exchange + "  (" + t.symbol_id + ")"}</option>
                       {:else}
                         <option value={t.symbol_id}>{t.symbol_id_exchange + "  (" + t.symbol_id + ")"}</option>
