@@ -3,6 +3,7 @@
   import axios from "axios";
   import { storeUser, storeAppTheme } from "../../store.js";
   import LoadingIndicator from "../components/LoadingIndicator.svelte";
+  import { each } from "svelte/internal";
 
   export let bot;
 
@@ -14,6 +15,7 @@
   let newRiskPerc;
   let newAccSizePerc;
   let newLeverage;
+  let newPeriod;
   let active;
   let webhookDisplayData;
   let showSaveBtnAlert = "display: none;";
@@ -21,6 +23,7 @@
   let showConfirm = false;
   let showConfirmBtn;
   let groupedView = {}
+  let tickerData = []
   let url = "http://localhost:8000"
 
   storeAppTheme.subscribe((newVal) => {
@@ -271,6 +274,34 @@
         });
     });
   }
+
+  function getExchanges() {
+  let hd = {
+    // "Content-Type": "application/json",
+    // Authorization: user.password,
+    "Cache-Control": "no-cache",
+    Pragma: "no-cache",
+    Expires: "0",
+  }
+  axios
+    .get("http://localhost:8001" + "/getChartmasterTickers", {
+      headers: hd,
+      mode: "cors",
+    })
+    .then((res) => {
+      //sort alphabetically
+      tickerData = res.data
+      tickerData.sort(function (a, b) {
+        if (a.symbol_id_exchange < b.symbol_id_exchange) { return -1; }
+        if (a.symbol_id_exchange > b.symbol_id_exchange) { return 1; }
+        return 0;
+      })
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+getExchanges()
 </script>
 
 {#if loading}
@@ -318,6 +349,17 @@
             {#if newTicker !== bot.Ticker && newTicker !== null}
               <div class="changeVal" class:dark={appThemeIsDark}>
                 <p><i class="bi bi-arrow-right" /> {bot.Ticker} | UNSAVED</p>
+              </div>
+            {/if}
+            <div class="row">
+              <div class="col-7">Period</div>
+              <div class="col-5 val-col">
+                {newPeriod}
+              </div>
+            </div>
+            {#if newPeriod !== bot.Period && newPeriod !== null}
+              <div class="changeVal" class:dark={appThemeIsDark}>
+                <p><i class="bi bi-arrow-right" /> {bot.Period} | UNSAVED</p>
               </div>
             {/if}
             <div class="row">
@@ -397,16 +439,28 @@
             <div class="row">
               <div class="col-sm-12 col-md-6">
                 <div class="mb-3">
-                  <label for={"ticker" + bot.WebhookURL} class="form-label"
-                    >Ticker</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    class:dark={appThemeIsDark}
-                    id={"ticker" + bot.WebhookConnectionID}
-                    bind:value={bot.Ticker}
-                  />
+                  <label for="period" class="form-label">Period</label>
+                  <select bind:value={bot.Period} name="periodSelect" id="periodSelect">
+                    <option value="1MIN">1min</option>
+                    <option value="2MIN">2min</option>
+                    <option value="3MIN">3min</option>
+                    <option value="4MIN">4min</option>
+                    <option value="5MIN">5min</option>
+                    <option value="6MIN">6min</option>
+                    <option value="10MIN">10min</option>
+                    <option value="15MIN">15min</option>
+                    <option value="20MIN">20min</option>
+                    <option value="30MIN">30min</option>
+                    <option value="1HRS">1hr</option>
+                    <option value="2HRS">2hr</option>
+                    <option value="3HRS">3hr</option>
+                    <option value="4HRS">4hr</option>
+                    <option value="6HRS">6hr</option>
+                    <option value="8HRS">8hr</option>
+                    <option value="12HRS">12hr</option>
+                    <option value="1DAY">1d</option>
+                    <option value="2DAY">2d</option>
+                  </select>
                 </div>
               </div>
               <div class="col-sm-12 col-md-6">
@@ -456,6 +510,31 @@
                     id="leverage"
                     bind:value={bot.Leverage}
                   />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="mb-3">
+                  <label for="tickerSelect" class="form-label">Ticker</label>
+                  <!-- <input
+                    type="text"
+                    class="form-control"
+                    class:dark={appThemeIsDark}
+                    id={"ticker" + bot.WebhookConnectionID}
+                    bind:value={bot.Ticker}
+                  /> -->
+                  <select bind:value={bot.Ticker} name="tickerSelect" id="tickerSelect">
+                    <!-- filled dynamically by API call -->
+                    {#each tickerData as t}
+                      {#if t.symbol_id === "BINANCEFTS_PERP_BTC_USDT"}
+                        <option selected="selected" value={t.symbol_id}>{t.symbol_id_exchange + "  (" + t.symbol_id + ")"}</option>
+                      {:else}
+                        <option value={t.symbol_id}>{t.symbol_id_exchange + "  (" + t.symbol_id + ")"}</option>
+                      {/if}
+                    {/each}
+                  </select>
                 </div>
               </div>
             </div>
