@@ -95,7 +95,7 @@
     wsConnLoading = true;
     if (userID) {
       try {
-        socket = new WebSocket("wss://ana-api.myika.co/ws/" + userID);
+        socket = new WebSocket("ws://localhost:8000/ws/" + userID);
         console.log("Attempting Connection...");
         setTimeout(() => (wsConnLoading = false), 1000);
       } catch (err) {
@@ -120,7 +120,7 @@
           Authorization: user.password,
         };
         axios
-          .get("https://ana-api.myika.co/trades" + "?user=" + user.id, {
+          .get("http://localhost:8000/trades" + "?user=" + user.id, {
             headers: hds,
             mode: "cors",
           })

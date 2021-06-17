@@ -34,7 +34,7 @@
     };
     axios
       .delete(
-        "https://ana-api.myika.co/exchange/" +
+        "http://localhost:8000/exchange/" +
           exchange.KEY +
           "?user=" +
           user.id,

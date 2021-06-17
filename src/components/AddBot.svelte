@@ -54,7 +54,7 @@
         Authorization: user.password,
       };
       axios
-        .post("https://ana-api.myika.co/webhook" + "?user=" + user.id, null, {
+        .post("http://localhost:8000/webhook" + "?user=" + user.id, null, {
           headers: hds,
           mode: "cors",
         })
@@ -97,7 +97,7 @@
 
     if (strategySelect !== "custom") {
       axios
-        .post("https://ana-api.myika.co/bot", data, {
+        .post("http://localhost:8000/bot", data, {
           headers: hds,
           mode: "cors",
         })
@@ -126,7 +126,7 @@
       createNewWebhookConnection().then((res) => {
         data.WebhookConnectionID = customWebhookID;
         axios
-          .post("https://ana-api.myika.co/bot", data, {
+          .post("http://localhost:8000/bot", data, {
             headers: hds,
             mode: "cors",
           })

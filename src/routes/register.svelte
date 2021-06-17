@@ -9,7 +9,7 @@
   let appThemeIsDark;
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
-  let url = "https://ana-api.myika.co"
+  let url = "http://localhost:8000"
 
   //only for user login
   let userRegister = {

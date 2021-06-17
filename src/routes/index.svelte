@@ -11,8 +11,8 @@
   let showAlert = "display: none;"; //to display invalid auth msg
   let loading = false;
   let displayPricePeriodToggle = true;
-  let userLogin = { email: "", password: "" };
-  let url = "https://ana-api.myika.co";
+  let userLogin = {email: "", password: ""};
+  let url = "http://localhost:8000"
 
   //user properties
   storeUser.subscribe((newValue) => {

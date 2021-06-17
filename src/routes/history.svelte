@@ -19,7 +19,7 @@
   let user = {};
   let snapShots = [];
   let noTA = false
-  let url = "https://ana-api.myika.co";
+  let url = "http://localhost:8000";
 
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";

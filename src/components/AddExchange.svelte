@@ -36,7 +36,7 @@
     };
 
     axios
-      .post("https://ana-api.myika.co/exchange", data, {
+      .post("http://localhost:8000/exchange", data, {
         headers: hds,
         mode: "cors",
       })

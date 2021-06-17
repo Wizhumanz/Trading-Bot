@@ -21,7 +21,7 @@
   let showConfirm = false;
   let showConfirmBtn;
   let groupedView = {}
-  let url = "https://ana-api.myika.co"
+  let url = "http://localhost:8000"
 
   storeAppTheme.subscribe((newVal) => {
     appThemeIsDark = newVal === "dark";
@@ -249,15 +249,12 @@
 
       //build query string with all IDs
       let webhookURL = privateIDs[0];
-      console.log(privateIDs)
 
       privateIDs.forEach((id, index) => {
         if (index != 0 && id != "") {
           webhookURL = webhookURL + "+" + id;
-        console.log(webhookURL)
         }
       });
-      console.log(webhookURL)
 
       axios
         .get(url + "/webhook?user=" + user.id + "&ids=" + webhookURL, {
