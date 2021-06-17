@@ -12,7 +12,9 @@
 
   let loading = false;
   let addedAlert = "display: none;";
-  let newTicker;
+  let tickerData = []
+  let ticker;
+  let period;
   let botName;
   let strategySelect;
   let accSizePerc;
@@ -21,6 +23,8 @@
   let exchange;
   let customWebhookID;
   let user = {};
+  let periodTime = ["1MIN", "2MIN", "3MIN", "4MIN", "5MIN", "6MIN", "10MIN", "15MIN", "20MIN", "30MIN", "1HRS", "2HRS", "3HRS", "4HRS", "6HRS", "8HRS", "12HRS", "1DAY", "2DAY"]
+
   user.publicWebhookConns = [];
 
   storeUser.subscribe((newValue) => {
@@ -31,12 +35,13 @@
 
   //helper functions
   function reassignProperties() {
-    newTicker = "";
+    ticker = "";
     botName = "";
     accSizePerc = null;
     accRiskPerc = null;
     leverage = null;
     exchange = "";
+    period = ""
   }
 
   function createNewDate() {
@@ -90,7 +95,8 @@
       IsActive: "false",
       IsArchived: "false",
       Leverage: leverage.toString(),
-      Ticker: newTicker,
+      Ticker: ticker,
+      Period: period,
       WebhookConnectionID: strategySelect,
       CreationDate: createNewDate()
     };
@@ -109,7 +115,7 @@
           } else {
             user.bots.push(data);
           }
-
+          console.log(data)
           storeUser.set(JSON.stringify(user));
 
           reassignProperties();
@@ -154,6 +160,34 @@
       });
     }
   }
+
+  function getExchanges() {
+  let hd = {
+    // "Content-Type": "application/json",
+    // Authorization: user.password,
+    "Cache-Control": "no-cache",
+    Pragma: "no-cache",
+    Expires: "0",
+  }
+  axios
+    .get("http://localhost:8001" + "/getChartmasterTickers", {
+      headers: hd,
+      mode: "cors",
+    })
+    .then((res) => {
+      //sort alphabetically
+      tickerData = res.data
+      tickerData.sort(function (a, b) {
+        if (a.symbol_id_exchange < b.symbol_id_exchange) { return -1; }
+        if (a.symbol_id_exchange > b.symbol_id_exchange) { return 1; }
+        return 0;
+      })
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+getExchanges()
 </script>
 
 <!--Loading Sign-->
@@ -179,19 +213,28 @@
               bind:value={botName}
             />
           </div>
+          <div class="mb-3">
+            <label for="tickerSelect" class="form-label">Ticker</label>
+            <select class="form-control" class:dark={appThemeIsDark} bind:value={ticker} name="tickerSelect" id="tickerSelect">
+              <!-- filled dynamically by API call -->
+              {#each tickerData as t}
+                {#if t.symbol_id === "BINANCEFTS_PERP_BTC_USDT"}
+                  <option selected="selected" value={t.symbol_id}>{t.symbol_id_exchange + "  (" + t.symbol_id + ")"}</option>
+                {:else}
+                  <option value={t.symbol_id}>{t.symbol_id_exchange + "  (" + t.symbol_id + ")"}</option>
+                {/if}
+              {/each}
+            </select>
+          </div>
           <div class="row">
             <div class="col-6">
               <div class="mb-3">
-                <label for="ticker" class="form-label">Ticker</label>
-                <input
-                  required="required"
-                  type="text"
-                  class="form-control"
-                  class:dark={appThemeIsDark}
-                  id="ticker"
-                  placeholder="BTC/USDT"
-                  bind:value={newTicker}
-                />
+                <label for="period" class="form-label">Period</label>
+                <select class="form-control" class:dark={appThemeIsDark} bind:value={period} name="periodSelect" id="periodSelect">
+                  {#each periodTime as p}
+                    <option value={p}>{p}</option>
+                  {/each}
+                </select>
               </div>
             </div>
             <div class="col-6">

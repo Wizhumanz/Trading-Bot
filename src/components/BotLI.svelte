@@ -24,6 +24,7 @@
   let showConfirmBtn;
   let groupedView = {}
   let tickerData = []
+  let periodTime = ["1MIN", "2MIN", "3MIN", "4MIN", "5MIN", "6MIN", "10MIN", "15MIN", "20MIN", "30MIN", "1HRS", "2HRS", "3HRS", "4HRS", "6HRS", "8HRS", "12HRS", "1DAY", "2DAY"]
   let url = "http://localhost:8000"
 
   storeAppTheme.subscribe((newVal) => {
@@ -440,26 +441,10 @@ getExchanges()
               <div class="col-sm-12 col-md-6">
                 <div class="mb-3">
                   <label for="period" class="form-label">Period</label>
-                  <select bind:value={bot.Period} name="periodSelect" id="periodSelect">
-                    <option value="1MIN">1min</option>
-                    <option value="2MIN">2min</option>
-                    <option value="3MIN">3min</option>
-                    <option value="4MIN">4min</option>
-                    <option value="5MIN">5min</option>
-                    <option value="6MIN">6min</option>
-                    <option value="10MIN">10min</option>
-                    <option value="15MIN">15min</option>
-                    <option value="20MIN">20min</option>
-                    <option value="30MIN">30min</option>
-                    <option value="1HRS">1hr</option>
-                    <option value="2HRS">2hr</option>
-                    <option value="3HRS">3hr</option>
-                    <option value="4HRS">4hr</option>
-                    <option value="6HRS">6hr</option>
-                    <option value="8HRS">8hr</option>
-                    <option value="12HRS">12hr</option>
-                    <option value="1DAY">1d</option>
-                    <option value="2DAY">2d</option>
+                  <select class="form-control" class:dark={appThemeIsDark} bind:value={bot.Period} name="periodSelect" id="periodSelect">
+                    {#each periodTime as p}
+                      <option value={p}>{p}</option>
+                    {/each}
                   </select>
                 </div>
               </div>
@@ -513,20 +498,11 @@ getExchanges()
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-sm-12 col-md-6">
                 <div class="mb-3">
                   <label for="tickerSelect" class="form-label">Ticker</label>
-                  <!-- <input
-                    type="text"
-                    class="form-control"
-                    class:dark={appThemeIsDark}
-                    id={"ticker" + bot.WebhookConnectionID}
-                    bind:value={bot.Ticker}
-                  /> -->
-                  <select bind:value={bot.Ticker} name="tickerSelect" id="tickerSelect">
-                    <!-- filled dynamically by API call -->
+                  <select class="form-control" class:dark={appThemeIsDark} bind:value={bot.Ticker} name="tickerSelect" id="tickerSelect">
                     {#each tickerData as t}
                       {#if t.symbol_id === "BINANCEFTS_PERP_BTC_USDT"}
                         <option selected="selected" value={t.symbol_id}>{t.symbol_id_exchange + "  (" + t.symbol_id + ")"}</option>
