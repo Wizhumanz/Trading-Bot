@@ -16,6 +16,8 @@
   let newAccSizePerc;
   let newLeverage;
   let newPeriod;
+  let startTime
+  let endTime
   let active;
   let webhookDisplayData;
   let showSaveBtnAlert = "display: none;";
@@ -72,7 +74,9 @@
     parseFloat(newRiskPerc) !== parseFloat(bot.AccountRiskPercPerTrade) ||
     parseInt(newLeverage) !== parseInt(bot.Leverage) ||
     newTicker !== bot.Ticker ||
-    newPeriod !== bot.Period
+    newPeriod !== bot.Period || 
+    startTime != bot.StartTime ||
+    endTime != bot.EndTime
   ) {
     showSaveBtnAlert = "display: block;";
   } else {
@@ -87,6 +91,8 @@
     newTicker = bot.Ticker;
     active = bot.IsActive;
     newPeriod = bot.Period;
+    startTime = bot.StartTime;
+    endTime = bot.EndTime;
   }
 
   function copyText(e) {
@@ -129,6 +135,8 @@
     newAccSizePerc = bot.AccountSizePercToTrade;
     newLeverage = bot.Leverage;
     active = bot.IsActive;
+    startTime = bot.StartTime;
+    endTime = bot.EndTime;
   });
 
   function latestTradeAction() {
@@ -306,6 +314,7 @@
     });
 }
 getExchanges()
+$: console.log(startTime, endTime)
 </script>
 
 {#if loading}
@@ -340,6 +349,12 @@ getExchanges()
               Something went wrong with the update. Please contact customer
               service
             </p>
+          </div>
+          <div class="timer">
+            <label for="start">Start Time:</label>
+            <input type="time" id="startTime" name="start" bind:value={bot.StartTime}>
+            <label for="end">End Time:</label>
+            <input type="time" id="endTime" name="end" bind:value={bot.EndTime}>
           </div>
         </div>
         <div class="col-sm-12 col-lg-8 settings-col">
@@ -403,6 +418,28 @@ getExchanges()
             {#if parseInt(newLeverage) !== parseInt(bot.Leverage) && newLeverage !== null}
               <div class="changeVal" class:dark={appThemeIsDark}>
                 <p><i class="bi bi-arrow-right" /> {bot.Leverage}% | UNSAVED</p>
+              </div>
+            {/if}
+            <div class="row">
+              <div class="col-7">Start Time</div>
+              <div class="col-5 val-col">
+                {startTime}
+              </div>
+            </div>
+            {#if parseInt(startTime) !== parseInt(bot.StartTime) && startTime !== null}
+              <div class="changeVal" class:dark={appThemeIsDark}>
+                <p><i class="bi bi-arrow-right" /> {bot.StartTime} | UNSAVED</p>
+              </div>
+            {/if}
+            <div class="row">
+              <div class="col-7">End Time</div>
+              <div class="col-5 val-col">
+                {endTime}
+              </div>
+            </div>
+            {#if parseInt(endTime) !== parseInt(bot.EndTime) && endTime !== null}
+              <div class="changeVal" class:dark={appThemeIsDark}>
+                <p><i class="bi bi-arrow-right" /> {bot.EndTime} | UNSAVED</p>
               </div>
             {/if}
             <button
